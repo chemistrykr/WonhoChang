@@ -1,55 +1,42 @@
-import { defineConfig } from "tinacms";
-
-// Your hosting provider likely exposes this as an environment variable
-const branch =
-  process.env.GITHUB_BRANCH ||
-  process.env.VERCEL_GIT_COMMIT_REF ||
-  process.env.HEAD ||
-  "main";
+import { defineConfig } from '@tinacms/core';
 
 export default defineConfig({
-  branch,
-
-  // Get this from tina.io
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  // Get this from tina.io
-  token: process.env.TINA_TOKEN,
-
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID, // 생성한 클라이언트 ID
+  token: process.env.TINA_TOKEN, // GitHub Personal Access Token
+  branch: process.env.GITHUB_BRANCH || 'main', // 사용하려는 GitHub 브랜치
   build: {
-    outputFolder: "admin",
-    publicFolder: "public",
+    outputFolder: 'admin', // TinaCMS Admin UI가 생성될 폴더
+    publicFolder: 'public', // 공개 폴더
   },
   media: {
     tina: {
-      mediaRoot: "",
-      publicFolder: "public",
+      mediaRoot: '', // 미디어 루트 경로
+      publicFolder: 'public', // 공개 폴더 경로
     },
   },
-  // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
       {
-        name: "post",
-        label: "Posts",
-        path: "content/posts",
+        name: 'post', // 콜렉션 이름
+        label: 'Posts', // Admin UI에서 보이는 이름
+        path: 'content/posts', // 포스트가 저장될 경로
         fields: [
           {
-            type: "string",
-            name: "title",
-            label: "Title",
+            type: 'string',
+            name: 'title', // 포스트 제목
+            label: 'Title',
             isTitle: true,
             required: true,
           },
           {
-            type: "rich-text",
-            name: "body",
-            label: "Body",
+            type: 'rich-text',
+            name: 'body', // 포스트 본문
+            label: 'Body',
             isBody: true,
           },
         ],
         ui: {
-          // This is an DEMO router. You can remove this to fit your site
-          router: ({ document }) => `/demo/blog/${document._sys.filename}`,
+          router: ({ document }) => `/demo/blog/${document._sys.filename}`, // 라우팅 설정
         },
       },
     ],
