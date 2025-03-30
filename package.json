@@ -1,12 +1,16 @@
 {
-  "name": "Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync",
+  "name": "jekyll-gulp-sass-autoprefixer-imagemin-browsersync",
   "version": "1.0.0",
   "description": "A starter project for Jekyll",
   "main": "index.js",
-  "repository": "https://github.com/artemsheludko/Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artemsheludko/Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync.git"
+  },
   "author": "Artem Sheludko",
   "license": "MIT",
   "dependencies": {
+    "bin-build": "^3.0.0",
     "browser-sync": "^2.18.8",
     "child_process": "^1.0.2",
     "gulp": "^3.9.1",
@@ -14,9 +18,21 @@
     "gulp-cache": "^0.4.6",
     "gulp-imagemin": "^3.2.0",
     "gulp-sass": "^3.1.0",
-    "imagemin-pngquant": "^5.0.0"
+    "imagemin-pngquant": "^5.0.0",
+    "sass": "^1.86.0",
+    "tinacms": "^2.7.3"
   },
   "scripts": {
-    "dev": "node_modules\\.bin\\gulp watch"
+    "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"gulp watch\"",
+    "build": "tinacms build && next build"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/artemsheludko/Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync/issues"
+  },
+  "homepage": "https://github.com/artemsheludko/Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync#readme",
+  "devDependencies": {
+    "@tinacms/cli": "^1.9.3",
+    "@types/node": "^22.13.14"
   }
 }

@@ -18,7 +18,7 @@ logo-icon-SEO: "/assets/img/branding/MVM-symbol-black.png" # must be a non SVG f
 # visit (session). Only the dark mode setting is "manual",
 # it will be always kept on every visit (i.e. no matter
 # the browser is closed or not)
-night_mode: "auto"
+night_mode: "manual"
 
 logo-dark: "/assets/img/branding/semi_theme.svg"
 highlight_theme: syntax-base16.monokai.dark # select a dark theme for the code highlighter if needed
@@ -28,15 +28,15 @@ author: Wonho Chang # add your name
 author-pic: roma.jpg
 about-author:  |
   안녕하세요, RTL Design/Verification Engineer입니다.<br>
-  Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로그를 시작하였습니다. 
-  아직 현업에서 저연차로 부족한 점이 많다는 것을 이해해주시고 포스팅 내용을 확인해 주시면 감사하겠습니다.<br> 
-  RTL 관련 내용뿐만 아니라 부족하지만 Computer Architecture or DRAM Knowledge에 관한 내용도 정리하도록 하겠습니다
+  Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로그를 시작했습니다. 
+  아직 현업에서 저연차로 부족하지만 꾸준히 학습하고 정리한 내용을 공유하고자 합니다.<br> 
+  주요 주제는 RTL 설계 및 검증이지만 Computer Architecture or DRAM Knowledge에 관한 내용도 정리하도록 하겠습니다.
 
 # Contact links
 email: chemistrykr@naver.com # Add your Email address
 phone: # Add your Phone number
 website: https://amaynez.github.io # Add your website
-linkedin: amaynez # Add your Linkedin handle
+linkedin: wonho-c-74a90621b # Add your Linkedin handle
 github: amaynez # Add your Github handle
 stackoverflow: stackoverflow # Add your stackoverflow account
 

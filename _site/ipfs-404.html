@@ -57,7 +57,7 @@
 <meta itemprop="image" content="http://localhost:4000/assets/img">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@MvmThe">
+<meta name="twitter:site" content="">
 <meta name="twitter:title" content="RTL & Verification Notes">
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
@@ -511,7 +511,7 @@
     var sw = document.getElementById('theme-switch');
     var html = document.getElementsByTagName('html')[0];
     var logo = document.getElementById('logo');
-    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
     var storage = nightModeOption === 'manual'
         ? localStorage
         : sessionStorage;
