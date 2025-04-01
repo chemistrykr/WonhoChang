@@ -1,9 +1,9 @@
 import { defineConfig } from '@tinacms/core';
 
 export default defineConfig({
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID, // 생성한 클라이언트 ID
-  token: process.env.TINA_TOKEN, // GitHub Personal Access Token
-  branch: process.env.GITHUB_BRANCH || 'main', // 사용하려는 GitHub 브랜치
+  clientId: 6fb18bdd-7084-4ad4-9c06-35e038fd93f7, // 생성한 클라이언트 ID
+  token: 94f5ff3e750d4404c41723c53a2a332de51eaea1, // GitHub Personal Access Token
+  branch: "main", // 사용하려는 GitHub 브랜치
   build: {
     outputFolder: 'admin', // TinaCMS Admin UI가 생성될 폴더
     publicFolder: 'public', // 공개 폴더
