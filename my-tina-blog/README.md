@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# Tina Starter 🦙
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![tina-cloud-starter-demo](https://user-images.githubusercontent.com/103008/130587027-995ccc45-a852-4f90-b658-13e8e0517339.gif)
 
-## Available Scripts
+This Next.js starter is powered by [TinaCMS](https://app.tina.io) for you and your team to visually live edit the structured content of your website. ✨
 
-In the project directory, you can run:
+The content is managed through Markdown and JSON files stored in your GitHub repository, and queried through Tina GraphQL API.
 
-### `npm start`
+### Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Tina Headless CMS](https://app.tina.io) for authentication, content modeling, visual editing and team management.
+- [Vercel](https://vercel.com) deployment to visually edit your site from the `/admin` route.
+- Local development workflow from the filesystem with a local GraqhQL server.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Requirements
 
-### `npm test`
+- Git, [Node.js Active LTS](https://nodejs.org/en/about/releases/), pnpm installed for local development.
+- A [TinaCMS](https://app.tina.io) account for live editing.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Local Development
 
-### `npm run build`
+Install the project's dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> [!NOTE]  
+> [Do you know the best package manager for Node.js?](https://www.ssw.com.au/rules/best-package-manager-for-node/) Using the right package manager can greatly enhance your development workflow. We recommend using pnpm for its speed and efficient handling of dependencies. Learn more about why pnpm might be the best choice for your projects by checking out this rule from SSW.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+pnpm install
+```
 
-### `npm run eject`
+Run the project locally:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+pnpm dev
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Local URLs
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- http://localhost:3000 : browse the website
+- http://localhost:3000/admin : connect to Tina Cloud and go in edit mode
+- http://localhost:3000/exit-admin : log out of Tina Cloud
+- http://localhost:4001/altair/ : GraphQL playground to test queries and browse the API documentation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Deployment
 
-## Learn More
+### GitHub Pages
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This starter can be deployed to GitHub Pages. A GitHub Actions workflow is included that handles the build and deployment process. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To deploy to GitHub Pages:
 
-### Code Splitting
+1. In your repository settings, ensure GitHub Pages is enabled and set to deploy from the `gh-pages` branch
+2. Push changes to your main branch - the workflow will automatically build and deploy the site
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+> [!NOTE]
+> When deploying to GitHub Pages, you'll need to update your secrets in Settings | Secrets and variables | Actions to include:
+> - `NEXT_PUBLIC_TINA_CLIENT_ID`
+> - `TINA_TOKEN`
+>
+> You get these from your TinaCloud project - [read the docs](https://tina.io/docs/tina-cloud/deployment-options/github-pages)
 
-### Analyzing the Bundle Size
+> [!IMPORTANT]
+> GitHub Pages does not support server side code, so this will run as a static site. If you don't want to deploy to GitHub pages, just delete `.github/workflows/build-and-deploy.yml`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Building the Starter Locally (Using the hosted content API)
 
-### Making a Progressive Web App
+Replace the `.env.example`, with `.env`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+NEXT_PUBLIC_TINA_CLIENT_ID=<get this from the project you create at app.tina.io>
+TINA_TOKEN=<get this from the project you create at app.tina.io>
+NEXT_PUBLIC_TINA_BRANCH=<Specify the branch with Tina configured>
+```
 
-### Advanced Configuration
+Build the project:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+pnpm build
+```
 
-### Deployment
+## Getting Help
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To get help with any TinaCMS challenges you may have:
 
-### `npm run build` fails to minify
+- Visit the [documentation](https://tina.io/docs/) to learn about Tina.
+- [Join our Discord](https://discord.gg/zumN63Ybpf) to share feedback.
+- Visit the [community forum](https://community.tinacms.org/) to ask questions.
+- Get support through the chat widget on the TinaCMS Dashboard
+- [Email us](mailto:support@tina.io) to schedule a call with our team and share more about your context and what you're trying to achieve.
+- [Search or open an issue](https://github.com/tinacms/tinacms/issues) if something is not working.
+- Reach out on Twitter at [@tina_cms](https://twitter.com/tina_cms).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Development tips
+
+### Visual Studio Code GraphQL extension
+
+[Install the GraphQL extension](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql) to benefit from type auto-completion.
+
+### Typescript
+
+A good way to ensure your components match the shape of your data is to leverage the auto-generated TypeScript types.
+These are rebuilt when your `tina` config changes.
+
+## LICENSE
+
+Licensed under the [Apache 2.0 license](./LICENSE).
