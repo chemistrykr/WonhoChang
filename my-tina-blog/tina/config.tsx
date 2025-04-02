@@ -1,17 +1,21 @@
 import { defineConfig } from "tinacms";
-import nextConfig from '../next.config'
+import nextConfig from '../next.config';
 
 import Post from "./collection/post";
 import Global from "./collection/global";
 import Author from "./collection/author";
 import Page from "./collection/page";
 
-const config = defineConfig({
+
+
+const  branch=
+    process.env.NEXT_PUBLIC_TINA_BRANCH || // custom branch env override
+    process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || // Vercel branch env
+    process.env.HEAD // Netlify branch env
+
+export default defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID!,
-  branch:
-    process.env.NEXT_PUBLIC_TINA_BRANCH! || // custom branch env override
-    process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF! || // Vercel branch env
-    process.env.HEAD!, // Netlify branch env
+  branch: "main",
   token: process.env.TINA_TOKEN!,
   media: {
     // If you wanted cloudinary do this
@@ -35,4 +39,3 @@ const config = defineConfig({
   },
 });
 
-export default config;

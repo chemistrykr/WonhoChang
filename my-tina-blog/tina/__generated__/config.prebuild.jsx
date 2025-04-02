@@ -44,13 +44,13 @@ var require_next_config = __commonJS({
           }
         ]
       },
-      webpack(config2) {
-        config2.module.rules.push({
+      webpack(config) {
+        config.module.rules.push({
           test: /\.svg$/i,
           issuer: /\.[jt]sx?$/,
           use: ["@svgr/webpack"]
         });
-        return config2;
+        return config;
       },
       async headers() {
         const headers = [
@@ -1099,12 +1099,12 @@ var Page = {
 var page_default = Page;
 
 // tina/config.tsx
-var config = defineConfig({
+var branch = process.env.NEXT_PUBLIC_TINA_BRANCH || // custom branch env override
+process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || // Vercel branch env
+process.env.HEAD;
+var config_default = defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  branch: process.env.NEXT_PUBLIC_TINA_BRANCH || // custom branch env override
-  process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || // Vercel branch env
-  process.env.HEAD,
-  // Netlify branch env
+  branch: "main",
   token: process.env.TINA_TOKEN,
   media: {
     // If you wanted cloudinary do this
@@ -1130,7 +1130,6 @@ var config = defineConfig({
     collections: [page_default, post_default, author_default, global_default]
   }
 });
-var config_default = config;
 export {
   config_default as default
 };

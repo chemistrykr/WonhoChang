@@ -1,4 +1,4 @@
- {
+{
   "name": "my-tina-blog",
   "version": "0.0.1",
   "private": true,
@@ -9,12 +9,13 @@
     "start": "tinacms build && next start",
     "export": "npm run build && next export",
     "lint": "biome lint",
-    "dev:build": "next build"
+    "dev:build": "next build",
+    "tinacms":"tinacms"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@svgr/webpack": "^8.1.0",
-    "@tinacms/cli": "^1.5.14",
+    "@tinacms/cli": "^1.9.3",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.13.10",
     "@types/react": "^18.3.18",
