@@ -10,7 +10,7 @@
     "export": "npm run build && next export",
     "lint": "biome lint",
     "dev:build": "next build",
-    "tinacms":"tinacms"
+    "tinacms": "tinacms"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
