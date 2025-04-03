@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/chemistrykr/WonhoChang#readme",
   "dependencies": {
+    "next": "^15.2.4",
     "tinacms": "^2.7.3"
   },
   "devDependencies": {
