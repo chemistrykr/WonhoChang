@@ -1,0 +1,29 @@
+{
+  "name": "wonhochang",
+  "version": "1.0.0",
+  "description": "demo site now [mirrored](https://weathered-bread-8229.on.fleek.co/) in [IPFS](https://github.com/ipfs/ipfs#quick-summary)!",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev\"",
+    "build": "tinacms build && next build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chemistrykr/WonhoChang.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chemistrykr/WonhoChang/issues"
+  },
+  "homepage": "https://github.com/chemistrykr/WonhoChang#readme",
+  "dependencies": {
+    "tinacms": "^2.7.3"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^1.9.3",
+    "@types/node": "^22.14.0"
+  }
+}
