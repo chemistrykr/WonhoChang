@@ -1,6 +1,8 @@
 {
   "posts" : [
     
+    "./single-neuron-perceptron.html",
+    
     "./AI-and-intellectual-property.html",
     
     "./back-to-basics.html",
@@ -13,9 +15,7 @@
     
     "./ML-Library-from-scratch.html",
     
-    "./conways-game-of-life.html",
-    
-    "./single-neuron-perceptron.html"
+    "./conways-game-of-life.html"
     
   ]
 }

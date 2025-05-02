@@ -20,15 +20,15 @@
   "tag" : "coding",
   "posts" : [
       
+      "./single-neuron-perceptron.html",
+      
       "./deep-q-learning-tic-tac-toe.html",
       
       "./neural-network-optimization-methods.html",
       
       "./ML-Library-from-scratch.html",
       
-      "./conways-game-of-life.html",
-      
-      "./single-neuron-perceptron.html"
+      "./conways-game-of-life.html"
       
     ]
   } ,
@@ -88,6 +88,8 @@
   "tag" : "machine learning",
   "posts" : [
       
+      "./single-neuron-perceptron.html",
+      
       "./AI-and-intellectual-property.html",
       
       "./back-to-basics.html",
@@ -96,9 +98,7 @@
       
       "./neural-network-optimization-methods.html",
       
-      "./ML-Library-from-scratch.html",
-      
-      "./single-neuron-perceptron.html"
+      "./ML-Library-from-scratch.html"
       
     ]
   } ,
@@ -108,13 +108,13 @@
   "tag" : "neural networks",
   "posts" : [
       
+      "./single-neuron-perceptron.html",
+      
       "./AI-and-intellectual-property.html",
       
       "./back-to-basics.html",
       
-      "./ML-Library-from-scratch.html",
-      
-      "./single-neuron-perceptron.html"
+      "./ML-Library-from-scratch.html"
       
     ]
   } ,

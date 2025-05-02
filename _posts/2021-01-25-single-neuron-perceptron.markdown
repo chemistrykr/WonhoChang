@@ -2,16 +2,45 @@
 layout: post
 read_time: true
 show_date: true
-title:  Single Neuron Perceptron
-date:   2021-01-25 13:32:20 -0600
-description: Single neuron perceptron that classifies elements learning quite quickly.
-img: assets/img/posts/20210125/Perceptron.jpg 
+title:  CHI Protocol Overview (1)
+date:   2025-05-02 17:32:20 -0600
+description: CHI protocol specialized for cache coherence
+img: posts/chi/chi.jpg 
 tags: [machine learning, coding, neural networks]
-author: Armando Maynez
-github:  amaynez/Perceptron/
+author: Wonho Chang
+github:  
 mathjax: yes
 ---
-As an entry point to learning python and getting into Machine Learning, I decided to code from scratch the Hello World! of the field, a single neuron perceptron.
+
+Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.  
+
+CHI protocol feature은 다음과 같습니다.  
+
+- 64-Byte granularity of cache line
+- Snoop filter and directory-based systems
+- MESI, MOESI cache model을 support
+
+CHI transaction은 다음과 같은 특성을 갖습니다.  
+
+- interconnect내에 synchronization, atomic operation을 support
+- Exclusive access를 효율적으로 사용 가능
+- Packet 기반 communication
+- 모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리
+
+## Layers of the CHI Architecture
+
+- **Protocol (communication granularity: transaction)**
+    - protocol node에서 request, responses를 처리하고 생성
+    - protocol node에서 valid한 cache 상태 변환을 정의
+    - request type에 대한 transaction flow를 정의
+
+- **Network (communication granularity: Packet)**
+    - protocol message를 packetize함
+    - interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가
+
+- **Link (communication granularity: Flit)**
+    - network device간의 flow를 control함
+    - network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리
 
 ## Terminology
 
