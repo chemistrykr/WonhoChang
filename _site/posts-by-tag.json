@@ -3,6 +3,36 @@
 [   
       
   {
+  "tag" : "AMBA Bus",
+  "posts" : [
+      
+      "./CHI-Protocol-Overview-1.html"
+      
+    ]
+  } ,
+    
+      
+  {
+  "tag" : "Cache coherence",
+  "posts" : [
+      
+      "./CHI-Protocol-Overview-1.html"
+      
+    ]
+  } ,
+    
+      
+  {
+  "tag" : "RTL",
+  "posts" : [
+      
+      "./CHI-Protocol-Overview-1.html"
+      
+    ]
+  } ,
+    
+      
+  {
   "tag" : "artificial intelligence",
   "posts" : [
       
@@ -19,8 +49,6 @@
   {
   "tag" : "coding",
   "posts" : [
-      
-      "./CHI-Protocol-Overview-1.html",
       
       "./deep-q-learning-tic-tac-toe.html",
       
@@ -88,8 +116,6 @@
   "tag" : "machine learning",
   "posts" : [
       
-      "./CHI-Protocol-Overview-1.html",
-      
       "./AI-and-intellectual-property.html",
       
       "./back-to-basics.html",
@@ -107,8 +133,6 @@
   {
   "tag" : "neural networks",
   "posts" : [
-      
-      "./CHI-Protocol-Overview-1.html",
       
       "./AI-and-intellectual-property.html",
       

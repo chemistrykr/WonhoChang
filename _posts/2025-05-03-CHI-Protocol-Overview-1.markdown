@@ -6,7 +6,7 @@ title:  CHI Protocol Overview (1)
 date:   2025-05-02 17:32:20 -0600
 description: CHI protocol specialized for cache coherence
 img: posts/chi/chi.jpg 
-tags: [machine learning, coding, neural networks]
+tags: [RTL, AMBA Bus, Cache coherence]
 author: Wonho Chang
 github:  
 mathjax: yes

@@ -3,7 +3,7 @@
     {
       "title"       : "CHI Protocol Overview (1)",
       "category"    : "",
-      "tags"        : "machine learning, coding, neural networks",
+      "tags"        : "RTL, AMBA Bus, Cache coherence",
       "url"         : "./CHI-Protocol-Overview-1.html",
       "date"        : "2025-05-03 08:32:20 +0900",
       "description" : "CHI protocol specialized for cache coherence",
