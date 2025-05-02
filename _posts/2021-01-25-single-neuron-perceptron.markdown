@@ -16,10 +16,14 @@ As an entry point to learning python and getting into Machine Learning, I decide
 ## Terminology
 
 - **Message**
-  - Message는 두 component간의 전송 granularity를 정의하는 Protocol layer의 용어
+  - Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
     - Request
     - Data response
     - Snoop request
+
+- **Packet**
+  - interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성.  
+    각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능
 
 
 ## What is MESI, MOESI model?

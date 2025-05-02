@@ -22,7 +22,7 @@
   "headline": "Single Neuron Perceptron",
   "abstract": "Single neuron perceptron that classifies elements learning quite quickly.",
     "keywords": "machine learning, coding, neural networks",
-    "wordcount": "1047",
+    "wordcount": "1073",
     "image": ["http://localhost:4000/assets/imgassets/img/posts/20210125/Perceptron.jpg"],
   "datePublished": "2021-01-26 04:32:20 +0900",
   "dateModified": "2021-01-26 04:32:20 +0900",
@@ -62,7 +62,7 @@
 <meta name="twitter:description" content="Single neuron perceptron that classifies elements learning quite quickly.">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="1047"/>
+<meta data-rh="true" name="twitter:data1" content="1073"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/assets/img/posts/20210125/Perceptron.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
@@ -171,7 +171,7 @@
   </span>
 
         <div class="post-excerpt">
-            <p>As an entry point to learning python and getting into Machine Learning, I decided to code from scratch the Hello World! of the field, a single neuron perceptron.</p><h2 id="terminology">Terminology</h2><ul> <li><strong>Message</strong> <ul> <li>Message는 두 component간의 전송 granularity를 정의하는 Protocol layer의 용어 <ul> <li>Request</li> <li>Data response</li> <li>Snoop request</li> </ul> </li> </ul> </li></ul><h2 id="what-is-mesi-moesi-model">What is MESI, MOESI model?</h2><p>A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.</p><p>Back in the late 1950’s, a young <a href="https://en.wikipedia.org/wiki/Frank_Rosenblatt">Frank Rosenblatt</a> devised a very simple algorithm as...<a class="read-more" href="./single-neuron-perceptron.html"> read more</a>
+            <p>As an entry point to learning python and getting into Machine Learning, I decided to code from scratch the Hello World! of the field, a single neuron perceptron.</p><h2 id="terminology">Terminology</h2><ul> <li><strong>Message</strong> <ul> <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어 <ul> <li>Request</li> <li>Data response</li> <li>Snoop request</li> </ul> </li> </ul> </li> <li><strong>Packet</strong> <ul> <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성.<br />각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li> </ul> </li></ul><h2 id="what-is-mesi-moesi-model">What is MESI, MOESI model?</h2><p>A perceptron is the basic building block of a neural network, it can be compared to a...<a class="read-more" href="./single-neuron-perceptron.html"> read more</a>
         </div>
   </div>
 </section>
@@ -363,13 +363,19 @@
 <ul>
   <li><strong>Message</strong>
     <ul>
-      <li>Message는 두 component간의 전송 granularity를 정의하는 Protocol layer의 용어
+      <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
         <ul>
           <li>Request</li>
           <li>Data response</li>
           <li>Snoop request</li>
         </ul>
       </li>
+    </ul>
+  </li>
+  <li><strong>Packet</strong>
+    <ul>
+      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성.<br />
+각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
     </ul>
   </li>
 </ul>
