@@ -1,4 +1,183 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-03T02:58:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">Who owns the copyright for an AI generated creative work?</title><link href="http://localhost:4000/AI-and-intellectual-property.html" rel="alternate" type="text/html" title="Who owns the copyright for an AI generated creative work?" /><published>2021-04-20T00:00:00+09:00</published><updated>2021-04-20T00:00:00+09:00</updated><id>http://localhost:4000/AI-and-intellectual-property</id><content type="html" xml:base="http://localhost:4000/AI-and-intellectual-property.html"><![CDATA[<p>Recently I was <a href="https://www.rollingstone.com/music/music-features/nirvana-kurt-cobain-ai-song-1146444/">reading an article</a> about a cool project that intends to have a neural network create songs of the late club of the 27 (artists that have tragically died at age 27 or near, and in the height of their respective careers), artists such as Amy Winehouse, Jimmy Hendrix, Curt Cobain and Jim Morrison.</p>
+=======
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-03T02:35:00+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">CHI protocol overview (1)</title><link href="http://localhost:4000/CHI-Interface.html" rel="alternate" type="text/html" title="CHI protocol overview (1)" /><published>2025-05-03T08:32:20+09:00</published><updated>2025-05-03T08:32:20+09:00</updated><id>http://localhost:4000/CHI%20Interface</id><content type="html" xml:base="http://localhost:4000/CHI-Interface.html"><![CDATA[<p>Cache coherence을 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p>
+
+<p>CHI protocol feature는 다음과 같습니다.</p>
+
+<ul>
+  <li>64-Byte granularity of cache line</li>
+  <li>Snoop filter and directory-based systems</li>
+  <li>MESI, MOESI cache model을 support</li>
+</ul>
+
+<p>CHI transaction은 다음과 같은 특성을 갖습니다.</p>
+
+<ul>
+  <li>interconnect내에 synchronization, atomic operation을 support</li>
+  <li>Exclusive access를 효율적으로 사용 가능</li>
+  <li>Packet 기반 communication</li>
+  <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li>
+</ul>
+
+<h2 id="layers-of-the-chi-architecture">Layers of the CHI architecture</h2>
+
+<ul>
+  <li><strong>Protocol (communication granularity: transaction)</strong>
+    <ul>
+      <li>protocol node에서 request, responses를 처리하고 생성</li>
+      <li>protocol node에서 valid한 cache 상태 변환을 정의</li>
+      <li>request type에 대한 transaction flow를 정의</li>
+    </ul>
+  </li>
+  <li><strong>Network (communication granularity: Packet)</strong>
+    <ul>
+      <li>protocol message를 packetize함</li>
+      <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li>
+    </ul>
+  </li>
+  <li><strong>Link (communication granularity: Flit)</strong>
+    <ul>
+      <li>network device간의 flow를 control함</li>
+      <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="terminology">Terminology</h2>
+
+<ul>
+  <li><strong>Message</strong>
+    <ul>
+      <li>Message는 두 component간의 전송 granularity를 정의하는 Protocol layer의 용어
+        <ul>
+          <li>Request</li>
+          <li>Data response</li>
+          <li>Snoop request</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="what-is-mesi-moesi-model">What is MESI, MOESI model?</h2>
+<p>A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.</p>
+
+<p>Back in the late 1950’s, a young <a href="https://en.wikipedia.org/wiki/Frank_Rosenblatt">Frank Rosenblatt</a> devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.</p>
+
+<p>In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.</p>
+
+<center><img src="./assets/img/posts/20210125/Perceptron.png" /></center>
+
+<p>Imagine you have a ‘neuron’ and to ‘activate’ it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.</p>
+
+<p>In more mathematical terms, a perceptron is an array of values (let’s call them weights), and the rules to apply such values to an input signal.</p>
+
+<p>For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it’s weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.</p>
+
+<p style="text-align:center">\(<br />
+\begin{align}
+\begin{split}
+\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
+\end{split}
+\end{align}
+\)</p>
+
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
+\end{split}<br />
+\end{align}<br />
+\)</p>
+
+<p>Typically when this value is obtained, we need to apply an “activation” function to smooth the output, but let’s say that our activation function is linear, meaning that we keep the value as it is, then that’s it, that is the output of the perceptron, -0.5.</p>
+
+<p>In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.</p>
+
+<p>Once we understand this, the magic starts to happen through a process called backpropagation, where we “educate” our tiny one neuron brain to have it learn how to do its job.</p>
+
+<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
+
+<p>For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.</p>
+
+<p>After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.</p>
+
+<p>The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. <a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi">This video series by 3 blue 1 brown explains it wonderfuly.</a></p>
+
+<p>My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.</p>
+
+<p>The neuron has 3 inputs and weights to calculate its output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input 1 is the X coordinate of the point,
+Input 2 is the y coordinate of the point,
+Input 3 is the bias and it is always 1
+
+Input 3 or the bias is required for lines that do not cross the origin (0,0)
+</code></pre></div></div>
+
+<p>The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.</p>
+
+<p>The output of the perceptron is calculated with the following activation function:
+    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0</p>
+
+<p>The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Expected</th>
+      <th style="text-align: center">Calculated</th>
+      <th style="text-align: center">Error</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">-1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>With every point that is learned if the error is not 0 the weights are adjusted according to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>New_weight = Old_weight + error * input * learning_rate
+for example: New_weight_x = Old_weight_x + error * x * learning rate
+</code></pre></div></div>
+
+<p>A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be.</p>
+
+<p>In this particular case, I coded the learning_rate to decrease with every iteration as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>learning_rate = 0.01 / (iteration + 1)
+</code></pre></div></div>
+
+<p>this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.</p>
+
+<center><img src="./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg" /></center>
+
+<p>In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.</p>
+
+<p>Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow.</p>
+
+<p>Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of “neurons”, like convolution, recurrent, etc. increasing significantly the types of problems they solve.</p>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA" /><category term="Cache Coherence" /><summary type="html"><![CDATA[CHI interface specialized for cache coherence]]></summary></entry><entry><title type="html">Who owns the copyright for an AI generated creative work?</title><link href="http://localhost:4000/AI-and-intellectual-property.html" rel="alternate" type="text/html" title="Who owns the copyright for an AI generated creative work?" /><published>2021-04-20T00:00:00+09:00</published><updated>2021-04-20T00:00:00+09:00</updated><id>http://localhost:4000/AI-and-intellectual-property</id><content type="html" xml:base="http://localhost:4000/AI-and-intellectual-property.html"><![CDATA[<p>Recently I was <a href="https://www.rollingstone.com/music/music-features/nirvana-kurt-cobain-ai-song-1146444/">reading an article</a> about a cool project that intends to have a neural network create songs of the late club of the 27 (artists that have tragically died at age 27 or near, and in the height of their respective careers), artists such as Amy Winehouse, Jimmy Hendrix, Curt Cobain and Jim Morrison.</p>
+>>>>>>> e958e55 (delete modelsim install file)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/tjzOzuKQhSM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
