@@ -45,14 +45,18 @@ CHI transaction은 다음과 같은 특성을 갖습니다.
 ## Terminology
 
 - **Message**
-  - Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
-    - Request
-    - Data response
-    - Snoop request
+    - Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
+        - Request
+        - Data response
+        - Snoop request
 
 - **Packet**
-  - interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성.  
+    - interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성  
     각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능
+
+- **Flit**
+    - Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
+    Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다. 
 
 
 ## What is MESI, MOESI model?

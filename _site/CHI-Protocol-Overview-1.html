@@ -22,7 +22,7 @@
   "headline": "CHI Protocol Overview (1)",
   "abstract": "CHI protocol specialized for cache coherence",
     "keywords": "RTL, AMBA Bus, Cache coherence",
-    "wordcount": "1169",
+    "wordcount": "1189",
     "image": ["http://localhost:4000/assets/imgposts/chi/chi.jpg"],
   "datePublished": "2025-05-03 08:32:20 +0900",
   "dateModified": "2025-05-03 08:32:20 +0900",
@@ -62,7 +62,7 @@
 <meta name="twitter:description" content="CHI protocol specialized for cache coherence">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="1169"/>
+<meta data-rh="true" name="twitter:data1" content="1189"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/chi/chi.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
@@ -408,8 +408,14 @@
   </li>
   <li><strong>Packet</strong>
     <ul>
-      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성.<br />
-각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
+      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성<br />
+  각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
+    </ul>
+  </li>
+  <li><strong>Flit</strong>
+    <ul>
+      <li>Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
+  Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다.</li>
     </ul>
   </li>
 </ul>
