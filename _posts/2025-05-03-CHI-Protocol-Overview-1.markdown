@@ -43,7 +43,6 @@ CHI transaction은 다음과 같은 특성을 갖습니다.
     - network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리
 
 ## Terminology
-
 - **Message**
     - Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
         - Request
@@ -58,8 +57,29 @@ CHI transaction은 다음과 같은 특성을 갖습니다.
     - Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
     Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다. 
 
+- **RN (Request node)**
+    - protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당
+
+- **SN (Slave node)**
+    - Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당
+
+- **HN (Home node)**
+    - Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.
+
+## Transaction Classification
+- **Read Classification**
+<center><img src='./assets/img/posts/chi/read_classification.png'></center>
+
+- **Write Classification**
+<center><img src='./assets/img/posts/chi/write_classification.png'></center>
+
+- **Other Classification**
+<center><img src='./assets/img/posts/chi/other_classification.png'></center>
 
 ## What is MESI, MOESI model?
+
+
+<!--
 A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
 
 Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
@@ -148,3 +168,4 @@ In the end, the perceptron always converges into a solution and finds with great
 Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
 
 Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
+-->
