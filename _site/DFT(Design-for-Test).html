@@ -7,9 +7,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Archive - RTL & Verification Notes</title>
-	<link rel="canonical" href="http://localhost:4000/archive.html">
-	<meta name="description" content="안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.">
+	<title>DFT(Design for Test)-01 - RTL & Verification Notes</title>
+	<link rel="canonical" href="http://localhost:4000/DFT(Design-for-Test).html">
+	<meta name="description" content="Description on DFT (SCAN, BIST)">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <script type="application/ld+json">
@@ -19,16 +19,16 @@
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://localhost:4000"},
-  "headline": "Archive",
-  "abstract": "",
-    "keywords": "",
-    "wordcount": "43",
-    "image": ["http://localhost:4000/assets/img"],
-  "datePublished": "",
-  "dateModified": "",
+  "headline": "DFT(Design for Test)-01",
+  "abstract": "Description on DFT (SCAN, BIST)",
+    "keywords": "RTL, DFT, ASIC",
+    "wordcount": "307",
+    "image": ["http://localhost:4000/assets/imgposts/DFT/DFT.jpg"],
+  "datePublished": "2025-06-14 09:25:20 +0900",
+  "dateModified": "2025-06-14 09:25:20 +0900",
   "author": {
     "@type": "Person",
-    "name": ""},
+    "name": "Wonho Chang"},
   "publisher": {
     "@type":  "Organization",
     "logo": {
@@ -40,30 +40,30 @@
 }
 </script>
 <!-- Open Graph data -->
-<meta property="og:url" content="http://localhost:4000/archive.html"/>
+<meta property="og:url" content="http://localhost:4000/DFT(Design-for-Test).html"/>
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="Archive"/>
-<meta property="og:description" content=""/>
-<meta property="og:image" content="http://localhost:4000/assets/img"/>
-<meta property="og:image:alt" content="Archive"/>
+<meta property="og:title" content="DFT(Design for Test)-01"/>
+<meta property="og:description" content="Description on DFT (SCAN, BIST)"/>
+<meta property="og:image" content="http://localhost:4000/assets/imgposts/DFT/DFT.jpg"/>
+<meta property="og:image:alt" content="DFT(Design for Test)-01"/>
 <meta property="og:site_name" content="RTL & Verification Notes" />
-<meta property="article:published_time" content="" />
-<meta property="article:modified_time" content="" />
-<meta property="article:tag" content="" />
+<meta property="article:published_time" content="2025-06-14 09:25:20 +0900" />
+<meta property="article:modified_time" content="2025-06-14 09:25:20 +0900" />
+<meta property="article:tag" content="RTL, DFT, ASIC" />
 <meta property="fb:admins" content="ar.maybach" />
 <!-- Schema.org markup for Google -->
-<meta itemprop="name" content="Archive">
-<meta itemprop="description" content="">
-<meta itemprop="image" content="http://localhost:4000/assets/img">
+<meta itemprop="name" content="DFT(Design for Test)-01">
+<meta itemprop="description" content="Description on DFT (SCAN, BIST)">
+<meta itemprop="image" content="http://localhost:4000/assets/imgposts/DFT/DFT.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
-<meta name="twitter:title" content="Archive">
-<meta name="twitter:description" content="">
+<meta name="twitter:title" content="DFT(Design for Test)-01">
+<meta name="twitter:description" content="Description on DFT (SCAN, BIST)">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="43"/>
-<meta name="twitter:image:src" content="http://localhost:4000/assets/img/">
+<meta data-rh="true" name="twitter:data1" content="307"/>
+<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/DFT/DFT.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
 	<!-- iOS Safari -->
@@ -127,10 +127,55 @@
 <link rel="apple-touch-icon" sizes="72x72" href="./assets/img/favicon/favicon.ico">
 <link rel="apple-touch-icon" sizes="114x114" href="./assets/img/favicon/favicon.ico">
 	
+	<link rel="stylesheet" href="./assets/css/highlighter/syntax-base16.monokai.dark.css">
+	
 </head>
 
   <body>
-    <div class="flex-container transparent">
+    
+
+
+
+
+<section class="hidden">
+  <div class="post">
+      <a  class="post-list-title" href="./DFT(Design-for-Test).html">DFT(Design for Test)-01</a>
+      
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2025-06-14T09:25:20+09:00">June 14, 2025</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+        <div class="post-excerpt">
+            <p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p><p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p><p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p><p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로...<a class="read-more" href="./DFT(Design-for-Test).html"> read more</a>
+        </div>
+  </div>
+</section>
+<div class="flex-container transparent">
   
 
 
@@ -223,30 +268,24 @@
   </div>
 </header> <!-- End Header -->
 
-  <div class="content wrapper">
-    
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="DFT(Design for Test)-01">
+<meta itemprop="description" content="Description on DFT (SCAN, BIST)">
+<meta itemprop="datePublished" content="2025-06-14T09:25:20+09:00">
 
+    <div class="page-image">
+      <div class="cover-image" style="background: url('./assets/img/posts/DFT/DFT.jpg') center no-repeat; background-size: cover;"></div>
+    </div>
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">DFT(Design for Test)-01</h1>
+          
 
-
-<div class="archive tag-master">
-	<form class="search-form inline">
-		<div id="search-container">
-			<input type="text" id="search-input" class="search" placeholder="Search">
-		</div>
-	</form>
-	<ul id="results-container" class="results-search"></ul>
-	<div class="post-list">
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./DFT(Design-for-Test).html">DFT(Design for Test)-01</a>
-			
-
-  <span class = "post-card-meta">
+  <span class = "post-page-meta">
   
+    <p class="page_meta">
   
-    <span class="meta-pre"></span>
   
   
     
@@ -269,154 +308,395 @@
     </span>
   
   
+    </p>
+  
   </span>
 
-			<div class="post-excerpt">
-				<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p><p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p><p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p><p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로...<a class="read-more" href="./DFT(Design-for-Test).html"> read more</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
+        </div>
+        <aside class="sidebar side" id="sidebar">
+    
 
-			<a class="post-list-title" href="./CHI-Protocol-Overview-1.html">CHI Protocol Overview (1)</a>
-			
 
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
+
+<div class="tag-cloud">
+    
+        <ul class="tags side">
+            
+                <li><a href="./tag.html?tag=RTL" class="tag side">RTL</a></li>
+            
+                <li><a href="./tag.html?tag=DFT" class="tag side">DFT</a></li>
+            
+                <li><a href="./tag.html?tag=ASIC" class="tag side">ASIC</a></li>
+            
+    
+        </ul>
+</div>
+    <div class="share-options side">
+    <div class="share-hover side">
+        <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
+        <div class="share-icons side" id="sidebar-icons">
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=DFT(Design for Test)-01&url=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01&summary=Description on DFT (SCAN, BIST)&source=http://localhost:4000/DFT(Design-for-Test).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=DFT(Design for Test)-01&body=Description on DFT (SCAN, BIST)%0A%0ARead more here: http://localhost:4000/DFT(Design-for-Test).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
+        </div>
+    </div>
+    <div class='alert' style='font-size:.6em;color:var(--accent);text-align:center;'></div>
+</div>
+</aside>
+
+        
+        
+        <p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 
+우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p>
+
+<p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p>
+
+<p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />
+위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p>
+
+<p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 
+이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p>
+
+<p>CHI protocol feature은 다음과 같습니다.</p>
+
+<ul>
+  <li>64-Byte granularity of cache line</li>
+  <li>Snoop filter and directory-based systems</li>
+  <li>MESI, MOESI cache model을 support</li>
+</ul>
+
+<p>CHI transaction은 다음과 같은 특성을 갖습니다.</p>
+
+<ul>
+  <li>interconnect내에 synchronization, atomic operation을 support</li>
+  <li>Exclusive access를 효율적으로 사용 가능</li>
+  <li>Packet 기반 communication</li>
+  <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li>
+</ul>
+
+<h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2>
+
+<ul>
+  <li><strong>Protocol (communication granularity: transaction)</strong>
+    <ul>
+      <li>protocol node에서 request, responses를 처리하고 생성</li>
+      <li>protocol node에서 valid한 cache 상태 변환을 정의</li>
+      <li>request type에 대한 transaction flow를 정의</li>
+    </ul>
+  </li>
+  <li><strong>Network (communication granularity: Packet)</strong>
+    <ul>
+      <li>protocol message를 packetize함</li>
+      <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li>
+    </ul>
+  </li>
+  <li><strong>Link (communication granularity: Flit)</strong>
+    <ul>
+      <li>network device간의 flow를 control함</li>
+      <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="terminology">Terminology</h2>
+<ul>
+  <li><strong>Message</strong>
+    <ul>
+      <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
+        <ul>
+          <li>Request</li>
+          <li>Data response</li>
+          <li>Snoop request</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Packet</strong>
+    <ul>
+      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성<br />
+  각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
+    </ul>
+  </li>
+  <li><strong>Flit</strong>
+    <ul>
+      <li>Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
+  Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다.</li>
+    </ul>
+  </li>
+  <li><strong>RN (Request node)</strong>
+    <ul>
+      <li>protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당</li>
+    </ul>
+  </li>
+  <li><strong>SN (Slave node)</strong>
+    <ul>
+      <li>Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당</li>
+    </ul>
+  </li>
+  <li><strong>HN (Home node)</strong>
+    <ul>
+      <li>Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="transaction-classification">Transaction Classification</h2>
+<ul>
+  <li><strong>Read Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/read_classification.png" /></center>
+
+<ul>
+  <li><strong>Write Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/write_classification.png" /></center>
+
+<ul>
+  <li><strong>Other Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/other_classification.png" /></center>
+
+        <aside class="sidebar inline" id="post-end">
+    
+
+
+
+<div class="tag-cloud">
+    
+        <ul class="tags inline">
+            
+                <li><a href="./tag.html?tag=RTL" class="tag inline">RTL</a></li>
+            
+                <li><a href="./tag.html?tag=DFT" class="tag inline">DFT</a></li>
+            
+                <li><a href="./tag.html?tag=ASIC" class="tag inline">ASIC</a></li>
+            
+    
+        </ul>
+</div>
+    <div class="share-options inline">
+    <div class="share-hover inline">
+        <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
+        <div class="share-icons inline" id="post-end-icons">
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=DFT(Design for Test)-01&url=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01&summary=Description on DFT (SCAN, BIST)&source=http://localhost:4000/DFT(Design-for-Test).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=DFT(Design for Test)-01&body=Description on DFT (SCAN, BIST)%0A%0ARead more here: http://localhost:4000/DFT(Design-for-Test).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
+        </div>
+    </div>
+    <div class='alert' style='font-size:.6em;color:var(--accent);text-align:center;'></div>
+</div>
+</aside>
+
+        <div class="separator"></div>
+        
+
+
+
+<section class="author-box">
+  <div class="narrow-column">
+    <a href='https://amaynez.github.io'><img src="./assets/img/roma.jpg" alt="Wonho Chang" class="author-img"></a>
+    <ul class="contact-icons">
+      
+      
+      <li class="linkedin"><a class="linkedin" href="https://in.linkedin.com/in/wonho-c-74a90621b" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+      
+      
+      <li class="github"><a class="github" href="http://github.com/amaynez" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+      
+      <li class="email"><a class="email" href="mailto:chemistrykr@naver.com"><i class="fa fa-envelope-o"></i></a></li>
+      
+      
+      <li class="stackoverflow"><a class="stackoverflow" href="https://stackoverflow.com/users/stackoverflow"><i class="fa fa-stack-overflow"></i></a></li>
+      
+    </ul>
+  </div>
+  <div class="author-desc">
+    <h3>Wonho Chang</h3>
+    <p>안녕하세요, RTL Design/Verification Engineer입니다.<br>
+Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로그를 시작했습니다. 
+아직 현업에서 저연차로 부족하지만 꾸준히 학습하고 정리한 내용을 공유하고자 합니다.<br> 
+주요 주제는 RTL 설계 및 검증이지만 Computer Architecture or DRAM Knowledge에 관한 내용도 정리하도록 하겠습니다.
+</p>
+  </div>
+</section>
+
+        
+
+
+
+<div class="recent-box">
+  <h2 class="page-subtitle">Recent posts</h2>
+  <div class="recent-list">
     
       
-      <span class="page_meta-date">
-        <time datetime="2025-05-03T08:32:20+09:00">May 3, 2025</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
+        <div class="recent-item">
+          
+          
+
+          <a href="./DFT(Design-for-Test).html" class="recent-item-img" style="background: url('./assets/img/posts/DFT/DFT.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>DFT(Design for Test)-01</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
   
   
     
     
-    <span class="page_meta-readtime">
+    <p class="page_meta-readtime">
       
         1 minute read
       
-    </span>
+    </p>
   
   
   </span>
 
-			<div class="post-excerpt">
-				<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로 사용 가능</li> <li>Packet 기반 communication</li> <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li></ul><h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2><ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul> <li>protocol message를 packetize함</li> <li>interconnect를 통해 destination으로 routing 하는...<a class="read-more" href="./CHI-Protocol-Overview-1.html"> read more</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./AI-and-intellectual-property.html">Who owns the copyright for an AI generated creative work?</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
+            </div>
+          </a>
+        </div>
+      
     
       
-      <span class="page_meta-date">
-        <time datetime="2021-04-20T00:00:00+09:00">April 20, 2021</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
+        <div class="recent-item">
+          
+          
+
+          <a href="./CHI-Protocol-Overview-1.html" class="recent-item-img" style="background: url('./assets/img/posts/chi/chi.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>CHI Protocol Overview (1)</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
   
   
     
     
-    <span class="page_meta-readtime">
+    <p class="page_meta-readtime">
+      
+        1 minute read
+      
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
+          <a href="./AI-and-intellectual-property.html" class="recent-item-img" style="background: url('./assets/img/posts/20210420/post8-rembrandt.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>Who owns the copyright for an AI generated creative work?</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    <p class="page_meta-readtime">
       
         4 minute read
       
-    </span>
+    </p>
   
   
   </span>
 
-			<div class="post-excerpt">
-				<p>Recently I was <a href="https://www.rollingstone.com/music/music-features/nirvana-kurt-cobain-ai-song-1146444/">reading an article</a> about a cool project that intends to have a neural network create songs of the late club of the 27 (artists that have tragically died at age 27 or near, and in the height of their respective careers), artists such as Amy Winehouse, Jimmy Hendrix, Curt Cobain and Jim Morrison.</p><iframe width="560" height="315" src="https://www.youtube.com/embed/tjzOzuKQhSM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><p>The project was created by <a href="https://overthebridge.org">Over the Bridge</a>, an organization dedicated to increase awareness on mental health and substance abuse in the music industry, trying to denormalize and remove...<a class="read-more" href="./AI-and-intellectual-property.html"> read more</a>
-			</div>
-		</div>
-	
-	</div>
-</div>
-<style>
-.spinner {
-  margin: 100px auto;
-  width: 50px;
-  height: 40px;
-  text-align: center;
-  font-size: 10px;
-}
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
 
-.spinner > div {
-  background-color: var(--accent);
-  height: 100%;
-  width: 6px;
-  display: inline-block;
+          <a href="./back-to-basics.html" class="recent-item-img" style="background: url('./assets/img/posts/20210402/post7-header.webp') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>So, what is a neural network?</span>
+              
 
-  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-  animation: sk-stretchdelay 1.2s infinite ease-in-out;
-}
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    <p class="page_meta-readtime">
+      
+        9 minute read
+      
+    </p>
+  
+  
+  </span>
 
-.spinner .rect2 {
-  -webkit-animation-delay: -1.1s;
-  animation-delay: -1.1s;
-}
+            </div>
+          </a>
+        </div>
+      
+    
+  </div>
+</div> <!-- End Recent-Box -->
 
-.spinner .rect3 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
-}
+        <div class="newsletter" id="mc_embed_signup">
+  <h2 class="page-subtitle">Newsletter</h2>
+  <div class="form-container">
+    <p>Subscribe here to get our latest updates</p>
+    <form action="https://github.us1.list-manage.com/subscribe/post?u=8ece198b3eb260e6838461a60&amp;id=397d90b5f4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <label class="screen-reader-text" for="mce-EMAIL">Email Address</label>
+      <div class="newsletter-box" id="mc_embed_signup_scroll">
+        <input type="email" name="EMAIL" placeholder="Email address" class="email-input" id="mce-EMAIL" required>
+        <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn" id="mc-embedded-subscribe">
+      </div>
+    </form>
+  </div>
+</div> <!-- End Newsletter -->
 
-.spinner .rect4 {
-  -webkit-animation-delay: -0.9s;
-  animation-delay: -0.9s;
-}
+        <section class="comment-area">
+    <div class="comment-wrapper">
+        
+        <div class="row" id="comment-curtain">
+            <div class="col-lg-8 col-sm-10 mr-auto ml-auto">
+                <h2 class="page-subtitle">Comments</h2>
+                <div class="comments-trigger" onClick="toggle_comments()">
+                    <i class="fa fa-comments"></i>&nbsp;&nbsp;Write a comment ...
+                </div>
+            </div>
+        </div>
+        
 
-.spinner .rect5 {
-  -webkit-animation-delay: -0.8s;
-  animation-delay: -0.8s;
-}
-
-@-webkit-keyframes sk-stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
-  20% { -webkit-transform: scaleY(1.0) }
-}
-
-@keyframes sk-stretchdelay {
-  0%, 40%, 100% {
-    transform: scaleY(0.4);
-    -webkit-transform: scaleY(0.4);
-  }  20% {
-    transform: scaleY(1.0);
-    -webkit-transform: scaleY(1.0);
-  }
-}
-</style>
-<div class="spinner">
-  <div class="rect1"></div>
-  <div class="rect2"></div>
-  <div class="rect3"></div>
-  <div class="rect4"></div>
-  <div class="rect5"></div>
-</div>
+        
+            
+        
+    </div>
+</section> <!-- End Comment Area -->
+      </div>
+    </div> <!-- End Wrapper -->
+  </article>
   <div class="search-box">
   <div class="wrapper">
     <div class="search-grid">
@@ -433,12 +713,6 @@
   </div>
 </div>
 
-  <div class="pagination clearfix">
-  
-  
-</div>
-
-  </div> <!-- End Wrapper -->
   
 
 
@@ -597,9 +871,87 @@
 <script src="./assets/js/jquery-3.6.0.min.js"></script>
 
 
+  <script>
+    function toggle_comments(){
+      var commentCurtain = document.getElementById('comment-curtain')
+      if (commentCurtain) {
+        commentCurtain.classList.toggle('hide')
+      }
+      var disqusThread = document.getElementById('comment-layout')
+      if (disqusThread) {
+        disqusThread.classList.toggle('show')
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText('http://localhost:4000/DFT(Design-for-Test).html').then(function() {
+      alerts = document.getElementsByClassName('alert')
+      for (i=0; i < alerts.length; i++){
+        alerts[i].innerHTML='\u00ABlink copied\u00BB';
+        setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
+      };
+      }, function() {
+        prompt("Unable to copy, please use this link:", "http://localhost:4000/DFT(Design-for-Test).html");
+      });
+    }
+
+    $(function () {
+      if (document.getElementById('comment-curtain') == null){
+        var disqusThread = document.getElementById('comment-layout')
+        if (disqusThread) {
+          disqusThread.classList.toggle('show')
+        }
+      }
+
+      var tweetTags = document.getElementsByTagName("tweet");
+
+      if (tweetTags != null){
+        for (i=0; i<tweetTags.length; i++){
+          tweetA = document.createElement("a")
+          tweetA.href = 'https://twitter.com/share?text='
+                       + encodeURIComponent(tweetTags[i].textContent)
+                       + '&via=&url='
+                       + window.location.href;
+          tweetA.target = "_blank";
+          tweetA.className = 'twitter';
+          tweetSpanText = document.createElement('span');
+          tweetSpanText.className = 'tweetText';
+          tweetSpanText.appendChild(document.createTextNode(tweetTags[i].textContent));
+          tweetSpanIcon = document.createElement('span');
+          tweetSpanIcon.className = 'tweetIcon';
+          tweetSpanIcon.appendChild(document.createTextNode("click to tweet"));
+          tweetI = document.createElement("i");
+          tweetI.className = 'fa fa-twitter';
+          tweetSpanIcon.appendChild(tweetI);
+          tweetA.appendChild(tweetSpanText);
+          tweetA.appendChild(tweetSpanIcon);
+          tweetTags[i].textContent = "";
+          tweetTags[i].appendChild(tweetA);
+        }
+      }
+
+    });
+
+  </script>
+  <!-- Mailchimp linking -->
+  <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/8ece198b3eb260e6838461a60/d20d9fb9aad962399025da52e.js");</script>
 
 
 
+
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "CommonHTML": { linebreaks: { automatic: true } }
+    });
+  </script>
+  <script src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 <script src="./assets/js/main.js"></script>
@@ -615,8 +967,6 @@
     });
 </script>
 
-
-  <script src="./assets/js/infinite-jekyll.js"></script>
 
 
 

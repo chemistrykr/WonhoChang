@@ -1,4 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-15T18:15:34+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">CHI Protocol Overview (1)</title><link href="http://localhost:4000/CHI-Protocol-Overview-1.html" rel="alternate" type="text/html" title="CHI Protocol Overview (1)" /><published>2025-05-03T08:32:20+09:00</published><updated>2025-05-03T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-1</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-1.html"><![CDATA[<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-19T23:19:43+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">DFT(Design for Test)-01</title><link href="http://localhost:4000/DFT(Design-for-Test).html" rel="alternate" type="text/html" title="DFT(Design for Test)-01" /><published>2025-06-14T09:25:20+09:00</published><updated>2025-06-14T09:25:20+09:00</updated><id>http://localhost:4000/DFT(Design%20for%20Test)</id><content type="html" xml:base="http://localhost:4000/DFT(Design-for-Test).html"><![CDATA[<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 
+우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p>
+
+<p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p>
+
+<p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />
+위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p>
+
+<p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 
+이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p>
+
+<p>CHI protocol feature은 다음과 같습니다.</p>
+
+<ul>
+  <li>64-Byte granularity of cache line</li>
+  <li>Snoop filter and directory-based systems</li>
+  <li>MESI, MOESI cache model을 support</li>
+</ul>
+
+<p>CHI transaction은 다음과 같은 특성을 갖습니다.</p>
+
+<ul>
+  <li>interconnect내에 synchronization, atomic operation을 support</li>
+  <li>Exclusive access를 효율적으로 사용 가능</li>
+  <li>Packet 기반 communication</li>
+  <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li>
+</ul>
+
+<h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2>
+
+<ul>
+  <li><strong>Protocol (communication granularity: transaction)</strong>
+    <ul>
+      <li>protocol node에서 request, responses를 처리하고 생성</li>
+      <li>protocol node에서 valid한 cache 상태 변환을 정의</li>
+      <li>request type에 대한 transaction flow를 정의</li>
+    </ul>
+  </li>
+  <li><strong>Network (communication granularity: Packet)</strong>
+    <ul>
+      <li>protocol message를 packetize함</li>
+      <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li>
+    </ul>
+  </li>
+  <li><strong>Link (communication granularity: Flit)</strong>
+    <ul>
+      <li>network device간의 flow를 control함</li>
+      <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="terminology">Terminology</h2>
+<ul>
+  <li><strong>Message</strong>
+    <ul>
+      <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
+        <ul>
+          <li>Request</li>
+          <li>Data response</li>
+          <li>Snoop request</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Packet</strong>
+    <ul>
+      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성<br />
+  각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
+    </ul>
+  </li>
+  <li><strong>Flit</strong>
+    <ul>
+      <li>Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
+  Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다.</li>
+    </ul>
+  </li>
+  <li><strong>RN (Request node)</strong>
+    <ul>
+      <li>protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당</li>
+    </ul>
+  </li>
+  <li><strong>SN (Slave node)</strong>
+    <ul>
+      <li>Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당</li>
+    </ul>
+  </li>
+  <li><strong>HN (Home node)</strong>
+    <ul>
+      <li>Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="transaction-classification">Transaction Classification</h2>
+<ul>
+  <li><strong>Read Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/read_classification.png" /></center>
+
+<ul>
+  <li><strong>Write Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/write_classification.png" /></center>
+
+<ul>
+  <li><strong>Other Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/other_classification.png" /></center>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="DFT" /><category term="ASIC" /><summary type="html"><![CDATA[Description on DFT (SCAN, BIST)]]></summary></entry><entry><title type="html">CHI Protocol Overview (1)</title><link href="http://localhost:4000/CHI-Protocol-Overview-1.html" rel="alternate" type="text/html" title="CHI Protocol Overview (1)" /><published>2025-05-03T08:32:20+09:00</published><updated>2025-05-03T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-1</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-1.html"><![CDATA[<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p>
 
 <p>CHI protocol feature은 다음과 같습니다.</p>
 
