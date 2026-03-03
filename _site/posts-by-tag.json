@@ -6,6 +6,8 @@
   "tag" : "AMBA Bus",
   "posts" : [
       
+      "./CHI-Protocol-Overview-2.html",
+      
       "./CHI-Protocol-Overview-1.html"
       
     ]
@@ -26,6 +28,8 @@
   "tag" : "Cache coherence",
   "posts" : [
       
+      "./CHI-Protocol-Overview-2.html",
+      
       "./CHI-Protocol-Overview-1.html"
       
     ]
@@ -43,8 +47,32 @@
     
       
   {
+  "tag" : "DRAM",
+  "posts" : [
+      
+      "./DRAM-Introduction-1.html"
+      
+    ]
+  } ,
+    
+      
+  {
+  "tag" : "JEDEC",
+  "posts" : [
+      
+      "./DRAM-Introduction-1.html"
+      
+    ]
+  } ,
+    
+      
+  {
   "tag" : "RTL",
   "posts" : [
+      
+      "./CHI-Protocol-Overview-2.html",
+      
+      "./DRAM-Introduction-1.html",
       
       "./DFT(Design-for-Test).html",
       

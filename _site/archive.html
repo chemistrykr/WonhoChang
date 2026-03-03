@@ -240,6 +240,84 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./CHI-Protocol-Overview-2.html">CHI Protocol Overview (2)</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-02-19T08:32:20+09:00">February 19, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        less than 1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p><h2 id="cache-state-model">Cache State Model</h2><center><img src="./assets/img/posts/chi/cache_model.png" /></center><ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul> <li>protocol message를 packetize함</li> <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li> </ul> </li> <li><strong>Link (communication granularity: Flit)</strong> <ul> <li>network device간의 flow를 control함</li> <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li> </ul> </li></ul><h2 id="terminology">Terminology</h2><ul> <li><strong>Message</strong> <ul> <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어 <ul> <li>Request</li> <li>Data...<a class="read-more" href="./CHI-Protocol-Overview-2.html"> read more</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
+			<a class="post-list-title" href="./DRAM-Introduction-1.html">DRAM Introduction</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2025-09-19T20:00:20+09:00">September 19, 2025</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<p>최근 AI 시대에 고대역폭 메모리를 요구함에 따라 DRAM의 중요도는 증가하고 있습니다. 이번 페이지에서는 DRAM의 기본적인 동작과 구조에 대해 살펴보도록 하겠습니다.</p><h2 id="dram-operation">DRAM Operation</h2><p>DRAM은 Capacitor로 이루어진 아날로그 소자입니다.<br />그래서 Current Leakage로 인한 Data integrity를 보장하기 위해 Refresh 동작을 주기적으로 수행해야 합니다.</p><p>DRAM의 Cell은 1T-1C (1Transistor, 1Capacitor)로 이루어져 있으며 Transistor에 전압을 인가 후 Capacitor에 전하를 저장하는 방식으로 Data를 저장합니다. DRAM은 바둑판처럼 격자 구조로 여러 cell을 구성합니다.</p><center><img src="./assets/img/posts/DRAM/dram_cell.jpg" /></center><p>이때 Row(행), Column(열)은 DRAM을 access하는 단위입니다. 즉 Row는 여러 cell의 Transistor와 연결되어 있어 전압을 인가하여 open 시켜주는 역할을 합니다. 우리는 이를 Word line으로 부릅니다.<br />그리고 Transistor 동작 후 Cell의 전하는 자연스럽게 bit-line에 흐르게 됩니다. bitline에 흐르는 전하로...<a class="read-more" href="./DRAM-Introduction-1.html"> read more</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./DFT(Design-for-Test).html">DFT(Design for Test)-01</a>
 			
 
@@ -273,84 +351,6 @@
 
 			<div class="post-excerpt">
 				<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p><p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p><p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p><p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로...<a class="read-more" href="./DFT(Design-for-Test).html"> read more</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./CHI-Protocol-Overview-1.html">CHI Protocol Overview (1)</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2025-05-03T08:32:20+09:00">May 3, 2025</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        1 minute read
-      
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로 사용 가능</li> <li>Packet 기반 communication</li> <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li></ul><h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2><ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul> <li>protocol message를 packetize함</li> <li>interconnect를 통해 destination으로 routing 하는...<a class="read-more" href="./CHI-Protocol-Overview-1.html"> read more</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./AI-and-intellectual-property.html">Who owns the copyright for an AI generated creative work?</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2021-04-20T00:00:00+09:00">April 20, 2021</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        4 minute read
-      
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<p>Recently I was <a href="https://www.rollingstone.com/music/music-features/nirvana-kurt-cobain-ai-song-1146444/">reading an article</a> about a cool project that intends to have a neural network create songs of the late club of the 27 (artists that have tragically died at age 27 or near, and in the height of their respective careers), artists such as Amy Winehouse, Jimmy Hendrix, Curt Cobain and Jim Morrison.</p><iframe width="560" height="315" src="https://www.youtube.com/embed/tjzOzuKQhSM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><p>The project was created by <a href="https://overthebridge.org">Over the Bridge</a>, an organization dedicated to increase awareness on mental health and substance abuse in the music industry, trying to denormalize and remove...<a class="read-more" href="./AI-and-intellectual-property.html"> read more</a>
 			</div>
 		</div>
 	
@@ -452,7 +452,7 @@
             </a>
         </div>
         <div class="copyright">
-          <p>2025 &copy; Wonho Chang</p>
+          <p>2026 &copy; Wonho Chang</p>
         </div>
         <div class="footer-nav">
             <div>

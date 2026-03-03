@@ -2,9 +2,9 @@
 layout: post
 read_time: true
 show_date: true
-title:  CHI Protocol Overview (1)
-date:   2025-05-02 17:32:20 -0600
-description: CHI protocol specialized for cache coherence
+title:  CHI Protocol Overview (2)
+date:   2026-02-18 17:32:20 -0600
+description: CHI protocol Overview (Transaction)
 img: posts/chi/chi.jpg 
 tags: [RTL, AMBA Bus, Cache coherence]
 author: Wonho Chang
@@ -12,22 +12,10 @@ github:
 mathjax: yes
 ---
 
-Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.  
+이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.   
 
-CHI protocol feature은 다음과 같습니다.  
-
-- 64-Byte granularity of cache line
-- Snoop filter and directory-based systems
-- MESI, MOESI cache model을 support
-
-CHI transaction은 다음과 같은 특성을 갖습니다.  
-
-- interconnect내에 synchronization, atomic operation을 support
-- Exclusive access를 효율적으로 사용 가능
-- Packet 기반 communication
-- 모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리
-
-## Layers of the CHI Architecture
+## Cache State Model
+<center><img src='./assets/img/posts/chi/cache_model.png'></center>
 
 - **Protocol (communication granularity: transaction)**
     - protocol node에서 request, responses를 처리하고 생성
@@ -66,7 +54,6 @@ CHI transaction은 다음과 같은 특성을 갖습니다.
 - **HN (Home node)**
     - Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.
 
-<!--
 ## Transaction Classification
 - **Read Classification**
 <center><img src='./assets/img/posts/chi/read_classification.png'></center>

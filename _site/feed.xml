@@ -1,4 +1,218 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-19T23:19:43+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">DFT(Design for Test)-01</title><link href="http://localhost:4000/DFT(Design-for-Test).html" rel="alternate" type="text/html" title="DFT(Design for Test)-01" /><published>2025-06-14T09:25:20+09:00</published><updated>2025-06-14T09:25:20+09:00</updated><id>http://localhost:4000/DFT(Design%20for%20Test)</id><content type="html" xml:base="http://localhost:4000/DFT(Design-for-Test).html"><![CDATA[<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-03T17:17:55+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">CHI Protocol Overview (2)</title><link href="http://localhost:4000/CHI-Protocol-Overview-2.html" rel="alternate" type="text/html" title="CHI Protocol Overview (2)" /><published>2026-02-19T08:32:20+09:00</published><updated>2026-02-19T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-2</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-2.html"><![CDATA[<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p>
+
+<h2 id="cache-state-model">Cache State Model</h2>
+<center><img src="./assets/img/posts/chi/cache_model.png" /></center>
+
+<ul>
+  <li><strong>Protocol (communication granularity: transaction)</strong>
+    <ul>
+      <li>protocol node에서 request, responses를 처리하고 생성</li>
+      <li>protocol node에서 valid한 cache 상태 변환을 정의</li>
+      <li>request type에 대한 transaction flow를 정의</li>
+    </ul>
+  </li>
+  <li><strong>Network (communication granularity: Packet)</strong>
+    <ul>
+      <li>protocol message를 packetize함</li>
+      <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li>
+    </ul>
+  </li>
+  <li><strong>Link (communication granularity: Flit)</strong>
+    <ul>
+      <li>network device간의 flow를 control함</li>
+      <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="terminology">Terminology</h2>
+<ul>
+  <li><strong>Message</strong>
+    <ul>
+      <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
+        <ul>
+          <li>Request</li>
+          <li>Data response</li>
+          <li>Snoop request</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Packet</strong>
+    <ul>
+      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성<br />
+  각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
+    </ul>
+  </li>
+  <li><strong>Flit</strong>
+    <ul>
+      <li>Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
+  Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다.</li>
+    </ul>
+  </li>
+  <li><strong>RN (Request node)</strong>
+    <ul>
+      <li>protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당</li>
+    </ul>
+  </li>
+  <li><strong>SN (Slave node)</strong>
+    <ul>
+      <li>Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당</li>
+    </ul>
+  </li>
+  <li><strong>HN (Home node)</strong>
+    <ul>
+      <li>Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="transaction-classification">Transaction Classification</h2>
+<ul>
+  <li><strong>Read Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/read_classification.png" /></center>
+
+<ul>
+  <li><strong>Write Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/write_classification.png" /></center>
+
+<ul>
+  <li><strong>Other Classification</strong></li>
+</ul>
+<center><img src="./assets/img/posts/chi/other_classification.png" /></center>
+
+<h2 id="what-is-mesi-moesi-model">What is MESI, MOESI model?</h2>
+
+<!--
+A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
+
+Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
+
+In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.
+
+<center><img src='./assets/img/posts/20210125/Perceptron.png'></center>
+
+Imagine you have a 'neuron' and to 'activate' it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.
+
+In more mathematical terms, a perceptron is an array of values (let's call them weights), and the rules to apply such values to an input signal.
+
+For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it's weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.
+
+<p style="text-align:center">\(<br>
+\begin{align}
+\begin{split}
+\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
+\end{split}
+\end{align}
+\)</p>
+
+<p style="text-align:center">\(<br>
+\begin{align}<br>
+\begin{split}<br>
+\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
+\end{split}<br>
+\end{align}<br>
+\)</p>
+
+Typically when this value is obtained, we need to apply an "activation" function to smooth the output, but let's say that our activation function is linear, meaning that we keep the value as it is, then that's it, that is the output of the perceptron, -0.5.
+
+In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.
+
+Once we understand this, the magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.
+
+<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
+
+For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.
+
+After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.
+
+The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. [This video series by 3 blue 1 brown explains it wonderfuly.](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
+
+My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.
+
+The neuron has 3 inputs and weights to calculate its output:
+    
+    input 1 is the X coordinate of the point,
+    Input 2 is the y coordinate of the point,
+    Input 3 is the bias and it is always 1
+
+    Input 3 or the bias is required for lines that do not cross the origin (0,0)
+
+The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.
+
+The output of the perceptron is calculated with the following activation function:
+    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0
+
+The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:
+
+|Expected  |  Calculated | Error|
+|:----:|:----:|:----:|
+|1|-1|1|
+|1|1|0|
+|-1|-1|0|
+|-1|1|-1|
+
+With every point that is learned if the error is not 0 the weights are adjusted according to:
+
+    New_weight = Old_weight + error * input * learning_rate
+    for example: New_weight_x = Old_weight_x + error * x * learning rate
+
+A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be. 
+
+In this particular case, I coded the learning_rate to decrease with every iteration as follows:
+
+    learning_rate = 0.01 / (iteration + 1)
+
+this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.
+
+<center><img src='./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg'></center>
+
+In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.
+
+Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
+
+Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
+-->]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA Bus" /><category term="Cache coherence" /><summary type="html"><![CDATA[CHI protocol Overview (Transaction)]]></summary></entry><entry><title type="html">DRAM Introduction</title><link href="http://localhost:4000/DRAM-Introduction-1.html" rel="alternate" type="text/html" title="DRAM Introduction" /><published>2025-09-19T20:00:20+09:00</published><updated>2025-09-19T20:00:20+09:00</updated><id>http://localhost:4000/DRAM-Introduction-1</id><content type="html" xml:base="http://localhost:4000/DRAM-Introduction-1.html"><![CDATA[<p>최근 AI 시대에 고대역폭 메모리를 요구함에 따라 DRAM의 중요도는 증가하고 있습니다. 이번 페이지에서는 DRAM의 기본적인 동작과 구조에 대해 살펴보도록 하겠습니다.</p>
+
+<h2 id="dram-operation">DRAM Operation</h2>
+<p>DRAM은 Capacitor로 이루어진 아날로그 소자입니다.<br />
+그래서 Current Leakage로 인한 Data integrity를 보장하기 위해 Refresh 동작을 주기적으로 수행해야 합니다.</p>
+
+<p>DRAM의 Cell은 1T-1C (1Transistor, 1Capacitor)로 이루어져 있으며 Transistor에 전압을 인가 후 Capacitor에 전하를 저장하는 방식으로 Data를 저장합니다. DRAM은 바둑판처럼 격자 구조로 여러 cell을 구성합니다.</p>
+
+<center><img src="./assets/img/posts/DRAM/dram_cell.jpg" /></center>
+
+<p>이때 Row(행), Column(열)은 DRAM을 access하는 단위입니다. 즉 Row는 여러 cell의 Transistor와 연결되어 있어 전압을 인가하여 open 시켜주는 역할을 합니다. 우리는 이를 Word line으로 부릅니다.<br />
+그리고 Transistor 동작 후 Cell의 전하는 자연스럽게 bit-line에 흐르게 됩니다. bitline에 흐르는 전하로 인해 전압차가 발생되고 Sense Amplifier에서 이를 증폭시켜 Data를 High/Low인지 구분합니다.</p>
+
+<center><img src="./assets/img/posts/DRAM/dram_operation.jpg" /></center>
+
+<p>그렇다면 System 관점에서 어떻게 위 동작을 지시할지 생각해봐야 합니다. 우리는 Row address를 포함한 ACT라는 command를 통해 Row에 포함된 다수의 data를 Sense Amplifier에 load합니다.<br />
+Row open 후 Column address를 포함한 CAS라는 command를 통해 Read/Write 동작을 수행합니다. 상위 그림은 DRAM Data가 I/O단에 입출력되는 과정을 보여주지만 현대 DRAM 동작이랑 상이할 수 있습니다.</p>
+
+<h2 id="dram-architecture">DRAM Architecture</h2>
+
+<center><img src="./assets/img/posts/DRAM/dram_architecture.jpg" /></center>
+
+<p>DRAM Architecture을 설명하기 위해 익숙한 구조인 Column, Row부터 Rank까지 Bottom-up 방식으로 설명하겠습니다.</p>
+
+<p><strong>Column</strong> - DRAM을 Access할 때 가장 작은 단위에 속합니다. Size는 connected되어 있는 DRAM die의 DQ width에 따라 달라집니다.</p>
+
+<p>예를 들어 16-bit DRAM Die가 4개로 lock-step방식으로 연결되어 있으면 CAS command당 최소 64bit 단위로 Data가 움직입니다. 또한 Prefetch 개념이 도입되어 DRAM type에 따라 최소 burst-length 결정됩니다. 최종 CAS command의 Data Size는 Burst-lenth, Logical DQ width를 모두 고려해야합니다.</p>
+
+<p><strong>Row</strong> - Activate Command에 병렬적으로 동작하는 단위입니다. 시스템 관점에서 Precharge command 이전에 Data를 보관할 수 있다는 의미에서 DRAM Page라는 용어를 사용합니다. 우리는 여러 Bank에서 서로 다른 Page를 open 시켜 Utilization을 높일 수 있습니다.</p>
+
+<p><strong>Bank</strong> - 1-bit당 DRAM cell의 격자 구조는 Memory array라고 부릅니다. Lock-step 방식으로 여러 개의 Memory array가 움직이는 단위를
+Bank라고 부릅니다. DRAM Die의 DQ width는 단일 Bank 내부 Memory array의 갯수에 따라 결정됩니다. Bank끼리 서로 독립적으로 동작시킬 수 있습니다.</p>
+
+<p>예를 들어 서로 다른 Bank의 ACT command를 issue하여 timing 제약 없이 여러 Page를 이용하여 효율적으로 동작시킬 수 있습니다. 또한 사용하지 않는 Page는 Precharge를 통해 전력 소모를 줄이고
+Data Integrity를 위해 Refresh command를 수행할 수 있습니다.</p>
+
+<p><strong>Rank</strong> - Command에 의해 lock-step 방식으로 동작하는 DRAM Device의 set라고 생각하면 됩니다. Rank 내부 Dram Device는 Command line을 공유하고 DQ line은 group 되어 system DQ width를 결정합니다.</p>
+
+<p>예를 들어 system 64bit data bus를 구축한다고 가정하면 user의 요구사항에 따라 x16 Dram die 4개 or x8 Dram die 8개로 구성할 수 있습니다. 그리고 각각의 Rank의 동작은 CS핀으로 제어합니다.</p>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="DRAM" /><category term="JEDEC" /><summary type="html"><![CDATA[Description on DRAM]]></summary></entry><entry><title type="html">DFT(Design for Test)-01</title><link href="http://localhost:4000/DFT(Design-for-Test).html" rel="alternate" type="text/html" title="DFT(Design for Test)-01" /><published>2025-06-14T09:25:20+09:00</published><updated>2025-06-14T09:25:20+09:00</updated><id>http://localhost:4000/DFT(Design%20for%20Test)</id><content type="html" xml:base="http://localhost:4000/DFT(Design-for-Test).html"><![CDATA[<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 
 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p>
 
 <p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p>
@@ -191,23 +405,19 @@
   </li>
 </ul>
 
-<h2 id="transaction-classification">Transaction Classification</h2>
-<ul>
-  <li><strong>Read Classification</strong></li>
-</ul>
-<center><img src="./assets/img/posts/chi/read_classification.png" /></center>
+<!--
+## Transaction Classification
+- **Read Classification**
+<center><img src='./assets/img/posts/chi/read_classification.png'></center>
 
-<ul>
-  <li><strong>Write Classification</strong></li>
-</ul>
-<center><img src="./assets/img/posts/chi/write_classification.png" /></center>
+- **Write Classification**
+<center><img src='./assets/img/posts/chi/write_classification.png'></center>
 
-<ul>
-  <li><strong>Other Classification</strong></li>
-</ul>
-<center><img src="./assets/img/posts/chi/other_classification.png" /></center>
+- **Other Classification**
+<center><img src='./assets/img/posts/chi/other_classification.png'></center>
 
-<h2 id="what-is-mesi-moesi-model">What is MESI, MOESI model?</h2>
+## What is MESI, MOESI model?
+
 
 <!--
 A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
@@ -8096,71 +8306,4 @@ qXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTguNDUuMTAw
   <li>save and load trained model to file</li>
 </ul>
 
-<p>I will get to it soon…</p>]]></content><author><name>Armando Maynez</name></author><category term="machine learning" /><category term="coding" /><category term="neural networks" /><category term="python" /><summary type="html"><![CDATA[Single neuron perceptron that classifies elements learning quite quickly.]]></summary></entry><entry><title type="html">Conway’s Game of Life</title><link href="http://localhost:4000/conways-game-of-life.html" rel="alternate" type="text/html" title="Conway’s Game of Life" /><published>2021-02-11T04:32:20+09:00</published><updated>2021-02-11T04:32:20+09:00</updated><id>http://localhost:4000/conways-game-of-life</id><content type="html" xml:base="http://localhost:4000/conways-game-of-life.html"><![CDATA[<p>I&nbsp;am lately trying to take on coding again. It had always been a part of my life since my early years when I&nbsp;learned to program a Tandy Color Computer at the age of 8, the good old days.</p>
-
-<p><img src="./assets/img/posts/20210210/300px-TRS-80_Color_Computer_3.jpg" alt="Tandy Color Computer TRS80 III" /><small>Tandy Color Computer TRS80 III</small></p>
-
-<p>Having already programed in Java, C# and of course BASIC, I&nbsp;thought it would be a great idea to learn Python since I&nbsp;have great interest in data science and machine learning, and those two topics seem to have an avid community within Python coders.</p>
-
-<p>For one of my starter quick programming tasks, I&nbsp;decided to code Conway's Game of Life, a very simple cellular automata that basically plays itself.</p>
-
-<p>The game consists of a grid of n size, and within each block of the grid a cell could either be dead or alive according to these rules:</p>
-
-<ul><li>If a cell has less than 2 neighbors, meaning contiguous alive cells, the cell will die of loneliness</li><li>If a cell has more than 3 neighbors, it will die of overpopulation</li><li>If an empty block has exactly 3 contiguous alive neighbors, a new cell will be born in that spot</li><li>If an alive cell has 2 or 3 alive neighbors, it continues to live</li></ul>
-
-<p><img src="./assets/img/posts/20210210/GameOfLife.gif" alt="Conway's rules for the Game of Life" /><small>Conway’s rules for the Game of Life</small></p>
-
-<p>To make it more of a challenge I&nbsp;also decided to implement an <em>"sparse" </em>method of recording the game board, this means that instead of the typical 2d array representing the whole board, I&nbsp;will only record the cells which are alive. Saving a lot of memory space and processing time, while adding some spice to the challenge.</p>
-
-<p>The trickiest part was figuring out how to calculate which empty blocks had exactly 3 alive neighbors so that a new cell will spring to life there, this is trivial in the case of recording the whole grid, because we just iterate all over the board and find the alive neighbors of ALL&nbsp;the blocks in the grid, but in the case of only keeping the alive cells proved quite a challenge.</p>
-
-<p>In the end the algorithm ended up as follows:</p>
-
-<ol><li>Iterate through all the alive cells and get all of their neighbors</li></ol>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_neighbors</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span>
-    <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-                <span class="nf">if </span><span class="p">(</span><span class="mi">0</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">size_x</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">size_y</span><span class="p">):</span>
-                    <span class="n">neighbors</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="n">cell</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">neighbors</span>
-</code></pre></div></div>
-
-<ol start="2"><li>Mark all the neighboring blocks as having +1 neighbor each time a particular cell is encountered. This way, for each neighboring alive cell the counter of the particular block will increase, and in the end it will contain the total number of live cells which are contiguous to it.</li></ol>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">next_state</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
-    <span class="n">alive_neighbors</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">alive_cells</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">cell</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alive_neighbors</span><span class="p">:</span>
-            <span class="n">alive_neighbors</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="n">neighbors</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">get_neighbors</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alive_neighbors</span><span class="p">:</span>
-                <span class="n">alive_neighbors</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">alive_neighbors</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</code></pre></div></div>
-
-<p>The trick was using a dictionary to keep the record of the blocks that have alive neighbors and the cells who are alive in the current state but have zero alive neighbors (thus will die).</p>
-
-<p>With the dictionary it became easy just to add cells and increase their neighbor counter each time it was encountered as a neighbor of an alive cell.</p>
-
-<p>Having the dictionary now filled with all the cells that have alive neighbors and how many they have, it was just a matter of applying the rules of the game:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">alive_neighbors</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">alive_neighbors</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">alive_neighbors</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">alive_cells</span><span class="p">.</span><span class="nf">discard</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
-    
-    <span class="k">elif</span> <span class="n">alive_neighbors</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">self</span><span class="p">.</span><span class="n">alive_cells</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Notice that since I am keeping an array of the coordinates of only the cells who are alive, I could apply just 3 rules, die of loneliness, die of overpopulation and become alive from reproduction (exactly 3 alive neighbors) because the ones who have 2 or 3 neighbors and are already alive, can remain alive in the next iteration.</p>
-
-<p>I&nbsp;found it very interesting to implement the Game of Life like this, it was quite a refreshing challenge and I am beginning to feel my coding skills ramping up again.</p>]]></content><author><name>Armando Maynez</name></author><category term="coding" /><category term="python" /><summary type="html"><![CDATA[Taking on the challenge of picking up coding again through interesting small projects, this time it is the turn of Conway's Game of Life.]]></summary></entry></feed>
+<p>I will get to it soon…</p>]]></content><author><name>Armando Maynez</name></author><category term="machine learning" /><category term="coding" /><category term="neural networks" /><category term="python" /><summary type="html"><![CDATA[Single neuron perceptron that classifies elements learning quite quickly.]]></summary></entry></feed>
