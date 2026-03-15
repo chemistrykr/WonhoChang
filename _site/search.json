@@ -31,7 +31,7 @@
     } ,
   
     {
-      "title"       : "CHI Protocol Overview (1)",
+      "title"       : "CHI Protocol Overview",
       "category"    : "",
       "tags"        : "RTL, AMBA Bus, Cache coherence",
       "url"         : "./CHI-Protocol-Overview-1.html",
