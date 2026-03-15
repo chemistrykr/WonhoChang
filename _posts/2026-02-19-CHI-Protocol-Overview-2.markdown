@@ -2,7 +2,7 @@
 layout: post
 read_time: true
 show_date: true
-title:  CHI Protocol Overview (2)
+title:  CHI Protocol (Transaction)
 date:   2026-02-18 17:32:20 -0600
 description: CHI protocol Overview (Transaction)
 img: posts/chi/chi.jpg 
@@ -15,57 +15,103 @@ mathjax: yes
 이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.   
 
 ## Cache State Model
+CHI에서 Cache line은 6가지 state를 가질 수 있습니다. 
+Valid/InValid, Clean/Dirty, Parial/Empty, Unique/Shared에 따라 state가 결정됩니다.  
 <center><img src='./assets/img/posts/chi/cache_model.png'></center>
 
-- **Protocol (communication granularity: transaction)**
-    - protocol node에서 request, responses를 처리하고 생성
-    - protocol node에서 valid한 cache 상태 변환을 정의
-    - request type에 대한 transaction flow를 정의
+- **Invalid**
+    - cache line이 cache에 존재하지 않은 state  
+    <br>
 
-- **Network (communication granularity: Packet)**
-    - protocol message를 packetize함
-    - interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가
+- **Unique Dirty**
+    - cache line이 해당 cache에만 존재하는 경우
+    - cache line의 data가 Main Memory에 반영하지 않은 상태
+    - Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능
+    - Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.
+    - Snoop에 의해 Directly하게 Cache line을 Requester에 전송 가능  
+    <br>
 
-- **Link (communication granularity: Flit)**
-    - network device간의 flow를 control함
-    - network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리
+- **Unique Dirty Partial**
+    - Unique Dirty에서 cache line의 특정 byte만 valid할 경우
+    - Unique Dirty의 특징을 포함하고 있지만 Requester로 Directy forwarding 불가능 (Cache 관련 최소 단위는 64Byte)
+    - Cache line evict시 해당 data와 valid한 기존 data에 대한 merge 동작 요구  
+    <br>
 
-## Terminology
-- **Message**
-    - Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
-        - Request
-        - Data response
-        - Snoop request
 
-- **Packet**
-    - interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성  
-    각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능
+- **Shared Dirty**
+    - 다른 cache들도 해당 cache line의 copy본을 공유하고 있는 상태 
+    - Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.
+    - 다른 Cache들과 cache line을 공유하고 있기에 Unique한 ownership을 얻거나 다른 cache line을 invalidate 하지 않는 이상 함부로 modify 불가  
+    <br>
 
-- **Flit**
-    - Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
-    Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다. 
+- **Unique Clean**
+    - cache line이 해당 cache에만 존재하는 경우
+    - cache line과 Main memory와 Coherency가 보장된 상태
+    - Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능  
+    <br>
 
-- **RN (Request node)**
-    - protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당
+- **Unique Clean Empty**
+    - Unique Clean state에서 valid한 data를 가지지 않는 상태 (Ownership만 가진 상태)  
+    <br>
 
-- **SN (Slave node)**
-    - Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당
+- **Shared Clean**
+    - 다른 cache들도 해당 cache line의 copy본을 공유하고 있는 상태 
+    - 해당 cache line은 Memory에 대해 update 됐을 수도 있는 상태
+    - 다만 evict시 Memory에 write back해야 할 책임은 없음
+    - 다른 Cache들과 cache line을 공유하고 있기에 Unique한 ownership을 얻거나 다른 cache line을 invalidate 하지 않는 이상 함부로 modify 불가  
 
-- **HN (Home node)**
-    - Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.
+## Read Transaction 
+- **Allocating Read**
+    - ReadClean
+    - ReadNotSharedDirty
+    - ReadShared
+    - ReadUnique
+    - ReadPreferUnique
+    - MakeReadUnique
 
-## Transaction Classification
-- **Read Classification**
-<center><img src='./assets/img/posts/chi/read_classification.png'></center>
+<center><img src='./assets/img/posts/chi/allocating_read.png'></center>
 
-- **Write Classification**
-<center><img src='./assets/img/posts/chi/write_classification.png'></center>
+Allocating Read는 Cacheline을 해당 Cache에 저장하기 위한 동작이다.
+Allocating Read는 마지막 flow에 Requester가 Compack을 전송해야 하며 이때 **Home은 Compack을 수신할 때 까지 해당 Cacheline에 Snoop을 요청하면 안된다**.  
 
-- **Other Classification**
-<center><img src='./assets/img/posts/chi/other_classification.png'></center>
+상위 그림은 Allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음
+- **1. Combined Response from Home**
+    - 해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여 Requester에 전송 (즉 같은 data channel로 동시에 response, data 전송)  
+    <br> 
 
-## What is MESI, MOESI model?
+- **2. Separate data and response from Home**
+    - Home에서 독립적으로 response와 data를 전송할 때 사용되는 방식  
+    <br>  
 
+- **3. Combined response from Subordinate**
+    - Home에 data가 존재하지 않아 Memory로 Data를 요청할 때 사용, Subordintae가 Data와 Response를 합쳐 Data channel로 전송
+    - Order(!=0) 제약 사항이 있을 경우 선택적으로 Subordinate가 ReadReceipt response 반환
+    - Home에서 Subordinate로 ReadNoSnp Downstream Request 전송  
+    <br>
+
+- **4. Response from Home, Data from Subordinate**
+    - 독립적으로 Response는 Home이 전송하고 Data만 Subordinate에서 반환할 때 사용 
+    - Home에서 Subordinate로 ReadNoSnpSep Downstream Request 전송 (Data만 반환)  
+    - Subordinate는 Read Receipt를 전송해야 한다. Data 전송 이후로 Receipt Response 전송할 수는 있지만 필수 사항은 아니다. 
+    <br>
+
+일반적으로 Response와 Data가 독립적으로 전송할 때 Response를 빨리 전송한다. 이때 Requester가 CompAck의 전송 시점은 Home으로부터 Response를 받은 이후부터 가능하다.  <br> 
+즉 Home은 Requester로부터 Compack을 받은 이후 transaction을 완료할 수 있기에 combined response보다 빨리 transaction을 처리할 수 있음
+
+- **5. Forwarding snoop**
+    - Home에서 Snoopee (Requester)에 data forwarding을 요청하는 case
+    - 이때 Home에 최신 data가 존재하지 않고 특정 Requester에 data가 존재할 때 Snoop 동작을 요청하는 방식 
+    - 5a: Home에 Snoop Response만 전송하고 Requester에 Data를 fowarding하는 방식
+    - 5b: Home에 Data와 함께 Response를 전송하고 Requester에 Data를 fowarding하는 방식 (주로 Dirty copy -> Clean할 때 사용)
+    - 5c: Snoopee가 fail의 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식
+    - 5c: Snoopee가 fail의 Data와 함께 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식  
+    <br>
+
+- **6. MakeReadUnique only**
+    - Home이 다른 Requester의 해당 Cacheline을 invalidate한 후 Comp response를 전송 
+
+## Reference 
+**AMBA CHI Architecture Specification H version**
 
 <!--
 A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.

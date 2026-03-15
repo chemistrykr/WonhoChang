@@ -240,7 +240,7 @@
 		<div class="post">
 			
 
-			<a class="post-list-title" href="./CHI-Protocol-Overview-2.html">CHI Protocol Overview (2)</a>
+			<a class="post-list-title" href="./CHI-Protocol-Overview-2.html">CHI Protocol (Transaction)</a>
 			
 
   <span class = "post-card-meta">
@@ -264,7 +264,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        2 minute read
       
     </span>
   
@@ -272,7 +272,7 @@
   </span>
 
 			<div class="post-excerpt">
-				<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p><h2 id="cache-state-model">Cache State Model</h2><center><img src="./assets/img/posts/chi/cache_model.png" /></center><ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul> <li>protocol message를 packetize함</li> <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li> </ul> </li> <li><strong>Link (communication granularity: Flit)</strong> <ul> <li>network device간의 flow를 control함</li> <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li> </ul> </li></ul><h2 id="terminology">Terminology</h2><ul> <li><strong>Message</strong> <ul> <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어 <ul> <li>Request</li> <li>Data...<a class="read-more" href="./CHI-Protocol-Overview-2.html"> read more</a>
+				<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p><h2 id="cache-state-model">Cache State Model</h2><p>CHI에서 Cache line은 6가지 state를 가질 수 있습니다. Valid/InValid, Clean/Dirty, Parial/Empty, Unique/Shared에 따라 state가 결정됩니다.</p><center><img src="./assets/img/posts/chi/cache_model.png" /></center><ul> <li><strong>Invalid</strong> <ul> <li>cache line이 cache에 존재하지 않은 state<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty</strong> <ul> <li>cache line이 해당 cache에만 존재하는 경우</li> <li>cache line의 data가 Main Memory에 반영하지 않은 상태</li> <li>Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능</li> <li>Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.</li> <li>Snoop에 의해 Directly하게 Cache line을 Requester에 전송 가능<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty Partial</strong> <ul> <li>Unique Dirty에서 cache line의...<a class="read-more" href="./CHI-Protocol-Overview-2.html"> read more</a>
 			</div>
 		</div>
 	
@@ -342,7 +342,7 @@
     
     <span class="page_meta-readtime">
       
-        1 minute read
+        less than 1 minute read
       
     </span>
   
@@ -350,7 +350,7 @@
   </span>
 
 			<div class="post-excerpt">
-				<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p><p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p><p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p><p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로...<a class="read-more" href="./DFT(Design-for-Test).html"> read more</a>
+				<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p><p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p><p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p><p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p><a class="read-more" href="./DFT(Design-for-Test).html"> read more</a>
 			</div>
 		</div>
 	
