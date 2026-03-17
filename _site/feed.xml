@@ -1,4 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-16T00:52:18+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">CHI Protocol (Transaction)</title><link href="http://localhost:4000/CHI-Protocol-Overview-2.html" rel="alternate" type="text/html" title="CHI Protocol (Transaction)" /><published>2026-02-19T08:32:20+09:00</published><updated>2026-02-19T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-2</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-2.html"><![CDATA[<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-18T00:01:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">OOP Testbench (Primer)</title><link href="http://localhost:4000/OOP-Testbench.html" rel="alternate" type="text/html" title="OOP Testbench (Primer)" /><published>2026-03-14T03:32:20+09:00</published><updated>2026-03-14T03:32:20+09:00</updated><id>http://localhost:4000/OOP-Testbench</id><content type="html" xml:base="http://localhost:4000/OOP-Testbench.html"><![CDATA[<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
+먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p>
+
+<p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p>
+<ul>
+  <li>Code Reuse
+    <ul>
+      <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li>
+    </ul>
+  </li>
+  <li>Code Maintainability
+    <ul>
+      <li>code를 한번의 update로 전체 반영 가능</li>
+    </ul>
+  </li>
+  <li>Memory Management
+    <ul>
+      <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="class">Class</h2>
+<p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 
+먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p>
+
+<p><strong>Class vs Struct</strong><br />
+일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 
+하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p>
+<ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는 기능(function)을 어떻게 설정할 것인가 ? </li>
+<li> 구조체는 선언 시 메모리 할당되는데 어떻게 유지 관리를 할것 인가?</li>
+<li> 두 도형의 연관성을 어떻게 구조체에서 정의할 수 있을까? </li> </ul>
+
+<p>위 한계점은 class라는 type을 통해 돌파할 수 있다. 
+해당 내용은 차츰 설명할 예정이고 class 내부에 사용되는 terminology부터 정의하겠습니다.</p>
+
+<p>member - class 내부에서 정의된 변수, 함수<br />
+property - class에 속한 변수<br />
+method - class 내부에서 정의되는 function or task</p>
+
+<p><strong>Memory Allocation</strong><br />
+Class는 구조체와 달리 선언 시 Memory 할당되지 않고 user가 명시적으로 할당해야 합니다.
+new라는 method를 call함으로써 객체에 대한 memory를 할당합니다 (instantiating).</p>
+
+<p>new method의 인자를 통해 내부 property 초기값을 설정할 수 있습니다.<br />
+또한 인스턴스화 할 수 있는 객체의 수는 컴퓨터 memory에 제한되며 handle을 다른 변수로 copy 가능 (shallow copy)</p>
+
+<p>객체를 참조하는 동안 Memory의 할당이 지속되지만 참조가 해제될 경우 garbage 대상이 되고 일정 시간 이후에 Memory deallocation 된다.</p>
+
+<p><strong>Extension</strong></p>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="OOP" /><category term="UVM" /><summary type="html"><![CDATA[Modern Testbench]]></summary></entry><entry><title type="html">CHI Protocol (Transaction)</title><link href="http://localhost:4000/CHI-Protocol-Overview-2.html" rel="alternate" type="text/html" title="CHI Protocol (Transaction)" /><published>2026-02-19T08:32:20+09:00</published><updated>2026-02-19T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-2</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-2.html"><![CDATA[<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p>
 
 <h2 id="cache-state-model">Cache State Model</h2>
 <p>CHI에서 Cache line은 6가지 state를 가질 수 있습니다. 
@@ -462,4 +511,841 @@ In the end, the perceptron always converges into a solution and finds with great
 Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
 
 Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
--->]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA Bus" /><category term="Cache coherence" /><summary type="html"><![CDATA[CHI protocol specialized for cache coherence]]></summary></entry></feed>
+-->]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA Bus" /><category term="Cache coherence" /><summary type="html"><![CDATA[CHI protocol specialized for cache coherence]]></summary></entry><entry><title type="html">Who owns the copyright for an AI generated creative work?</title><link href="http://localhost:4000/AI-and-intellectual-property.html" rel="alternate" type="text/html" title="Who owns the copyright for an AI generated creative work?" /><published>2021-04-20T00:00:00+09:00</published><updated>2021-04-20T00:00:00+09:00</updated><id>http://localhost:4000/AI-and-intellectual-property</id><content type="html" xml:base="http://localhost:4000/AI-and-intellectual-property.html"><![CDATA[<p>Recently I was <a href="https://www.rollingstone.com/music/music-features/nirvana-kurt-cobain-ai-song-1146444/">reading an article</a> about a cool project that intends to have a neural network create songs of the late club of the 27 (artists that have tragically died at age 27 or near, and in the height of their respective careers), artists such as Amy Winehouse, Jimmy Hendrix, Curt Cobain and Jim Morrison.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tjzOzuKQhSM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>The project was created by <a href="https://overthebridge.org">Over the Bridge</a>, an organization dedicated to increase awareness on mental health and substance abuse in the music industry, trying to denormalize and remove the glamour around such illnesses within the music community.</p>
+
+<p>They are using Google’s <a href="https://magenta.tensorflow.org">Magenta</a>, which is a neural network that precisely was conceived to explore the role of machine learning within the creative process. Magenta has been used to create a brand new “Beatles” song or even there was a band that <a href="https://arstechnica.com/gaming/2019/08/yachts-chain-tripping-is-a-new-landmark-for-ai-music-an-album-that-doesnt-suck/">used it to write a full album</a> in 2019.</p>
+
+<p>So, while reading the article, my immediate thought was: who owns the copyright of these new songs?</p>
+
+<p>Think about it, imagine one of this new songs becomes a massive hit with millions of youtube views and spotify streams, who can claim the royalties generated?</p>
+
+<p>At first it seems quite simple, <em>Over the Bridge</em> should be the ones reaping the benefits, since they are the ones who had the idea, gathered the data and then fed the neural network to get the “work of art”. But in a second thought, didn’t the original artists provide the basis for the work the neural network generated? shouldn’t their state get credit? what about Google whose tool was used, should they get credit too?</p>
+
+<p>Neural networks have been also used to create poetry, paintings and to write news articles, but how do they do it? A computer program developed for machine learning purposes is an algorithm that “learns” from data to make future decisions. When applied to art, music and literary works, machine learning algorithms are actually learning from some input data to generate a new piece of work, making independent decisions throughout the process to determine what the new work looks like. An important feature of this is that while programmers can set the parameters, the work is actually generated by the neural network itself, in a process akin to the thought processes of humans.</p>
+
+<p>Now, creative works qualify for copyright protection if they are original, with most definitions of originality requiring a human author. Most jurisdictions, including <a href="https://www.wipo.int/wipolex/en/details.jsp?id=1319">Spain</a> and <a href="https://dejure.org/gesetze/UrhG/7.html">Germany</a>, specifically state that only works created by a human can be protected by <a href="https://www.wipo.int/copyright/en/">copyright</a>. In the United States, for example, <a href="https://copyright.gov/comp3/chap300/ch300-copyrightable-authorship.pdf">the Copyright Office has declared</a> that it will “register an original work of authorship, provided that the work was created by a human being.”</p>
+
+<p>So as we currently stand, a human author is required to grant a copyright, which makes sense, there is no point of having a neural network be the beneficiary of royalties of a creative work (no bank would open an account for them anyways, lol).</p>
+
+<p>I think amendments have to be made to the law to ensure that the person who undertook all the arrangements necessary for the work to be created by the neural network gets the credit but also we need to modify copyright law to ensure the original authors of the body of work used as data input to produce the new piece get their corresponding share of credit. This will get messy if someone uses for example the #1 song of every month in a decade to create the decade song, then there would be as many as 120 different artists to credit.</p>
+
+<tweet>In a computer generated artistic work, both the person who undertook all the arrangements necessary for its creation as well as the original authors of the data input need to be credited.</tweet>
+
+<p>There will still be some ambiguity as to who undertook the arrangements necessary, only the one who gathered the data and pressed the button to let the network learn, or does the person who created the neural network’s model also get credit? Shall we go all the way and say that even the programmer of the neural network gets some credit as well?</p>
+
+<p>There are some countries, in particular the UK where some progress has been made to amend copyright laws to cater for computer generated works of art, but I believe this is one of those fields where technology will surpass our law making capacity and we will live under a grey area for a while, and maybe this is just what we need, by having these works ending up free for use by anyone in the world, perhaps a new model for remunerating creative work can be established, one that does not require commercial success to be necessary for artists to make a living, and thus they can become free to explore their art.</p>
+
+<tweet>Perhaps a new model for remunerating creative work can be established, one that does not require commercial success to be necessary for artists to make a living.</tweet>
+
+<p><img src="./assets/img/posts/20210420/post8-rembrandt2.jpg" alt="The next Rembrandt" />
+<small><a href="https://www.jwt.com/en/work/thenextrembrandt">The Next Rembrandt</a> is a computer-generated 3-D–printed painting developed by a facial-recognition algorithm that scanned data from 346 known paintings by the Dutch painter in a process lasting 18 months. The portrait is based on 168,263 fragments from Rembrandt’s works.</small></p>]]></content><author><name>Armando Maynez</name></author><category term="opinion" /><category term="copyright" /><category term="creativity" /><category term="neural networks" /><category term="machine learning" /><category term="artificial intelligence" /><summary type="html"><![CDATA[As neural networks are used more and more in the creative process, text, images and even music are now created by AI, but who owns the copyright for those works?]]></summary></entry><entry><title type="html">So, what is a neural network?</title><link href="http://localhost:4000/back-to-basics.html" rel="alternate" type="text/html" title="So, what is a neural network?" /><published>2021-04-02T00:00:00+09:00</published><updated>2021-04-02T00:00:00+09:00</updated><id>http://localhost:4000/back-to-basics</id><content type="html" xml:base="http://localhost:4000/back-to-basics.html"><![CDATA[<p>The omnipresence of technology nowadays has made it commonplace to read news about AI, just a quick glance at today’s headlines, and I get:</p>
+<ul>
+  <li><a href="https://www.morningbrew.com/emerging-tech/stories/2021/03/29/one-biggest-advancements-ai-also-sparked-fierce-debate-heres?utm_source=morning_brew">This Powerful AI Technique Led to Clashes at Google and Fierce Debate in Tech.</a></li>
+  <li><a href="https://fortune.com/2021/04/02/ai-forecasting-supply-chain-factories-caterpillar-agco/">How A.I.-powered companies dodged the worst damage from COVID</a></li>
+  <li><a href="https://www.mobihealthnews.com/news/emea/ai-technology-detects-ticking-time-bomb-arteries">AI technology detects ‘ticking time bomb’ arteries</a></li>
+  <li><a href="https://www.genengnews.com/insights/ai-in-drug-discovery-starts-to-live-up-to-the-hype/">AI in Drug Discovery Starts to Live Up to the Hype</a></li>
+  <li><a href="https://www.c4isrnet.com/artificial-intelligence/2021/04/02/pentagon-seeks-commercial-solutions-to-get-its-data-ready-for-ai/">Pentagon seeks commercial solutions to get its data ready for AI</a></li>
+</ul>
+
+<p>Topics from business, manufacturing, supply chain, medicine and biotech and even defense are covered in those news headlines, definitively the advancements on the fields of artificial intelligence, in particular machine learning and deep neural networks have permeated into our daily lives and are here to stay. But, do the general population know what are we talking about when we say “an AI”?  I assume most people correctly imagine a computer algorithm or perhaps the more adventurous minds think of a physical machine, an advanced computer entity or even a robot, getting smarter by itself with every use-case we throw at it. And most people will be right, when “an AI” is mentioned it is indeed an algorithm run by a computer, and there is where the boundary of their knowledge lies.</p>
+
+<p>They say that the best way to learn something is to try to explain it, so in a personal exercise I will try to do an ELI5 (<strong>E</strong>xplain it <strong>L</strong>ike <strong>I</strong> am <strong>5</strong>) version of what is a neural network.</p>
+
+<p>Let’s start with a little history, humans have been tinkering with the idea of an intelligent machine for a while now, some even say that the idea of artificial intelligence was conceived by the ancient greeks (<a href="https://www.thinkautomation.com/bots-and-ai/a-history-of-automation-the-rise-of-robots-and-ai/">source</a>), and several attempts at devising “intelligent” machines have been made through history, a notable one was ‘The Analytical Engine’ created by Charles Babbage in 1837:</p>
+
+<p><img src="./assets/img/posts/20210402/post7-analytical-engine.jpg" alt="The Analytical Engine" />
+<small>The Analytical Engine of Charles Babbage - 1837</small></p>
+
+<p>Then, in the middle of last century by trying to create a model of how our brain works, Neural Networks were born. Around that time, Frank Rosenblatt at Cornell trying to understand the simple decision system present in the eye of a common housefly,  proposed the idea of a <a href="./single-neuron-perceptron.html">perceptron</a>, a very simple system that processes certain inputs with basic math operations and produces an output.</p>
+
+<p><img src="./assets/img/posts/20210125/Perceptron.png" alt="A perceptron" /></p>
+
+<p>To illustrate, let’s say that the brain of the housefly is a perceptron, its inputs are whatever values are produced by the multiple cells in its eyes, when the eye cell detects “something” it’s output will be a 1, and if there is nothing a 0. Then the combination of all those inputs can be processed by the perceptron (the fly brain), and the output is a simple 0 or 1 value. If it is a 1 then the brain is telling the fly to flee and if it is a 0 it means it is safe to stay where it is.</p>
+
+<p><img src="./assets/img/posts/20210402/post7-housefly-eye.jpg" alt="A housefly eye" /></p>
+
+<p>We can imagine then that if many of the eye cells of the fly produce 1s, it means that an object is quite near, and therefore the perceptron will calculate a 1, it is time to flee.</p>
+
+<p><img src="./assets/img/posts/20210402/post7-fly-vision.jpg" alt="The fly vision" /></p>
+
+<p>The perceptron is just a math operation, one that multiplies certain input values with preset “parameters” (called weights) and adds up the resulting multiplications to generate a value.</p>
+
+<p>Then the magic spark was ignited, the parameters (weights) of the perceptron could be “learnt” by a process of minimizing the difference between known results of particular observations, and what the perceptron is actually calculating. It is this process of learning what we call <strong>training the neural network</strong>.</p>
+
+<tweet>This idea is so powerful that even today it is one of the fundamental building blocks of what we call AI.</tweet>
+
+<p>From this I will try to explain how this simple concept can have such diverse applications as natural language processing (think Alexa), image recognition like medical diagnosis from a CTR scan, autonomous vehicles, etc.</p>
+
+<p>A basic neural network is a combination of perceptrons in different arrangements, the perceptron therefore was downgraded from “fly brain” to “network neuron”.
+<img src="./assets/img/posts/20210402/post7-multilayer-perceptron.png" alt="A multilayer perceptron" /></p>
+
+<p>A neural network has different components, in its basic form it has:</p>
+<ul>
+  <li>Input</li>
+  <li>Hidden layers</li>
+  <li>Output</li>
+</ul>
+
+<p><img src="./assets/img/posts/20210228/nnet_flow.gif" alt="Neural network components" /></p>
+
+<h3 id="input">Input</h3>
+
+<p>The inputs of a neural network are in their essence just numbers, therefore anything that can be converted to a number can become an input. Letters in a text, pixels in an image, frequencies in a sound wave, values from a sensor, etc. are all different things that when converted to a numerical value serve as inputs for the neural network. This is one of the reasons why applications of neural networks are so diverse.</p>
+
+<p>Inputs can be as many as one need for the task at hand, from maybe 9 inputs to teach a neural network how to play tic-tac-toe to thousands of pixels from a camera for an autonomous vehicle. Since the input of a perceptron needs to be a single value, if for example a color pixel is chosen as input, it most likely will be broken into three different values; its  red, green and blue components, hence each pixel will become 3 different inputs for the neural network.</p>
+
+<h3 id="hidden-layers">Hidden layers</h3>
+
+<p>A “layer” within a neural network is just a group of perceptrons that all perform the same exact mathematical operation to the inputs and produce an output. The catch is that each of them have different weights (parameters), therefore their output for a given input will be different amongst them. There are many types of layers, the most typical of them being a “dense” layer, which is another word to say that all the inputs are connected to all the neurons (individual perceptrons), and as said before, each of these connections have a weight associated with it, so that the operation that each neuron performs is a simple weighted sum of all the inputs.</p>
+
+<p><img src="./assets/img/posts/20210402/post7-dense-layers.png" alt="post7-dense-layers" /></p>
+
+<p>The hidden layer is then typically connected to another dense layer, and their connection means that each output of a neuron from the first layer is treated effectively as an input for the subsequent one, and it is thus connected to every neuron.</p>
+
+<p>A neural network can have from one to as many layers as one can think, and the number of layers depends solely on the experience we have gathered on the particular problem we would like to solve.</p>
+
+<p>Another critical parameter of a hidden layer is the number of neurons it has, and again, we need to rely on experience to determine how many neurons are needed for a given problem. I have seen networks that vary from a couple of neurons to the thousands. And of course each hidden layer can have as many neurons as we please, so the number of combinations is vast.</p>
+
+<p>To the number of layers, their type and how many neurons each have, is what we call the <em>network topology</em> (including the number of inputs and outputs).</p>
+
+<h3 id="output">Output</h3>
+
+<p>At the very end of the chain, another layer lies (which behaves just like a hidden layer), but has the peculiarity that it is the final layer, and therefore whatever it calculates will be the output values of the whole network. The number of outputs the network has is a function of the problem we would like to solve. It could be as simple as one output, with its value representing a probability of an action (like in the case of the flee reaction of the housefly), to many outputs, perhaps if our network is trying to distinguish images of animals, one would have an output for each animal species, and the output would represent how much confidence the network has that the particular image belongs to the corresponding species.</p>
+
+<p>As we said, the neural network is just a collection of individual neurons, doing basic math operations on certain inputs in series of layers that eventually generate an output. This mesh of neurons is then “trained” on certain output values from known cases of the inputs; once it has learned it can then process new inputs, values that it has never seen before with surprisingly accurate results.</p>
+
+<p>Many of the problems neural networks solve, could be certainly worked out by other algorithms, however, since neural networks are in their core very basic operations, once trained, they are extremely efficient, hence much quicker and economical to produce results.</p>
+
+<p>There are a few more details on how a simple neural network operate that I purposedly left out to make this explanation as simple as possible. Thinks like biases, the activation functions and the math behind learning, the backpropagation algorithm, I will leave to a more in depth article. I will also write (perhaps in a series) about the more complex topologies combining different types of layers and other building blocks, a part from the perceptron.</p>
+
+<p><img src="./assets/img/posts/20210402/post7-alexa.png" alt="Alexa recognizing speach" /></p>
+
+<p>Things like “Alexa”, are a bit more complex, but work on exactly the same principles. Let’s break down for example the case of asking “Alexa” to play a song in spotify. Alexa uses several different neural networks to acomplish this:</p>
+
+<h4 id="1-speech-recognition">1. Speech recognition</h4>
+
+<p>As a basic input we have our speech: the command <strong>“Alexa, play Van Halen”</strong>. This might seem quite simple for us humans to process, but for a machine is an incredible difficult feat to be able to understand speech, things like each individual voice timbre, entonation, intention and many more nuances of human spoken language make it so that traditional algorithms have struggled a lot with this. In our simplified example let’s say that we use a neural network to transform our spoken speech into text characters a computer is much more familiarized to learn.</p>
+
+<h4 id="2-understanding-what-we-mean-natural-language-understanding">2. Understanding what we mean (Natural Language Understanding)</h4>
+
+<p>Once the previous network managed to succesfuly convert our spoken words into text, there comes the even more difficult task of making sense of what we said. Things that we humans take for granted such as context, intonation and non verbal communication, help give our words meaning in a very subtle, but powerful way, a machine will have to do with much less information to correctly understand what we mean. It has to correctly identify the intention of our sentence and the subject or entities of what we mean.</p>
+
+<p><img src="./assets/img/posts/20210402/post7-alexa-natural-lang.png" alt="post7-alexa-natural-lang" /></p>
+
+<p>The neural network has to identify that it received a command (by identifying its name), the command (“play music”), and our choice (“Van Halen”). And it does so by means of simple math operations as described before. Of course the network involved is quite complex and has different types of neurons and connection types, but the underlying principles remain.</p>
+
+<h4 id="3-replying-to-us">3. Replying to us</h4>
+
+<p>Once Alexa understood what we meant, it then proceeds to execute the action of the command it interpreted and it replies to us in turn using natural language. This is accomplished using a technique called speech synthesis, things like pitch, duration and intensity of the words and phonems are selected based on the “meaning” of what Alexa will respond to us: “Playing songs by Van Halen on Spotify” sounding quite naturally. And all is accomplished with neural networks executing many simple math operations.</p>
+
+<p><img src="./assets/img/posts/20210402/post7-alexa-steps.png" alt="post7-alexa-steps" />
+<small>Although it seems quite complex, the process for AI to understand us can be boiled down to simple math operations</small></p>
+
+<p>Of course Amazon’s Alexa neural networks have undergone quite a lot of training to get to the level where they are, the beauty is that once trained, to perform their magic they just need a few mathematical operations.</p>
+
+<p>As said before, I will continue to write about the basics of neural networks, the next article in the series will dive a bit deeper into the math behind a basic neural network.</p>]]></content><author><name>Armando Maynez</name></author><category term="theory" /><category term="neural networks" /><category term="machine learning" /><category term="artificial intelligence" /><summary type="html"><![CDATA[ELI5: what is a neural network.]]></summary></entry><entry><title type="html">Starting the adventure</title><link href="http://localhost:4000/starting-the-adventure.html" rel="alternate" type="text/html" title="Starting the adventure" /><published>2021-03-24T00:00:00+09:00</published><updated>2021-03-24T00:00:00+09:00</updated><id>http://localhost:4000/starting-the-adventure</id><content type="html" xml:base="http://localhost:4000/starting-the-adventure.html"><![CDATA[<p>In the midst of a global pandemic caused by the SARS-COV2 coronavirus; I decided to start blogging. I wanted to blog since a long time, I have always enjoyed writing, but many unknowns and having “no time” for it prevented me from taking it up. Things like: “I don’t really know who my target audience is”, “what would my topic or topics be?”, “I don’t think I am a world-class expert in anything”, and many more kept stopping me from setting up my own blog. Now seemed like a good time as any so with those and tons of other questions in my mind I decided it was time to start.</p>
+
+<p>Funnily, this is not my first post. The birth of the blog came very natural as a way to “document” my newly established pursuit for getting myself into Machine Learning. This new adventure of mine comprises several things, and if I want to succeed I need to be serious about them all:</p>
+<ul>
+  <li>I want to start coding again! I used to code a long time ago, starting when I was 8 years old in a Tandy Color Computer hooked up to my parent’s TV.</li>
+  <li>Machine Learning is a vast, wide subject, I want to learn the generals, but also to select a few areas to focus on.</li>
+  <li>Setting up a blog to document my journey and share it:</li>
+  <li>Establish a learning and blogging routine. If I don’t do this, I am sure this endeavour will die off soon.</li>
+</ul>
+
+<p>As for the focus areas I will start with:</p>
+<ul>
+  <li>Neural Networks fundamentals: history, basic architecture and math behind them</li>
+  <li>Deep Neural Networks</li>
+  <li>Reinforcement Learning</li>
+  <li>Current state of the art: what is at the cutting edge now in terms of Deep Neural Networks and Reinforcement Learning?</li>
+</ul>
+
+<p>I selected the above areas to focus on based on my personal interests, I have been fascinated by the developments in reinforcement learning for a long time, in particular <a href="https://deepmind.com/blog">Deep Mind’s</a> awesome <a href="https://deepmind.com/blog/article/innovations-alphago">Go</a>, <a href="https://deepmind.com/blog/article/alphazero-shedding-new-light-grand-games-chess-shogi-and-go">Chess</a> and <a href="https://deepmind.com/blog/article/AlphaStar-Grandmaster-level-in-StarCraft-II-using-multi-agent-reinforcement-learning">Starcraft</a> playing agents. Therefore, I started reading a lot about it and even started a personal project for coding a <a href="./deep-q-learning-tic-tac-toe.html">tic-tac-toe learning agent</a>.</p>
+
+<p>With my limited knowledge I have drafted the following learning path:</p>
+
+<ol>
+  <li>Youtube: <a href="https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw">Three Blue One Brown’s</a> videos on <a href="https://youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi">Neural Networks</a>, <a href="https://youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr">Calculus</a> and <a href="https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab">Linear Algebra</a>. I cannot recommend them enough, they are of sufficient depth and use animation superbly to facilitate the understanding of the subjects.</li>
+  <li>Coursera: <a href="https://www.coursera.org/learn/machine-learning">Andrew Ng’s Machine Learning course</a></li>
+  <li>Book: <a href="https://www.amazon.com/dp/1617294438/ref=cm_sw_em_r_mt_dp_AV4DHT7CVE95D1SR2JJ8">Deep Learning with Python by Francois Chollet</a></li>
+  <li>Book: <a href="https://www.amazon.com/dp/0262193981/ref=cm_sw_em_r_mt_dp_10B6J4MDB7QE3YHBQF4X">Reinforcement Learning: An Introduction, by Richard S. Sutton and Andrew G. Barto</a></li>
+</ol>
+
+<p>As for practical work I decided to start by <a href="./ML-Library-from-scratch.html">coding my first models from scratch</a> (without using libraries such as Tensorflow), to be able to deeply understand the math and logic behind the models, so far it has proven to be priceless.</p>
+
+<p>For my next project I think I will start to do the basic hand-written digits recognition, which is the Machine Learning Hello World, for this I think I will start to use Tensorflow already.</p>
+
+<p>I will continue to write about my learning road, what I find interesting and relevant, and to document all my practical exercises, as well as news and the state of the art in the world of AI.</p>
+
+<p>So far, all I have learned has been so engaging that I am seriously thinking of a career change. I have 17 years of international experience in multinational corporations across various functions, such as Information Services, Sales, Customer Care and New Products Introduction, and sincerely, I am finding more joy in artificial intelligence than anything else I have worked on before. Let’s see where the winds take us.</p>
+
+<p>Thanks for reading!</p>
+
+<h3 id="ps-for-the-geeks-like-me-here-is-a-snippet-on-the-technical-side-of-the-blog">P.S. For the geeks like me, here is a snippet on the technical side of the blog.</h3>
+
+<h4 id="static-website-generator">Static Website Generator</h4>
+<p>I researched a lot on this, when I started I didn’t even know I needed a static website generator. I was just sure of one thing, I wanted my blog site to look modern, be easy to update and not to have anything extra or additional content or functionality I did not need.</p>
+
+<p>There is a myriad of website generators nowadays, after a lengthy search the ones I ended up considering are:</p>
+<ul>
+  <li><a href="https://wordpress.com/">wordpress</a></li>
+  <li><a href="https://www.wix.com/">wix</a></li>
+  <li><a href="https://www.squarespace.com/">squarespace</a></li>
+  <li><a href="https://ghost.org/">ghost</a></li>
+  <li><a href="https:webflow.com">webflow</a></li>
+  <li><a href="https://www.netlify.com/">netlify</a></li>
+  <li><a href="https://gohugo.io/">hugo</a></li>
+  <li><a href="https://www.gatsbyjs.com/docs/glossary/static-site-generator/">gatsby</a></li>
+  <li><a href="https://jekyllrb.com/">jekyll</a></li>
+</ul>
+
+<p>I started with the web interfaced generators with included hosting in their offerings:</p>
+
+<p><a href="https://wordpress.com/">wordpress</a> is the old standard, it is the one CMS I knew from before, and I thought I needed a fully fledged CMS, so I blindly ran towards it. Turns out, it has grown a lot since I remembered, it is now a fully fledged platform for complex websites and ecommerce development, even so I decided to give it a try, I picked a template and <a href="https://amaynez.wordpress.com/">created a site</a>. Even with the most simplistic and basic template I could find, there is a lot going on in the site. Setting it up was not as difficult or cumbersome as others claim, it took me about one hour to have it up and running, it looks good, but a bit crowded for my personal taste, and I found out it serves ads in your site for the readers, that is a big no for me.</p>
+
+<p>I have tried <a href="https://www.wix.com/">wix</a> and <a href="https://www.squarespace.com/">squarespace</a> before, they are fantastic for quick and easy website generation, but their free offering has ads, so again, a big no for me.</p>
+
+<p>I discovered <a href="https://ghost.org/">ghost</a> as the platform used by one of the bloggers I follow (<a href="https://ruder.io/">Sebastian Ruder</a>), turns out is a fantastic evolution over wordpress. It runs on the latest technologies, its interface is quite modern, and it is focused on one thing only: publishing. They have a paid hosting service, but the software is open sourced, therefore free to use in any hosting.</p>
+
+<p>I also tested webflow and even created a <a href="https://armando-maynez.webflow.io">mockup</a> there, the learning curve was quite smooth, and its CMS seems quite robust, but a bit too much for the functionalities I required.</p>
+
+<p>Next were the generators that don’t have a web interface, but can be easily set up:</p>
+
+<p>The first I tried was <a href="https://www.netlify.com/">netlify</a>, I also set up a <a href="https://amaynez.netlify.app/">test site</a> in it. Netlify provides free hosting, and to keep your source files it uses GitHub (a repository keeps the source files where it publishes from). It has its own CMS, Netlify CMS, and you have a choice of site generators: Hugo, Gatsby, MiddleMan, Preact CLI, Next.js, Elevently and Nuxt.js, and once you choose there are some templates for each. I did not find the variety of templates enticing enough, and the set up process was much more cumbersome than with wordpress (at least for my knowledge level). I choose Hugo for my test site.</p>
+
+<p>I also tested <a href="https://www.gatsbyjs.com/docs/glossary/static-site-generator/">gatsby</a> with it’s own Gatsby Cloud hosting service, <a href="https://amaynez.gatsbyjs.io/">here is my test site</a>. They also use GitHub as a base to host the source files to build the website, so you create a repository, and it is connected to it. I found the free template offerings quite limited for what I was looking for.</p>
+
+<p>Finally it came the turn for <a href="https://jekyllrb.com/">jekyll</a>, although an older, and slower generator (compared to Hugo and Gatsby), it was created by one of the founders of GitHub, so it’s integration with GitHub Pages is quite natural and painless, so much so, that to use them together you don’t even have to install Jekyll in your machine! You have two choices:</p>
+<ol>
+  <li>keep it all online, by having one repository in Github keep all the source files, modify or add them online, and having Jekyll build and publish your site to the special <code class="language-plaintext highlighter-rouge">gh-pages</code> repository everytime you change or add a new file to the source repository.</li>
+  <li>Have a synchronized local copy of the source files for the website, this way you can edit your blog and customize it in your choice of IDE (Integrated Development Environment). Then, when you update any file on your computer, you just “push” the changes to GitHub, and GitHub Pages automatically uses Jekyll to build and publish your site.</li>
+</ol>
+
+<p>I chose the second option, specially because I can manipulate files, like images, in my laptop, and everytime I sync my local repository with GitHub, they are updated and published automatically. Quite convenient.</p>
+
+<p>After testing with several templates to get the feel for it, I decided to keep Jekyll for my blog for several reasons: the convenience of not having to install anything extra on my computer to build my blog, the integration with GitHub Pages, the ease of use, the future proofing via integration with modern technologies such as react or vue and the vast online community that has produced tons of templates and useful information for issue resolution, customization and added functionality.</p>
+
+<p>I picked up a template, just forked the repository and started modifying the files to customize it, it was fast and easy, I even took it upon myself to add some functionality to the template (it served as a coding little project) like:</p>
+<ul>
+  <li>SEO meta tags</li>
+  <li>Dark mode (<a href="https://github.com/the-mvm/the-mvm.github.io/blob/a8d4f781bfbc4107b4842433701d28f5bbf1c520/_config.yml#L10">configurable in _config.yml file</a>)</li>
+  <li>automatic <a href="http://the-mvm.github.io/sitemap.xml">sitemap.xml</a></li>
+  <li>automatic <a href="http://the-mvm.github.io/archive/">archive page</a> with infinite scrolling capability</li>
+  <li><a href="https://the-mvm.github.io/tag/?tag=Coding">new page</a> of posts filtered by a single tag (without needing autopages from paginator V2), also with infinite scrolling</li>
+  <li>click to tweet functionality (just add a <code class="language-plaintext highlighter-rouge">&lt;tweet&gt; &lt;/tweet&gt;</code> tag in your markdown.</li>
+  <li>custom and responsive <a href="https://the-mvm.github.io/404.html">404 page</a></li>
+  <li>responsive and automatic Table of Contents (optional per post)</li>
+  <li>read time per post automatically calculated</li>
+  <li>responsive post tags and social share icons (sticky or inline)</li>
+  <li>included linkedin, reddit and bandcamp icons</li>
+  <li><em>copy link to clipboard</em> sharing option (and icon)</li>
+  <li>view on github link button (optional per post)</li>
+  <li>MathJax support (optional per post)</li>
+  <li>tag cloud in the home page</li>
+  <li>‘back to top’ button</li>
+  <li>comments ‘courtain’ to mask the disqus interface until the user clicks on it (<a href="https://github.com/the-mvm/the-mvm.github.io/blob/d4a67258912e411b639bf5acd470441c4c219544/_config.yml#L13">configurable in _config.yml</a>)</li>
+  <li><a href="https://github.com/the-mvm/the-mvm.github.io/blob/d4a67258912e411b639bf5acd470441c4c219544/assets/css/main.css#L8">CSS variables</a> to make it easy to customize all colors and fonts</li>
+  <li>added several pygments themes for code syntax highlight <a href="https://github.com/the-mvm/the-mvm.github.io/blob/e146070e9348c2e8f46cb90e3f0c6eb7b59c041a/_config.yml#L44">configurable from the _config.yml file</a>. See the <a href="https://github.com/the-mvm/the-mvm.github.io/tree/main/assets/css/highlighter">highlighter directory</a> for reference on the options.</li>
+  <li>responsive footer menu and footer logo (<a href="https://github.com/the-mvm/the-mvm.github.io/blob/d4a67258912e411b639bf5acd470441c4c219544/_config.yml#L7">if setup in the config file</a>)</li>
+  <li>smoother menu animations</li>
+</ul>
+
+<p><img src="./assets/img/template_screenshots/homepage-responsive.jpg" alt="my new blog" /></p>
+
+<p><img src="./assets/img/template_screenshots/light-toggle.png" alt="night theme toggle" /></p>
+
+<p>As a summary, Hugo and Gatsby might be much faster than Jekyll to build the sites, but their complexity I think makes them useful for a big site with plenty of posts. For a small site like mine, Jekyll provides sufficient functionality and power without the hassle.</p>
+
+<p>You can use the modified template yourself by <a href="https://github.com/the-mvm/the-mvm.github.io/fork/">forking my repository</a>. Let me know in the comments or feel free to contact me if you are interested in a detailed walkthrough on how to <a href="https://github.com/the-mvm/the-mvm.github.io#Installation">set it all up</a>.</p>
+
+<h4 id="hosting">Hosting</h4>
+<p>Since I decided on Jekyll to generate my site, the choice for hosting was quite obvious, <strong><a href="https://pages.github.com">Github Pages</a></strong> is very nicely integrated with it, it is free, and it has no ads! Plus the domain name isn’t too terrible (<a href="https://the-mvm.github.io">the-mvm.github.io</a>).</p>
+
+<h5 id="interplanetary-file-system">Interplanetary File System</h5>
+<p>To contribute to and test <a href="https://github.com/ipfs/ipfs#quick-summary">IPFS</a> I also set up a <a href="https://weathered-bread-8229.on.fleek.co/">mirror</a> in IPFS by using <a href="https://fleek.co">fleek.co</a>. I must confess that it was more troublesome than I imagined, it was definetively not plug and play because of the paths used to fetch resources. The nature of IPFS makes short absolute paths for website resources (like images, css and javascript files) inoperative; the easiest fix for this is to use relative paths, however the same relative path that works for the root directory (i.e. <code class="language-plaintext highlighter-rouge">/index.html</code>) does not work for links inside directories (i.e. <code class="language-plaintext highlighter-rouge">/tags/</code>), and since the site is static, while generating it, one must make the distinction between the different directory levels for the page to be rendered correctly.</p>
+
+<p>At first I tried a simple (but brute force solution):</p>
+
+<pre><code class="language-jekyll"># determine the level of the current file
+{% assign lvl = page.url | append:'X' | split:'/' | size %}
+# create the relative base (i.e. "../")
+{% capture relativebase %}{% for i in (3..lvl) %}../{% endfor %}{% endcapture %}
+{% if relativebase == '' %}
+	{% assign relativebase = './' %}
+{% endif %}
+...
+# Eliminate unecesary double backslashes
+{% capture post_url %}{{ relativebase }}{{ post.url }}{% endcapture %}
+{% assign post_url = post_url | replace: "//", "/" %}
+</code></pre>
+
+<p>This <code class="language-plaintext highlighter-rouge">jekyll/liquid</code> code was executed in every page (or include) that needed to reference a resource hosted in the same server.</p>
+
+<p>But this fix did not work for the search function, because it relies on a <code class="language-plaintext highlighter-rouge">search.json</code> file (also generated programmatically to be served as a static file), therefore when generating this file one either use the relative path for the <code class="language-plaintext highlighter-rouge">root</code> directory or for a nested directory, thus the search results will only link correctly the corresponding pages if the page where the user searched for something is in the corresponding scope.</p>
+
+<p>So the final solution was to make the whole site flat, meaning to live in a single directory. All pages and posts will live under the root directory, and by doing so, I can control how to address the relative paths for resources.</p>]]></content><author><name>Armando Maynez</name></author><category term="general blogging" /><category term="thoughts" /><category term="life" /><summary type="html"><![CDATA[Midlife career change: a disaster or an opportunity?]]></summary></entry><entry><title type="html">Deep Q Learning for Tic Tac Toe</title><link href="http://localhost:4000/deep-q-learning-tic-tac-toe.html" rel="alternate" type="text/html" title="Deep Q Learning for Tic Tac Toe" /><published>2021-03-19T06:14:20+09:00</published><updated>2021-03-19T06:14:20+09:00</updated><id>http://localhost:4000/deep-q-learning-tic-tac-toe</id><content type="html" xml:base="http://localhost:4000/deep-q-learning-tic-tac-toe.html"><![CDATA[<center><img style="float: left;margin-right: 1em;" src="./assets/img/posts/20210318/Game_Screen.png" width="310" height="300" /></center>
+
+<h2 id="background">Background</h2>
+<p>After many years of a corporate career (17) diverging from computer science, I have now decided to learn Machine Learning and in the process return to coding (something I have always loved!).</p>
+
+<p>To fully grasp the essence of ML I decided to start by <a href="./ML-Library-from-scratch.html">coding a ML library myself</a>, so I can fully understand the inner workings, linear algebra and calculus involved in Stochastic Gradient Descent. And on top learn Python (I used to code in C++ 20 years ago).</p>
+
+<p>I built a general purpose basic ML library that creates a Neural Network (only DENSE layers), saves and loads the weights into a file, does forward propagation and training (optimization of weights and biases) using SGD. I tested the ML library with the XOR problem to make sure it worked fine. You can read the blog post for it <a href="./ML-Library-from-scratch.html">here</a>.</p>
+
+<p>For the next challenge I am interested in reinforcement learning greatly inspired by Deep Mind’s astonishing feats of having their Alpha Go, Alpha Zero and Alpha Star programs learn (and be amazing at it) Go, Chess, Atari games and lately Starcraft; I set myself to the task of programming a neural network that will learn by itself how to play the ancient game of tic tac toe (or noughts and crosses).</p>
+
+<p>How hard could it be?</p>
+
+<p>Of course the first thing to do was to program the game itself, so I chose Python because I am learning it, so it gives me a good practice opportunity, and PyGame for the interface.
+Coding the game was quite straightforward, albeit for the hiccups of being my first PyGame and almost my first Python program ever.
+I created the game quite openly, in such a way that it can be played by two humans, by a human vs. an algorithmic AI, and a human vs. the neural network. And of course the neural network against a choice of 3 AI engines: random, <a href="https://en.wikipedia.org/wiki/Minimax">minimax</a> or hardcoded (an exercise I wanted to do since a long time).</p>
+
+<p>While training, the visuals of the game can be disabled to make training much faster.
+Now, for the fun part, training the network, I followed Deep Mind’s own DQN recommendations:</p>
+
+<ul><li>The network will be an approximation for the Q value function or Bellman equation, meaning that the network will be trained to predict the "value" of each move available in a given game state.</li><li>A replay experience memory was implemented. This meant that the neural network will not be trained after each move. Each move will be recorded in a special "memory" alongside with the state of the board and the reward it received for taking such an action (move).</li><li>After the memory is sizable enough, batches of random experiences sampled from the replay memory are used for every training round</li><li>A secondary neural network (identical to the main one) is used to calculate part of the Q value function (Bellman equation), in particular the future Q values. And then it is updated with the main network's weights every <em>n</em> games. This is done so that we are not chasing a moving target.</li></ul>
+
+<h2 id="designing-the-neural-network">Designing the neural network</h2>
+
+<center><img src="./assets/img/posts/20210318/Neural_Network_Topology.png" width="540" /></center>
+<p><br /></p>
+
+<p>The Neural Network chosen takes 9 inputs (the current state of the game) and outputs 9 Q values for each of the 9 squares in the board of the game (possible actions). Obviously some squares are illegal moves, hence while training there was a negative reward given to illegal moves hoping that the model would learn not to play illegal moves in a given position.</p>
+
+<p>I started out with two hidden layers of 36 neurons each, all fully connected and activated via ReLu. The output layer was initially activated using sigmoid to ensure that we get a nice value between 0 and 1 that represents the QValue of a given state action pair.</p>
+
+<h2 id="the-many-models">The many models…</h2>
+<h3 id="model-1---the-first-try">Model 1 - the first try</h3>
+
+<p>At first the model was trained by playing vs. a “perfect” AI, meaning a <a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Game.py#L43">hard coded algorithm</a> that never looses and that will win if it is given the chance. After several thousand training rounds, I noticed that the Neural Network was not learning much; so I switched to training vs. a completely random player, so that it will also learn how to win. After training vs. the random player, the Neural Network seems to have made progress and is steadily diminishing the loss function over time.</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_across_all_episodes.png" width="540" /></center>
+<p><br /></p>
+
+<p>However, the model was still generating many illegal moves, so I decided to modify the reinforcement learning algorithm to punish more the illegal moves. The change consisted in populating with zeros all the corresponding illegal moves for a given position at the target values to train the network. This seemed to work very well for diminishing the illegal moves:</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves.png" width="540" /></center>
+<p><br /></p>
+
+<p>Nevertheless, the model was still performing quite poorly winning only around 50% of games vs. a completely random player (I expected it to win above 90% of the time). This was after only training 100,000 games, so I decided to keep training and see the results:</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves2.png" width="540" />
+<small>Wins: 65.46% Losses: 30.32% Ties: 4.23%</small></center>
+
+<p>Note that when training restarts, the loss and illegal moves are still high in the beginning of the training round, and this is caused by the epsilon greedy strategy that prefers exploration (a completely random move) over exploitation, this preference diminishes over time.</p>
+
+<p>After another round of 100,000 games, I can see that the loss function actually started to diminish, and the win rate ended up at 65%, so with little hope I decided to carry on and do another round of 100,000 games (about 2 hours in an i7 MacBook Pro):</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves3.png" width="540" />
+<small>Wins: 46.40% Losses: 41.33% Ties: 12.27%</small></center>
+
+<p>As you can see in the chart, the calculated loss not even plateaued, but it seemed to increase a bit over time, which tells me the model is not learning anymore. This was confirmed by the win rate decreasing with respect of the previous round to a meek 46.4% that looks no better than a random player.</p>
+
+<h3 id="model-2---linear-activation-for-the-output">Model 2 - Linear activation for the output</h3>
+
+<p>After not getting the results I wanted, I decided to change the output activation function to linear, since the output is supposed to be a Q value, and not a probability of an action.</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves4.png" width="540" /><br />
+<small>Wins: 47.60% Losses: 39% Ties: 13.4%</small></center>
+<p><br /></p>
+
+<p>Initially I tested with only 1000 games to see if the new activation function was working, the loss function appears to be decreasing, however it reached a plateau around a value of 1, hence still not learning as expected. I came across a <a href="https://github.com/bckenstler/CLR">technique by Brad Kenstler, Carl Thome and Jeremy Jordan</a> called Cyclical Learning Rate, which appears to solve some cases of stagnating loss functions in this type of networks. So I gave it a go using their Triangle 1 model.</p>
+
+<p>With the cycling learning rate in place, still no luck after a quick 1,000 games training round; so I decided to implement on top a decaying learning rate as per the following formula:</p>
+
+<center><img src="./assets/img/posts/20210318/lr_formula.jpeg" width="280" /></center>
+
+<p>The resulting learning rate combining the cycles and decay per epoch is:</p>
+<center><img src="./assets/img/posts/20210318/LR_cycle_decay.png" width="480" />
+<small>Learning Rate = 0.1, Decay = 0.0001, Cycle = 2048 epochs,<br />
+        max Learning Rate factor = 10x</small></center>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">true_epoch</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">learning_rate</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">c</span><span class="p">.</span><span class="n">DECAY_RATE</span><span class="o">*</span><span class="n">true_epoch</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">CLR_ON</span><span class="p">:</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">cyclic_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">true_epoch</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">cyclic_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+    <span class="n">max_lr</span> <span class="o">=</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">c</span><span class="p">.</span><span class="n">MAX_LR_FACTOR</span>
+    <span class="n">cycle</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">epoch</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span><span class="p">)))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">((</span><span class="n">epoch</span><span class="o">/</span><span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">cycle</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">learning_rate</span><span class="o">+</span><span class="p">(</span><span class="n">max_lr</span><span class="o">-</span><span class="n">learning_rate</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span><span class="p">.</span><span class="n">DECAY_RATE</span> <span class="o">=</span> <span class="n">learning</span> <span class="n">rate</span> <span class="n">decay</span> <span class="n">rate</span>
+<span class="n">c</span><span class="p">.</span><span class="n">MAX_LR_FACTOR</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="n">that</span> <span class="n">determines</span> <span class="n">the</span> <span class="nb">max</span> <span class="n">learning</span> <span class="n">rate</span>
+<span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span> <span class="o">=</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">epochs</span> <span class="n">each</span> <span class="n">cycle</span> <span class="n">lasts</span>
+</code></pre></div></div>
+<p><br />With these many changes, I decided to restart with a fresh set of random weights and biases and try training more (much more) games.</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves6.png" width="540" />
+<small>1,000,000 episodes, 7.5 million epochs with batches of 64 moves each<br />
+Wins: 52.66% Losses: 36.02% Ties: 11.32%</small></center>
+
+<p>After <strong>24 hours!</strong>, my computer was able to run 1,000,000 episodes (games played), which represented 7.5 million training epochs of batches of 64 plays (480 million plays learned), the learning rate did decreased (a bit), but is clearly still in a plateau; interestingly, the lower boundary of the loss function plot seems to continue to decrease as the upper bound and the moving average remains constant. This led me to believe that I might have hit a local minimum.
+<a name="Model3"></a></p>
+<h3 id="model-3---new-network-topology">Model 3 - new network topology</h3>
+
+<p>After all the failures I figured I had to rethink the topology of the network and play around with combinations of different networks and learning rates.</p>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves7.png" width="540" />
+<small>100,000 episodes, 635,000 epochs with batches of 64 moves each<br />
+<b>Wins: 76.83%</b> Losses: 17.35% Ties: 5.82%</small></center>
+
+<p>I increased to 200 neurons each hidden layer. In spite of this great improvement the loss function was still in a plateau at around 0.1 (Mean Squared Error). Which, although it is greatly reduced from what we had, still was giving out only 77% win rate vs. a random player, the network was playing tic tac toe as a toddler!</p>
+
+<center><img src="./assets/img/posts/20210318/Game_Screen2.png" width="240" height="240" />
+<small>*I can still beat the network most of the time! (I am playing with the red X)*</small></center>
+
+<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves10.png" width="540" />
+<small>100,000 more episodes, 620,000 epochs with batches of 64 moves each<br />
+<b>Wins: 82.25%</b> Losses: 13.28% Ties: 4.46%</small></center>
+
+<p><strong>Finally we crossed the 80% mark!</strong> This is quite an achievement, it seems that the change in network topology is working, although it also looks like the loss function is stagnating at around 0.15.</p>
+
+<p>After more training rounds and some experimenting with the learning rate and other parameters, I couldn’t improve past the 82.25% win rate.</p>
+
+<p>These have been the results so far:</p>
+
+<center><img src="./assets/img/posts/20210318/Models1to3.png" width="540" /></center>
+<p><br /></p>
+
+<p>It is quite interesting to learn how the many parameters (hyper-parameters as most authors call them) of a neural network model affect its training performance, I have played with:</p>
+<ul>
+  <li>the learning rate</li>
+  <li>the network topology and activation functions</li>
+  <li>the cycling and decaying learning rate parameters</li>
+  <li>the batch size</li>
+  <li>the target update cycle (when the target network is updated with the weights from the policy network)</li>
+  <li>the rewards policy</li>
+  <li>the epsilon greedy strategy</li>
+  <li>whether to train vs. a random player or an “intelligent” AI.</li>
+</ul>
+
+<p>And so far the most effective change has been the network topology, but being so close but not quite there yet to my goal of 90% win rate vs. a random player, I will still try to optimize further.</p>
+
+<tweet>Network topology seems to have the biggest impact on a neural network's learning ability.</tweet>
+
+<p><a name="Model4"></a></p>
+<h3 id="model-4---implementing-momentum">Model 4 - implementing momentum</h3>
+
+<p>I <a href="https://www.reddit.com/r/MachineLearning/comments/lzvrwp/p_help_with_a_reinforcement_learning_project/">reached out to the reddit community</a> and a kind soul pointed out that maybe what I need is to apply momentum to the optimization algorithm. So I did some research and ended up deciding to implement various optimization methods to experiment with:</p>
+
+<ul>
+  <li>Stochastic Gradient Descent with Momentum</li>
+  <li>RMSProp: Root Mean Square Plain Momentum</li>
+  <li>NAG: Nezterov’s Accelerated Momentum</li>
+  <li>Adam: Adaptive Moment Estimation</li>
+  <li>and keep my old vanilla Gradient Descent (vGD) ☺</li>
+</ul>
+
+<p><a name="optimization"></a><a href="https://the-mvm.github.io/neural-network-optimization-methods/">Click here for a detailed explanation and code of all the implemented optimization algorithms.</a></p>
+
+<p>So far, I have not been able to get better results with Model 4, I have tried all the momentum optimization algorithms with little to no success.
+<a name="Model5"></a></p>
+<h3 id="model-5---implementing-one-hot-encoding-and-changing-topology-again">Model 5 - implementing one-hot encoding and changing topology (again)</h3>
+<p>I came across an <a href="https://github.com/AxiomaticUncertainty/Deep-Q-Learning-for-Tic-Tac-Toe/blob/master/tic_tac_toe.py">interesting project in Github</a> that deals exactly with Deep Q Learning, and I noticed that he used “one-hot” encoding for the input as opposed to directly entering the values of the player into the 9 input slots. So I decided to give it a try and at the same time change my topology to match his:</p>
+
+<center><img src="./assets/img/posts/20210318/Neural_Network_Topology3.png" width="540" /></center>
+
+<p>So, ‘one hot’ encoding is basically changing the input of a single square in the tic tac toe board to three numbers, so that each state is represented with different inputs, thus the network can clearly differentiate the three of them. As the original author puts it, the way I was encoding, having 0 for empty, 1 for X and 2 for O, the network couldn’t easily tell that, for instance, O and X both meant occupied states, because one is two times as far from 0 as the other. With the new encoding, the empty state will be 3 inputs: (1,0,0), the X will be (0,1,0) and the O (0,0,1) as in the diagram.</p>
+
+<p>Still, no luck even with Model 5, so I am starting to think that there could be a bug in my code.</p>
+
+<p>To test this hypothesis, I decided to implement the same model using Tensorflow / Keras.</p>
+
+<p><a name="Model6"></a></p>
+<h3 id="model-6---tensorflow--keras">Model 6 - Tensorflow / Keras</h3>
+<center><img src="https://www.kubeflow.org/docs/images/logos/TensorFlow.png" width="100" height="100" /></center>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span> <span class="o">=</span> <span class="nc">Sequential</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">hidden_layers</span><span class="p">:</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">Dense</span><span class="p">(</span>
+                           <span class="n">units</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
+                           <span class="n">activation</span><span class="o">=</span><span class="sh">'</span><span class="s">relu</span><span class="sh">'</span><span class="p">,</span>
+                           <span class="n">input_dim</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+                           <span class="n">kernel_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">random_uniform</span><span class="sh">'</span><span class="p">,</span>
+                           <span class="n">bias_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">zeros</span><span class="sh">'</span><span class="p">))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">Dense</span><span class="p">(</span>
+                        <span class="n">outputs</span><span class="p">,</span>
+                        <span class="n">kernel_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">random_uniform</span><span class="sh">'</span><span class="p">,</span>
+                        <span class="n">bias_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">zeros</span><span class="sh">'</span><span class="p">))</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="nc">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">LEARNING_RATE</span><span class="p">,</span>
+           <span class="n">beta_1</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">GAMMA_OPT</span><span class="p">,</span>
+           <span class="n">beta_2</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">BETA</span><span class="p">,</span>
+           <span class="n">epsilon</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">,</span>
+           <span class="n">amsgrad</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="sh">'</span><span class="s">adam</span><span class="sh">'</span><span class="p">,</span>
+                           <span class="n">loss</span><span class="o">=</span><span class="sh">'</span><span class="s">mean_squared_error</span><span class="sh">'</span><span class="p">,</span>
+                           <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accuracy</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+<p>As you can see I am reusing all of my old code, and just replacing my Neural Net library with Tensorflow/Keras, keeping even my hyper-parameter constants.</p>
+
+<p>The training function changed to:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reduce_lr_on_plateau</span> <span class="o">=</span> <span class="nc">ReduceLROnPlateau</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="sh">'</span><span class="s">loss</span><span class="sh">'</span><span class="p">,</span>
+                                         <span class="n">factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                         <span class="n">patience</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">asarray</span><span class="p">(</span><span class="n">states_to_train</span><span class="p">),</span>
+                                 <span class="n">np</span><span class="p">.</span><span class="nf">asarray</span><span class="p">(</span><span class="n">targets_to_train</span><span class="p">),</span>
+                                 <span class="n">epochs</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">EPOCHS</span><span class="p">,</span>
+                                 <span class="n">batch_size</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
+                                 <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                 <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">reduce_lr_on_plateau</span><span class="p">],</span>
+                                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>With Tensorflow implemented, the first thing I noticed, was that I had an error in the calculation of the loss, although this only affected reporting and didn’t change a thing on the training of the network, so the results kept being the same, <strong>the loss function was still stagnating! My code was not the issue.</strong>
+<a name="Model7"></a></p>
+<h3 id="model-7---changing-the-training-schedule">Model 7 - changing the training schedule</h3>
+<p>Next I tried to change the way the network was training as per <a href="https://www.reddit.com/user/elBarto015">u/elBarto015</a> <a href="https://www.reddit.com/r/reinforcementlearning/comments/lzzjar/i_created_an_ai_for_super_hexagon_based_on/gqc8ka6?utm_source=share&amp;utm_medium=web2x&amp;context=3">advised me on reddit</a>.</p>
+
+<p>The way I was training initially was:</p>
+<ul>
+  <li>Games begin being simulated and the outcome recorded in the replay memory</li>
+  <li>Once a sufficient ammount of experiences are recorded (at least equal to the batch size) the Network will train with a random sample of experiences from the replay memory. The ammount of experiences to sample is the batch size.</li>
+  <li>The games continue to be played between the random player and the network.</li>
+  <li>Every move from either player generates a new training round, again with a random sample from the replay memory.</li>
+  <li>This continues until the number of games set up conclude.</li>
+</ul>
+
+<center><img src="./assets/img/posts/20210318/ReplayMemoryBefore.png" width="540" /></center>
+
+<p>The first change was to train only after every game concludes with the same ammount of data (a batch). This was still not giving any good results.</p>
+
+<p>The second change was more drastic, it introduced the concept of epochs for every training round, it basically sampled the replay memory for epochs * batch size experiences, for instance if epochs selected were 10, and batch size was 81, then 810 experiences were sampled out of the replay memory. With this sample the network was then trained for 10 epochs randomly using the batch size.</p>
+
+<p>This meant that I was training now effectively 10 (or the number of epochs selected) times more per game, but in batches of the same size and randomly shuffling the experiences each epoch.</p>
+
+<center><img src="./assets/img/posts/20210318/ReplayMemoryAfter.png" width="540" /></center>
+<p><br /></p>
+
+<p>After still playing around with some hyperparameters I managed to get similar performance as I got before, reaching 83.15% win rate vs. the random player, so I decided to keep training in rounds of 2,000 games each to evaluate performance. With almost every round I could see improvement:</p>
+
+<center><img src="./assets/img/posts/20210318/Model7HyperParameters.png" width="540" /><br />
+<img src="./assets/img/posts/20210318/Model7.png" width="480" />
+</center>
+<p><br /></p>
+
+<p>As of today, my best result so far is 87.5%, I will leave it rest for a while and keep investigating to find a reason for not being able to reach at least 90%. I read about <a href="https://medium.com/applied-data-science/how-to-train-ai-agents-to-play-multiplayer-games-using-self-play-deep-reinforcement-learning-247d0b440717">self play</a>, and it looks like a viable option to test and a fun coding challenge. However, before embarking in yet another big change I want to ensure I have been thorough with the model and have tested every option correctly.</p>
+
+<p>I feel the end is near… should I continue to update this post as new events unfold or shall I make it a multi post thread?</p>]]></content><author><name>Armando Maynez</name></author><category term="machine learning" /><category term="artificial intelligence" /><category term="reinforcement learning" /><category term="coding" /><category term="python" /><summary type="html"><![CDATA[Inspired by Deep Mind's astonishing feats of having their Alpha Go, Alpha Zero and Alpha Star programs learn (and be amazing at it) Go, Chess, Atari games and lately Starcraft; I set myself to the task of programming a neural network that will learn by itself how to play the ancient game of tic tac toe. How hard could it be?]]></summary></entry><entry><title type="html">Neural Network Optimization Methods and Algorithms</title><link href="http://localhost:4000/neural-network-optimization-methods.html" rel="alternate" type="text/html" title="Neural Network Optimization Methods and Algorithms" /><published>2021-03-13T04:32:20+09:00</published><updated>2021-03-13T04:32:20+09:00</updated><id>http://localhost:4000/neural-network-optimization-methods</id><content type="html" xml:base="http://localhost:4000/neural-network-optimization-methods.html"><![CDATA[<p>For the seemingly small project I undertook of <a href="./deep-q-learning-tic-tac-toe.html">creating a machine learning neural network that could learn by itself to play tic-tac-toe</a>, I bumped into the necesity of implementing at least one momentum algorithm for the optimization of the network during backpropagation.</p>
+
+<p>And since my original post for the TicTacToe project is quite large already, I decided to post separately these optimization methods and how did I implement them in my code.</p>
+
+<h3 id="adam">Adam</h3>
+<p><a href="https://ruder.io/optimizing-gradient-descent/index.html#adam">source</a></p>
+
+<p>Adaptive Moment Estimation (Adam) is an optimization method that computes adaptive learning rates for each weight and bias. In addition to storing an exponentially decaying average of past squared gradients \(v_t\) and an exponentially decaying average of past gradients \(m_t\), similar to momentum. Whereas momentum can be seen as a ball running down a slope, Adam behaves like a heavy ball with friction, which thus prefers flat minima in the error surface. We compute the decaying averages of past and past squared gradients \(m_t\) and \(v_t\) respectively as follows:</p>
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+m_t &amp;= \beta_1 m_{t-1} + (1 - \beta_1) g_t \\<br />
+v_t &amp;= \beta_2 v_{t-1} + (1 - \beta_2) g_t^2<br />
+\end{split}<br />
+\end{align}<br />
+\)</p>
+<p>\(m_t\) and \(v_t\) are estimates of the first moment (the mean) and the second moment (the uncentered variance) of the gradients respectively, hence the name of the method. As \(m_t\) and \(v_t\) are initialized as vectors of 0's, the authors of Adam observe that they are biased towards zero, especially during the initial time steps, and especially when the decay rates are small (i.e. \(\beta_1\) and \(\beta_2\) are close to 1).</p>
+<p>They counteract these biases by computing bias-corrected first and second moment estimates:</p>
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+\hat{m}_t &amp;= \dfrac{m_t}{1 - \beta^t_1} \\<br />
+\hat{v}_t &amp;= \dfrac{v_t}{1 - \beta^t_2} \end{split}<br />
+\end{align}<br />
+\)</p>
+<p>We then use these to update the weights and biases which yields the Adam update rule:</p>
+<p style="text-align:center">\(\theta_{t+1} = \theta_{t} - \dfrac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t\).</p>
+<p>The authors propose defaults of 0.9 for \(\beta_1\), 0.999 for \(\beta_2\), and \(10^{-8}\) for \(\epsilon\).</p>
+<p><a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Neural_Network.py#L243">view on github</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># decaying averages of past gradients
+</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                        <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                        <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                        <span class="p">))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                        <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                        <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                        <span class="p">))</span>
+
+<span class="c1"># decaying averages of past squared gradients
+</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span>
+                        <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                        <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA2</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                         <span class="p">))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span>
+                        <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                        <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA2</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span>
+                                         <span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                         <span class="p">))</span>
+
+<span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">ADAM_BIAS_Correction</span><span class="p">:</span>
+    <span class="c1"># bias-corrected first and second moment estimates
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                          <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                          <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                          <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                          <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+
+<span class="c1"># apply to weights and biases
+</span><span class="n">weight_col</span> <span class="o">-=</span> <span class="p">((</span><span class="n">eta</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                      <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                      <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">))))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="p">((</span><span class="n">eta</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                        <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                        <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">))))</span>
+</code></pre></div></div>
+
+<h3 id="sgd-momentum">SGD Momentum</h3>
+<p><a href="https://ruder.io/optimizing-gradient-descent/index.html#momentum">source</a></p>
+
+<p>Vanilla SGD has trouble navigating ravines, i.e. areas where the surface curves much more steeply in one dimension than in another, which are common around local optima. In these scenarios, SGD oscillates across the slopes of the ravine while only making hesitant progress along the bottom towards the local optimum.</p>
+<p>Momentum is a method that helps accelerate SGD in the relevant direction and dampens oscillations. It does this by adding a fraction \(\gamma\) of the update vector of the past time step to the current update vector:</p>
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+v_t &amp;= \beta_1 v_{t-1} + \eta \nabla_\theta J( \theta) \\<br />
+\theta &amp;= \theta - v_t<br />
+\end{split}<br />
+\end{align}<br />
+\)</p>
+<p>The momentum term \(\beta_1\) is usually set to 0.9 or a similar value.</p>
+<p>Essentially, when using momentum, we push a ball down a hill. The ball accumulates momentum as it rolls downhill, becoming faster and faster on the way (until it reaches its terminal velocity if there is air resistance, i.e. \(\beta_1 &lt; 1\)). The same thing happens to our weight and biases updates: The momentum term increases for dimensions whose gradients point in the same directions and reduces updates for dimensions whose gradients change directions. As a result, we gain faster convergence and reduced oscillation.</p>
+<p><a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Neural_Network.py#L210">view on github</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                       <span class="o">+</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                       <span class="p">))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                       <span class="o">+</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                       <span class="p">))</span>
+
+<span class="n">weight_col</span> <span class="o">-=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+<span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<h3 id="nesterov-accelerated-gradient-nag">Nesterov accelerated gradient (NAG)</h3>
+<p><a href="https://ruder.io/optimizing-gradient-descent/index.html#nesterovacceleratedgradient">source</a></p>
+
+<p>However, a ball that rolls down a hill, blindly following the slope, is highly unsatisfactory. We'd like to have a smarter ball, a ball that has a notion of where it is going so that it knows to slow down before the hill slopes up again.</p>
+<p>Nesterov accelerated gradient (NAG) is a way to give our momentum term this kind of prescience. We know that we will use our momentum term \(\beta_1 v_{t-1}\) to move the weights and biases \(\theta\). Computing \( \theta - \beta_1 v_{t-1} \) thus gives us an approximation of the next position of the weights and biases (the gradient is missing for the full update), a rough idea where our weights and biases are going to be. We can now effectively look ahead by calculating the gradient not w.r.t. to our current weights and biases \(\theta\) but w.r.t. the approximate future position of our weights and biases:</p>
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+v_t &amp;= \beta_1 v_{t-1} + \eta \nabla_\theta J( \theta - \beta_1 v_{t-1} ) \\<br />
+\theta &amp;= \theta - v_t<br />
+\end{split}<br />
+\end{align}<br />
+\)</p>
+<p>Again, we set the momentum term \(\beta_1\) to a value of around 0.9. While Momentum first computes the current gradient and then takes a big jump in the direction of the updated accumulated gradient, NAG first makes a big jump in the direction of the previous accumulated gradient, measures the gradient and then makes a correction, which results in the complete NAG update. This anticipatory update prevents us from going too fast and results in increased responsiveness, which has significantly increased the performance of Neural Networks on a number of tasks.</p>
+<p>Now that we are able to adapt our updates to the slope of our error function and speed up SGD in turn, we would also like to adapt our updates to each individual weight and bias to perform larger or smaller updates depending on their importance.</p>
+<p><a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Neural_Network.py#L219">view on github</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v_prev</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)],</span>
+          <span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]}</span>
+
+<span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+            <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">NAG_COEFF</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+           <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+            <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">NAG_COEFF</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+           <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+<span class="n">weight_col</span> <span class="o">+=</span> <span class="p">((</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">*</span> <span class="n">v_prev</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+               <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+<span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">((</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">*</span> <span class="n">v_prev</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+               <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+</code></pre></div></div>
+
+<h3 id="rmsprop">RMSprop</h3>
+<p><a href="https://ruder.io/optimizing-gradient-descent/index.html#rmsprop">source</a></p>
+
+<p>RMSprop is an unpublished, adaptive learning rate method proposed by Geoff Hinton in <a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf">Lecture 6e of his Coursera Class</a>.</p>
+<p>RMSprop was developed stemming from the need to resolve other method's radically diminishing learning rates.</p>
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
+\theta_{t+1} &amp;= \theta_{t} - \dfrac{\eta}{\sqrt{E[\theta^2]_t + \epsilon}} \theta_{t}<br />
+\end{split}<br />
+\end{align}<br />
+\)</p>
+<p>RMSprop divides the learning rate by an exponentially decaying average of squared gradients. Hinton suggests \(\beta_1\) to be set to 0.9, while a good default value for the learning rate \(\eta\) is 0.001.</p>
+<p><a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Neural_Network.py#L232">view on github</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                      <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                      <span class="o">+</span> <span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                      <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                        <span class="p">))</span>
+<span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                      <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                      <span class="o">+</span> <span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                      <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                        <span class="p">))</span>
+
+<span class="n">weight_col</span> <span class="o">-=</span> <span class="p">(</span><span class="n">eta</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+              <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="o">+</span><span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">)))</span>
+              <span class="p">)</span>
+<span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="p">(</span><span class="n">eta</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+               <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="o">+</span><span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">)))</span>
+                <span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="complete-code">Complete code</h3>
+<p>All in all the code ended up like this:
+<a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Neural_Network.py#L1">view on github</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">cyclic_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+    <span class="n">max_lr</span> <span class="o">=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">c</span><span class="p">.</span><span class="n">MAX_LR_FACTOR</span>
+    <span class="n">cycle</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span>
+                    <span class="o">*</span> <span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span><span class="p">))</span>
+                    <span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">((</span><span class="n">epoch</span> <span class="o">/</span> <span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span><span class="p">)</span>
+        <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">cycle</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">learning_rate</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">max_lr</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="p">)</span>
+        <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">apply_gradients</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+    <span class="n">true_epoch</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">learning_rate</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">DECAY_RATE</span> <span class="o">*</span> <span class="n">true_epoch</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">CLR_ON</span><span class="p">:</span>
+        <span class="n">eta</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">cyclic_learning_rate</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">true_epoch</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">weight_col</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">weights</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">OPTIMIZATION</span> <span class="o">==</span> <span class="sh">'</span><span class="s">vanilla</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">weight_col</span> <span class="o">-=</span> <span class="n">eta</span>
+                        <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                        <span class="o">/</span> <span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">eta</span>
+                        <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                        <span class="o">/</span> <span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span>
+
+        <span class="k">elif</span> <span class="n">c</span><span class="p">.</span><span class="n">OPTIMIZATION</span> <span class="o">==</span> <span class="sh">'</span><span class="s">SGD_momentum</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                                   <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                                   <span class="o">+</span><span class="p">(</span><span class="n">eta</span>
+                                   <span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                   <span class="p">))</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                                   <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                                   <span class="o">+</span><span class="p">(</span><span class="n">eta</span>
+                                   <span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                   <span class="p">))</span>
+
+            <span class="n">weight_col</span> <span class="o">-=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+
+        <span class="k">elif</span> <span class="n">c</span><span class="p">.</span><span class="n">OPTIMIZATION</span> <span class="o">==</span> <span class="sh">'</span><span class="s">NAG</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">v_prev</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)],</span>
+                      <span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]}</span>
+
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                        <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">NAG_COEFF</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                       <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                        <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">NAG_COEFF</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                       <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+            <span class="n">weight_col</span> <span class="o">+=</span> <span class="p">((</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">*</span> <span class="n">v_prev</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                           <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">((</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">*</span> <span class="n">v_prev</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                           <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+
+        <span class="k">elif</span> <span class="n">c</span><span class="p">.</span><span class="n">OPTIMIZATION</span> <span class="o">==</span> <span class="sh">'</span><span class="s">RMSProp</span><span class="sh">'</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                            <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                            <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                            <span class="o">+</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                            <span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                            <span class="p">))</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                            <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                            <span class="o">*</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                            <span class="o">+</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                            <span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                            <span class="p">))</span>
+
+            <span class="n">weight_col</span> <span class="o">-=</span> <span class="p">(</span><span class="n">eta</span>
+                          <span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                          <span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="o">+</span><span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">)))</span>
+                          <span class="p">)</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="p">(</span><span class="n">eta</span>
+                          <span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                          <span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="o">+</span><span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">)))</span>
+                            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">OPTIMIZATION</span> <span class="o">==</span> <span class="sh">"</span><span class="s">ADAM</span><span class="sh">"</span><span class="p">:</span>
+            <span class="c1"># decaying averages of past gradients
+</span>            <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span>
+                                <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                              <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                              <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                              <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                    <span class="p">))</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span>
+                                <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span>
+                              <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                              <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA1</span><span class="p">)</span>
+                              <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                    <span class="p">))</span>
+
+            <span class="c1"># decaying averages of past squared gradients
+</span>            <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span>
+                                    <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span><span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                                    <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA2</span><span class="p">)</span>
+                                    <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span>
+                                            <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span>
+                                                <span class="n">self</span><span class="p">.</span><span class="n">gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                                     <span class="p">))</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span>
+                                    <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                                    <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BETA2</span><span class="p">)</span>
+                                    <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">square</span><span class="p">(</span>
+                                            <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span>
+                                                <span class="n">self</span><span class="p">.</span><span class="n">bias_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+                                     <span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">ADAM_BIAS_Correction</span><span class="p">:</span>
+                <span class="c1"># bias-corrected first and second moment estimates
+</span>                <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                                <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                              <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                                <span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                              <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA1</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                                <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                              <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span>
+                                <span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                              <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">BETA2</span> <span class="o">**</span> <span class="n">true_epoch</span><span class="p">))</span>
+
+            <span class="c1"># apply to weights and biases
+</span>            <span class="n">weight_col</span> <span class="o">-=</span> <span class="p">((</span><span class="n">eta</span>
+                            <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                            <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">dW</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                            <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">))))</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="p">((</span><span class="n">eta</span>
+                            <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">v</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                            <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">s</span><span class="p">[</span><span class="sh">"</span><span class="s">db</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                            <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">))))</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="nf">gradient_zeros</span><span class="p">()</span>
+</code></pre></div></div>]]></content><author><name>Armando Maynez</name></author><category term="coding" /><category term="machine learning" /><category term="optimization" /><category term="deep Neural networks" /><summary type="html"><![CDATA[Some neural network optimization algorithms mostly to implement momentum when doing back propagation.]]></summary></entry></feed>

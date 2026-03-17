@@ -7,9 +7,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>DFT(Design for Test)-01 - RTL & Verification Notes</title>
-	<link rel="canonical" href="http://localhost:4000/DFT(Design-for-Test).html">
-	<meta name="description" content="Description on DFT (SCAN, BIST)">
+	<title>OOP Testbench (Primer) - RTL & Verification Notes</title>
+	<link rel="canonical" href="http://localhost:4000/OOP-Testbench.html">
+	<meta name="description" content="Modern Testbench">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <script type="application/ld+json">
@@ -19,13 +19,13 @@
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://localhost:4000"},
-  "headline": "DFT(Design for Test)-01",
-  "abstract": "Description on DFT (SCAN, BIST)",
-    "keywords": "RTL, DFT, ASIC",
-    "wordcount": "71",
-    "image": ["http://localhost:4000/assets/imgposts/DFT/DFT.jpg"],
-  "datePublished": "2025-06-14 09:25:20 +0900",
-  "dateModified": "2025-06-14 09:25:20 +0900",
+  "headline": "OOP Testbench (Primer)",
+  "abstract": "Modern Testbench",
+    "keywords": "RTL, OOP, UVM",
+    "wordcount": "224",
+    "image": ["http://localhost:4000/assets/imgposts/UVM/testbench.jpg"],
+  "datePublished": "2026-03-14 03:32:20 +0900",
+  "dateModified": "2026-03-14 03:32:20 +0900",
   "author": {
     "@type": "Person",
     "name": "Wonho Chang"},
@@ -40,30 +40,30 @@
 }
 </script>
 <!-- Open Graph data -->
-<meta property="og:url" content="http://localhost:4000/DFT(Design-for-Test).html"/>
+<meta property="og:url" content="http://localhost:4000/OOP-Testbench.html"/>
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="DFT(Design for Test)-01"/>
-<meta property="og:description" content="Description on DFT (SCAN, BIST)"/>
-<meta property="og:image" content="http://localhost:4000/assets/imgposts/DFT/DFT.jpg"/>
-<meta property="og:image:alt" content="DFT(Design for Test)-01"/>
+<meta property="og:title" content="OOP Testbench (Primer)"/>
+<meta property="og:description" content="Modern Testbench"/>
+<meta property="og:image" content="http://localhost:4000/assets/imgposts/UVM/testbench.jpg"/>
+<meta property="og:image:alt" content="OOP Testbench (Primer)"/>
 <meta property="og:site_name" content="RTL & Verification Notes" />
-<meta property="article:published_time" content="2025-06-14 09:25:20 +0900" />
-<meta property="article:modified_time" content="2025-06-14 09:25:20 +0900" />
-<meta property="article:tag" content="RTL, DFT, ASIC" />
+<meta property="article:published_time" content="2026-03-14 03:32:20 +0900" />
+<meta property="article:modified_time" content="2026-03-14 03:32:20 +0900" />
+<meta property="article:tag" content="RTL, OOP, UVM" />
 <meta property="fb:admins" content="ar.maybach" />
 <!-- Schema.org markup for Google -->
-<meta itemprop="name" content="DFT(Design for Test)-01">
-<meta itemprop="description" content="Description on DFT (SCAN, BIST)">
-<meta itemprop="image" content="http://localhost:4000/assets/imgposts/DFT/DFT.jpg">
+<meta itemprop="name" content="OOP Testbench (Primer)">
+<meta itemprop="description" content="Modern Testbench">
+<meta itemprop="image" content="http://localhost:4000/assets/imgposts/UVM/testbench.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
-<meta name="twitter:title" content="DFT(Design for Test)-01">
-<meta name="twitter:description" content="Description on DFT (SCAN, BIST)">
+<meta name="twitter:title" content="OOP Testbench (Primer)">
+<meta name="twitter:description" content="Modern Testbench">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="71"/>
-<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/DFT/DFT.jpg">
+<meta data-rh="true" name="twitter:data1" content="224"/>
+<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/UVM/testbench.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
 	<!-- iOS Safari -->
@@ -139,7 +139,7 @@
 
 <section class="hidden">
   <div class="post">
-      <a  class="post-list-title" href="./DFT(Design-for-Test).html">DFT(Design for Test)-01</a>
+      <a  class="post-list-title" href="./OOP-Testbench.html">OOP Testbench (Primer)</a>
       
 
   <span class = "post-card-meta">
@@ -151,7 +151,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2025-06-14T09:25:20+09:00">June 14, 2025</time>
+        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
       </span>
     
     
@@ -163,7 +163,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        1 minute read
       
     </span>
   
@@ -171,7 +171,7 @@
   </span>
 
         <div class="post-excerpt">
-            <p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p><p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p><p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p><p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p><a class="read-more" href="./DFT(Design-for-Test).html"> read more</a>
+            <p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p><ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는...<a class="read-more" href="./OOP-Testbench.html"> read more</a>
         </div>
   </div>
 </section>
@@ -269,17 +269,17 @@
 </header> <!-- End Header -->
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="DFT(Design for Test)-01">
-<meta itemprop="description" content="Description on DFT (SCAN, BIST)">
-<meta itemprop="datePublished" content="2025-06-14T09:25:20+09:00">
+    <meta itemprop="headline" content="OOP Testbench (Primer)">
+<meta itemprop="description" content="Modern Testbench">
+<meta itemprop="datePublished" content="2026-03-14T03:32:20+09:00">
 
     <div class="page-image">
-      <div class="cover-image" style="background: url('./assets/img/posts/DFT/DFT.jpg') center no-repeat; background-size: cover;"></div>
+      <div class="cover-image" style="background: url('./assets/img/posts/UVM/testbench.jpg') center no-repeat; background-size: cover;"></div>
     </div>
     <div class="wrapper">
       <div class="page-content">
         <div class="header-page">
-          <h1 class="page-title">DFT(Design for Test)-01</h1>
+          <h1 class="page-title">OOP Testbench (Primer)</h1>
           
 
   <span class = "post-page-meta">
@@ -291,7 +291,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2025-06-14T09:25:20+09:00">June 14, 2025</time>
+        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
       </span>
     
     
@@ -303,7 +303,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        1 minute read
       
     </span>
   
@@ -324,9 +324,9 @@
             
                 <li><a href="./tag.html?tag=RTL" class="tag side">RTL</a></li>
             
-                <li><a href="./tag.html?tag=DFT" class="tag side">DFT</a></li>
+                <li><a href="./tag.html?tag=OOP" class="tag side">OOP</a></li>
             
-                <li><a href="./tag.html?tag=ASIC" class="tag side">ASIC</a></li>
+                <li><a href="./tag.html?tag=UVM" class="tag side">UVM</a></li>
             
     
         </ul>
@@ -335,11 +335,11 @@
     <div class="share-hover side">
         <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons side" id="sidebar-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=DFT(Design for Test)-01&url=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01&summary=Description on DFT (SCAN, BIST)&source=http://localhost:4000/DFT(Design-for-Test).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=DFT(Design for Test)-01&body=Description on DFT (SCAN, BIST)%0A%0ARead more here: http://localhost:4000/DFT(Design-for-Test).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (Primer)&url=http://localhost:4000/OOP-Testbench.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/OOP-Testbench.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench.html&title=OOP Testbench (Primer)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench.html&title=OOP Testbench (Primer)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=OOP Testbench (Primer)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -349,17 +349,56 @@
 
         
         
-        <p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 
-우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p>
+        <p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
+먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p>
 
-<p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p>
+<p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p>
+<ul>
+  <li>Code Reuse
+    <ul>
+      <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li>
+    </ul>
+  </li>
+  <li>Code Maintainability
+    <ul>
+      <li>code를 한번의 update로 전체 반영 가능</li>
+    </ul>
+  </li>
+  <li>Memory Management
+    <ul>
+      <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li>
+    </ul>
+  </li>
+</ul>
 
-<p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />
-위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p>
+<h2 id="class">Class</h2>
+<p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 
+먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p>
 
-<p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 
-이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p>
+<p><strong>Class vs Struct</strong><br />
+일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 
+하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p>
+<ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는 기능(function)을 어떻게 설정할 것인가 ? </li>
+<li> 구조체는 선언 시 메모리 할당되는데 어떻게 유지 관리를 할것 인가?</li>
+<li> 두 도형의 연관성을 어떻게 구조체에서 정의할 수 있을까? </li> </ul>
 
+<p>위 한계점은 class라는 type을 통해 돌파할 수 있다. 
+해당 내용은 차츰 설명할 예정이고 class 내부에 사용되는 terminology부터 정의하겠습니다.</p>
+
+<p>member - class 내부에서 정의된 변수, 함수<br />
+property - class에 속한 변수<br />
+method - class 내부에서 정의되는 function or task</p>
+
+<p><strong>Memory Allocation</strong><br />
+Class는 구조체와 달리 선언 시 Memory 할당되지 않고 user가 명시적으로 할당해야 합니다.
+new라는 method를 call함으로써 객체에 대한 memory를 할당합니다 (instantiating).</p>
+
+<p>new method의 인자를 통해 내부 property 초기값을 설정할 수 있습니다.<br />
+또한 인스턴스화 할 수 있는 객체의 수는 컴퓨터 memory에 제한되며 handle을 다른 변수로 copy 가능 (shallow copy)</p>
+
+<p>객체를 참조하는 동안 Memory의 할당이 지속되지만 참조가 해제될 경우 garbage 대상이 되고 일정 시간 이후에 Memory deallocation 된다.</p>
+
+<p><strong>Extension</strong></p>
 
         <aside class="sidebar inline" id="post-end">
     
@@ -372,9 +411,9 @@
             
                 <li><a href="./tag.html?tag=RTL" class="tag inline">RTL</a></li>
             
-                <li><a href="./tag.html?tag=DFT" class="tag inline">DFT</a></li>
+                <li><a href="./tag.html?tag=OOP" class="tag inline">OOP</a></li>
             
-                <li><a href="./tag.html?tag=ASIC" class="tag inline">ASIC</a></li>
+                <li><a href="./tag.html?tag=UVM" class="tag inline">UVM</a></li>
             
     
         </ul>
@@ -383,11 +422,11 @@
     <div class="share-hover inline">
         <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons inline" id="post-end-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=DFT(Design for Test)-01&url=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/DFT(Design-for-Test).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/DFT(Design-for-Test).html&title=DFT(Design for Test)-01&summary=Description on DFT (SCAN, BIST)&source=http://localhost:4000/DFT(Design-for-Test).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=DFT(Design for Test)-01&body=Description on DFT (SCAN, BIST)%0A%0ARead more here: http://localhost:4000/DFT(Design-for-Test).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (Primer)&url=http://localhost:4000/OOP-Testbench.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/OOP-Testbench.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench.html&title=OOP Testbench (Primer)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench.html&title=OOP Testbench (Primer)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=OOP Testbench (Primer)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -785,14 +824,14 @@ Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로�
     }
 
     function copyToClipboard() {
-      navigator.clipboard.writeText('http://localhost:4000/DFT(Design-for-Test).html').then(function() {
+      navigator.clipboard.writeText('http://localhost:4000/OOP-Testbench.html').then(function() {
       alerts = document.getElementsByClassName('alert')
       for (i=0; i < alerts.length; i++){
         alerts[i].innerHTML='\u00ABlink copied\u00BB';
         setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
       };
       }, function() {
-        prompt("Unable to copy, please use this link:", "http://localhost:4000/DFT(Design-for-Test).html");
+        prompt("Unable to copy, please use this link:", "http://localhost:4000/OOP-Testbench.html");
       });
     }
 
