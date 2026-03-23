@@ -7,9 +7,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>CHI Protocol Overview - RTL & Verification Notes</title>
-	<link rel="canonical" href="http://localhost:4000/CHI-Protocol-Overview-1.html">
-	<meta name="description" content="CHI protocol specialized for cache coherence">
+	<title>OOP Testbench (Primer) - RTL & Verification Notes</title>
+	<link rel="canonical" href="http://localhost:4000/OOP-Testbench(Polymorphism).html">
+	<meta name="description" content="Modern Testbench">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <script type="application/ld+json">
@@ -19,13 +19,13 @@
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://localhost:4000"},
-  "headline": "CHI Protocol Overview",
-  "abstract": "CHI protocol specialized for cache coherence",
-    "keywords": "RTL, AMBA Bus, Cache coherence",
-    "wordcount": "235",
-    "image": ["http://localhost:4000/assets/imgposts/chi/chi.jpg"],
-  "datePublished": "2025-05-03 08:32:20 +0900",
-  "dateModified": "2025-05-03 08:32:20 +0900",
+  "headline": "OOP Testbench (Primer)",
+  "abstract": "Modern Testbench",
+    "keywords": "RTL, OOP, UVM",
+    "wordcount": "368",
+    "image": ["http://localhost:4000/assets/imgposts/UVM/testbench.jpg"],
+  "datePublished": "2026-03-14 03:32:20 +0900",
+  "dateModified": "2026-03-14 03:32:20 +0900",
   "author": {
     "@type": "Person",
     "name": "Wonho Chang"},
@@ -40,30 +40,30 @@
 }
 </script>
 <!-- Open Graph data -->
-<meta property="og:url" content="http://localhost:4000/CHI-Protocol-Overview-1.html"/>
+<meta property="og:url" content="http://localhost:4000/OOP-Testbench(Polymorphism).html"/>
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="CHI Protocol Overview"/>
-<meta property="og:description" content="CHI protocol specialized for cache coherence"/>
-<meta property="og:image" content="http://localhost:4000/assets/imgposts/chi/chi.jpg"/>
-<meta property="og:image:alt" content="CHI Protocol Overview"/>
+<meta property="og:title" content="OOP Testbench (Primer)"/>
+<meta property="og:description" content="Modern Testbench"/>
+<meta property="og:image" content="http://localhost:4000/assets/imgposts/UVM/testbench.jpg"/>
+<meta property="og:image:alt" content="OOP Testbench (Primer)"/>
 <meta property="og:site_name" content="RTL & Verification Notes" />
-<meta property="article:published_time" content="2025-05-03 08:32:20 +0900" />
-<meta property="article:modified_time" content="2025-05-03 08:32:20 +0900" />
-<meta property="article:tag" content="RTL, AMBA Bus, Cache coherence" />
+<meta property="article:published_time" content="2026-03-14 03:32:20 +0900" />
+<meta property="article:modified_time" content="2026-03-14 03:32:20 +0900" />
+<meta property="article:tag" content="RTL, OOP, UVM" />
 <meta property="fb:admins" content="ar.maybach" />
 <!-- Schema.org markup for Google -->
-<meta itemprop="name" content="CHI Protocol Overview">
-<meta itemprop="description" content="CHI protocol specialized for cache coherence">
-<meta itemprop="image" content="http://localhost:4000/assets/imgposts/chi/chi.jpg">
+<meta itemprop="name" content="OOP Testbench (Primer)">
+<meta itemprop="description" content="Modern Testbench">
+<meta itemprop="image" content="http://localhost:4000/assets/imgposts/UVM/testbench.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
-<meta name="twitter:title" content="CHI Protocol Overview">
-<meta name="twitter:description" content="CHI protocol specialized for cache coherence">
+<meta name="twitter:title" content="OOP Testbench (Primer)">
+<meta name="twitter:description" content="Modern Testbench">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="235"/>
-<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/chi/chi.jpg">
+<meta data-rh="true" name="twitter:data1" content="368"/>
+<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/UVM/testbench.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
 	<!-- iOS Safari -->
@@ -160,7 +160,7 @@
 
 <section class="hidden">
   <div class="post">
-      <a  class="post-list-title" href="./CHI-Protocol-Overview-1.html">CHI Protocol Overview</a>
+      <a  class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
       
 
   <span class = "post-card-meta">
@@ -172,7 +172,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2025-05-03T08:32:20+09:00">May 3, 2025</time>
+        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
       </span>
     
     
@@ -184,7 +184,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        1 minute read
       
     </span>
   
@@ -192,7 +192,7 @@
   </span>
 
         <div class="post-excerpt">
-            <p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p><p>CHI protocol feature은 다음과 같습니다.</p><ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li></ul><p>CHI transaction은 다음과 같은 특성을 갖습니다.</p><ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로 사용 가능</li> <li>Packet 기반 communication</li> <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li></ul><h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2><ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul> <li>protocol message를 packetize함</li> <li>interconnect를 통해 destination으로 routing 하는...<a class="read-more" href="./CHI-Protocol-Overview-1.html"> read more</a>
+            <p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p><ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
         </div>
   </div>
 </section>
@@ -290,17 +290,17 @@
 </header> <!-- End Header -->
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="CHI Protocol Overview">
-<meta itemprop="description" content="CHI protocol specialized for cache coherence">
-<meta itemprop="datePublished" content="2025-05-03T08:32:20+09:00">
+    <meta itemprop="headline" content="OOP Testbench (Primer)">
+<meta itemprop="description" content="Modern Testbench">
+<meta itemprop="datePublished" content="2026-03-14T03:32:20+09:00">
 
     <div class="page-image">
-      <div class="cover-image" style="background: url('./assets/img/posts/chi/chi.jpg') center no-repeat; background-size: cover;"></div>
+      <div class="cover-image" style="background: url('./assets/img/posts/UVM/testbench.jpg') center no-repeat; background-size: cover;"></div>
     </div>
     <div class="wrapper">
       <div class="page-content">
         <div class="header-page">
-          <h1 class="page-title">CHI Protocol Overview</h1>
+          <h1 class="page-title">OOP Testbench (Primer)</h1>
           
 
   <span class = "post-page-meta">
@@ -312,7 +312,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2025-05-03T08:32:20+09:00">May 3, 2025</time>
+        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
       </span>
     
     
@@ -324,7 +324,7 @@
     
     <span class="page_meta-readtime">
       
-        less than 1 minute read
+        1 minute read
       
     </span>
   
@@ -345,9 +345,9 @@
             
                 <li><a href="./tag.html?tag=RTL" class="tag side">RTL</a></li>
             
-                <li><a href="./tag.html?tag=AMBA+Bus" class="tag side">AMBA Bus</a></li>
+                <li><a href="./tag.html?tag=OOP" class="tag side">OOP</a></li>
             
-                <li><a href="./tag.html?tag=Cache+coherence" class="tag side">Cache coherence</a></li>
+                <li><a href="./tag.html?tag=UVM" class="tag side">UVM</a></li>
             
     
         </ul>
@@ -356,11 +356,11 @@
     <div class="share-hover side">
         <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons side" id="sidebar-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=CHI Protocol Overview&url=http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/CHI-Protocol-Overview-1.html&title=CHI Protocol Overview" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/CHI-Protocol-Overview-1.html&title=CHI Protocol Overview&summary=CHI protocol specialized for cache coherence&source=http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=CHI Protocol Overview&body=CHI protocol specialized for cache coherence%0A%0ARead more here: http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (Primer)&url=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=OOP Testbench (Primer)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -370,195 +370,102 @@
 
         
         
-        <p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p>
+        <p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
+먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p>
 
-<p>CHI protocol feature은 다음과 같습니다.</p>
-
+<p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p>
 <ul>
-  <li>64-Byte granularity of cache line</li>
-  <li>Snoop filter and directory-based systems</li>
-  <li>MESI, MOESI cache model을 support</li>
-</ul>
-
-<p>CHI transaction은 다음과 같은 특성을 갖습니다.</p>
-
-<ul>
-  <li>interconnect내에 synchronization, atomic operation을 support</li>
-  <li>Exclusive access를 효율적으로 사용 가능</li>
-  <li>Packet 기반 communication</li>
-  <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li>
-</ul>
-
-<h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2>
-
-<ul>
-  <li><strong>Protocol (communication granularity: transaction)</strong>
+  <li>Code Reuse
     <ul>
-      <li>protocol node에서 request, responses를 처리하고 생성</li>
-      <li>protocol node에서 valid한 cache 상태 변환을 정의</li>
-      <li>request type에 대한 transaction flow를 정의</li>
+      <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li>
     </ul>
   </li>
-  <li><strong>Network (communication granularity: Packet)</strong>
+  <li>Code Maintainability
     <ul>
-      <li>protocol message를 packetize함</li>
-      <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li>
+      <li>code를 한번의 update로 전체 반영 가능</li>
     </ul>
   </li>
-  <li><strong>Link (communication granularity: Flit)</strong>
+  <li>Memory Management
     <ul>
-      <li>network device간의 flow를 control함</li>
-      <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li>
+      <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="terminology">Terminology</h2>
+<h2 id="class">Class</h2>
+<p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 
+먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p>
+
+<p><strong>Class vs Struct</strong><br />
+일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 
+하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p>
+<ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는 기능(function)을 어떻게 설정할 것인가 ? </li>
+<li> 구조체는 선언 시 메모리 할당되는데 어떻게 유지 관리를 할것 인가?</li>
+<li> 두 도형의 연관성을 어떻게 구조체에서 정의할 수 있을까? </li> </ul>
+
+<p>위 한계점은 class라는 type을 통해 돌파할 수 있다. 
+해당 내용은 차츰 설명할 예정이고 class 내부에 사용되는 terminology부터 정의하겠습니다.</p>
+
+<p>member - class 내부에서 정의된 변수, 함수<br />
+property - class에 속한 변수<br />
+method - class 내부에서 정의되는 function or task</p>
+
+<p><strong>Memory Allocation</strong><br />
+Class는 구조체와 달리 선언 시 Memory 할당되지 않고 user가 명시적으로 할당해야 합니다.
+new라는 method를 call함으로써 객체에 대한 memory를 할당합니다 (instantiating).</p>
+
+<p>new method의 인자를 통해 내부 property 초기값을 설정할 수 있습니다.<br />
+또한 인스턴스화 할 수 있는 객체의 수는 컴퓨터 memory에 제한되며 handle을 다른 변수로 copy 가능 (shallow copy)</p>
+
+<p>객체를 참조하는 동안 Memory의 할당이 지속되지만 참조가 해제될 경우 garbage 대상이 되고 일정 시간 이후에 Memory deallocation 된다.</p>
+
+<div class="language-verilog line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">class</span> <span class="n">rectanlge</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">length</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
+
+    <span class="k">function</span> <span class="k">new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">w</span><span class="p">);</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+        <span class="n">width</span>  <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
+    <span class="k">endfunction</span> 
+
+    <span class="k">function</span> <span class="kt">int</span> <span class="n">area</span> <span class="p">();</span> 
+        <span class="k">return</span> <span class="n">length</span> <span class="o">*</span> <span class="n">width</span><span class="p">;</span>
+    <span class="k">endfunction</span>
+<span class="k">endclass</span>
+</code></pre></div></div>
+
+<p><strong>Extension</strong><br />
+Extension은 Class간의 연관성을 설명하는 핵심적인 개념입니다.
+예를 들어 이전 예시인 정사각형과 직사각형을 확장해서 설명해봅시다.</p>
+
+<p>정사각형은 모든 변이 같은 직사각형입니다. 그렇다면 어떻게 이를 정의하고 직사각형의 특성을 재사용할 수 있을까?<br />
+<br />
+Extension은 기본적으로 Parent와 Class간의 수직 관계를 만들고 이를 통해 Hierarchy를 형성할 수 있습니다.<br />
+기본적으로 Extended된 class는 상위 class의 method와 member를 모두 access할 수 있습니다.</p>
+
+<p>그리고 super라는 지시자를 통해 상위 method를 재정의할 수 있습니다.</p>
 <ul>
-  <li><strong>Message</strong>
-    <ul>
-      <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
-        <ul>
-          <li>Request</li>
-          <li>Data response</li>
-          <li>Snoop request</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Packet</strong>
-    <ul>
-      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성<br />
-  각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
-    </ul>
-  </li>
-  <li><strong>Flit</strong>
-    <ul>
-      <li>Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
-  Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다.</li>
-    </ul>
-  </li>
-  <li><strong>RN (Request node)</strong>
-    <ul>
-      <li>protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당</li>
-    </ul>
-  </li>
-  <li><strong>SN (Slave node)</strong>
-    <ul>
-      <li>Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당</li>
-    </ul>
-  </li>
-  <li><strong>HN (Home node)</strong>
-    <ul>
-      <li>Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.</li>
-    </ul>
-  </li>
+  <li>즉 super keyword은 parent class의 method와 member를 참조할 것을 compiler에게 명시적으로 알려줍니다.</li>
 </ul>
 
-<!--
-## Transaction Classification
-- **Read Classification**
-<center><img src='./assets/img/posts/chi/read_classification.png'></center>
+<div class="language-verilog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">class</span> <span class="n">square</span> <span class="k">extends</span> <span class="n">rectangle</span><span class="p">;</span>
+    <span class="k">function</span> <span class="k">new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span><span class="p">);</span>
+        <span class="k">super</span><span class="p">.</span><span class="k">new</span> <span class="p">(.</span><span class="n">l</span><span class="p">(</span><span class="n">side</span><span class="p">),</span> <span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="n">side</span><span class="p">));</span>
+    <span class="k">endfunction</span>
+<span class="k">endclass</span>
+</code></pre></div></div>
 
-- **Write Classification**
-<center><img src='./assets/img/posts/chi/write_classification.png'></center>
+<div class="language-verilog highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">initial</span> <span class="k">begin</span>
+        <span class="n">rectangle</span> <span class="n">retangle_h</span><span class="p">;</span>
+        <span class="n">square</span> <span class="n">square_h</span><span class="p">;</span>
 
-- **Other Classification**
-<center><img src='./assets/img/posts/chi/other_classification.png'></center>
+        <span class="n">rectangle_h</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(.</span><span class="n">l</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+        <span class="p">$</span><span class="nb">display</span> <span class="p">(</span><span class="s">"rectangle area is %d"</span><span class="p">,</span> <span class="n">rectangle_h</span><span class="p">.</span><span class="n">area</span><span class="p">());</span>
 
-## What is MESI, MOESI model?
-
-
-<!--
-A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
-
-Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
-
-In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.
-
-<center><img src='./assets/img/posts/20210125/Perceptron.png'></center>
-
-Imagine you have a 'neuron' and to 'activate' it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.
-
-In more mathematical terms, a perceptron is an array of values (let's call them weights), and the rules to apply such values to an input signal.
-
-For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it's weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.
-
-<p style="text-align:center">\(<br>
-\begin{align}
-\begin{split}
-\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
-\end{split}
-\end{align}
-\)</p>
-
-<p style="text-align:center">\(<br>
-\begin{align}<br>
-\begin{split}<br>
-\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
-\end{split}<br>
-\end{align}<br>
-\)</p>
-
-Typically when this value is obtained, we need to apply an "activation" function to smooth the output, but let's say that our activation function is linear, meaning that we keep the value as it is, then that's it, that is the output of the perceptron, -0.5.
-
-In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.
-
-Once we understand this, the magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.
-
-<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
-
-For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.
-
-After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.
-
-The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. [This video series by 3 blue 1 brown explains it wonderfuly.](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
-
-My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.
-
-The neuron has 3 inputs and weights to calculate its output:
-    
-    input 1 is the X coordinate of the point,
-    Input 2 is the y coordinate of the point,
-    Input 3 is the bias and it is always 1
-
-    Input 3 or the bias is required for lines that do not cross the origin (0,0)
-
-The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.
-
-The output of the perceptron is calculated with the following activation function:
-    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0
-
-The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:
-
-|Expected  |  Calculated | Error|
-|:----:|:----:|:----:|
-|1|-1|1|
-|1|1|0|
-|-1|-1|0|
-|-1|1|-1|
-
-With every point that is learned if the error is not 0 the weights are adjusted according to:
-
-    New_weight = Old_weight + error * input * learning_rate
-    for example: New_weight_x = Old_weight_x + error * x * learning rate
-
-A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be. 
-
-In this particular case, I coded the learning_rate to decrease with every iteration as follows:
-
-    learning_rate = 0.01 / (iteration + 1)
-
-this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.
-
-<center><img src='./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg'></center>
-
-In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.
-
-Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
-
-Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
--->
+        <span class="n">square_h</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(.</span><span class="n">side</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+        <span class="p">$</span><span class="nb">display</span> <span class="p">(</span><span class="s">"square area is %d"</span><span class="p">,</span> <span class="n">square_h</span><span class="p">.</span><span class="n">area</span><span class="p">());</span>
+    <span class="k">end</span>
+</code></pre></div></div>
 
         <aside class="sidebar inline" id="post-end">
     
@@ -571,9 +478,9 @@ Nowadays the neural networks consist of combinations of many perceptrons, in man
             
                 <li><a href="./tag.html?tag=RTL" class="tag inline">RTL</a></li>
             
-                <li><a href="./tag.html?tag=AMBA+Bus" class="tag inline">AMBA Bus</a></li>
+                <li><a href="./tag.html?tag=OOP" class="tag inline">OOP</a></li>
             
-                <li><a href="./tag.html?tag=Cache+coherence" class="tag inline">Cache coherence</a></li>
+                <li><a href="./tag.html?tag=UVM" class="tag inline">UVM</a></li>
             
     
         </ul>
@@ -582,11 +489,11 @@ Nowadays the neural networks consist of combinations of many perceptrons, in man
     <div class="share-hover inline">
         <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons inline" id="post-end-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=CHI Protocol Overview&url=http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/CHI-Protocol-Overview-1.html&title=CHI Protocol Overview" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/CHI-Protocol-Overview-1.html&title=CHI Protocol Overview&summary=CHI protocol specialized for cache coherence&source=http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=CHI Protocol Overview&body=CHI protocol specialized for cache coherence%0A%0ARead more here: http://localhost:4000/CHI-Protocol-Overview-1.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (Primer)&url=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=OOP Testbench (Primer)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -984,14 +891,14 @@ Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로�
     }
 
     function copyToClipboard() {
-      navigator.clipboard.writeText('http://localhost:4000/CHI-Protocol-Overview-1.html').then(function() {
+      navigator.clipboard.writeText('http://localhost:4000/OOP-Testbench(Polymorphism).html').then(function() {
       alerts = document.getElementsByClassName('alert')
       for (i=0; i < alerts.length; i++){
         alerts[i].innerHTML='\u00ABlink copied\u00BB';
         setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
       };
       }, function() {
-        prompt("Unable to copy, please use this link:", "http://localhost:4000/CHI-Protocol-Overview-1.html");
+        prompt("Unable to copy, please use this link:", "http://localhost:4000/OOP-Testbench(Polymorphism).html");
       });
     }
 

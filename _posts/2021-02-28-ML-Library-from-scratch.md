@@ -1,1200 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-23T23:13:24+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">RTL &amp;amp; Verification Notes</title><subtitle>안녕하세요 해당 블로그는 RTL에 관한 설계와 검증에 관련된 블로그입니다.</subtitle><author><name>Wonho Chang</name></author><entry><title type="html">CHI Protocol (Transaction(2))</title><link href="http://localhost:4000/CHI-Protocol-Transaction.html" rel="alternate" type="text/html" title="CHI Protocol (Transaction(2))" /><published>2026-03-16T08:32:20+09:00</published><updated>2026-03-16T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Transaction</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Transaction.html"><![CDATA[<p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다.
-Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p>
-
-<h2 id="read-transaction">Read Transaction</h2>
-<ul>
-  <li><strong>Non-Allocating Read</strong>
-    <ul>
-      <li>ReadNoSnp</li>
-      <li>ReadOnce</li>
-      <li>ReadOnceCleanInvalid</li>
-      <li>ReadOnceMakeInvalid</li>
-    </ul>
-  </li>
-</ul>
-
-<center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center>
-
-<p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br />
-다만 Allocating Read와 달리 CompAck이 필수가 아니다.  <br />
-CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br />
-Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p>
-
-<p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p>
-
-<ul>
-  <li><strong>1. Combined Response from Home</strong>
-    <ul>
-      <li>해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여 Requester에 전송</li>
-      <li>Order 제약조건 있을 경우 Optinal하게 Home은 ReadReceipt 반환할 수 있다.<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>2. Separate data and response from Home</strong>
-    <ul>
-      <li>Home에서 독립적으로 response와 data를 전송할 때 사용되는 방식</li>
-      <li>Order 제약조건이 존재하고 CompAck을 요구하지 않을 경우 해당 scheme을 사용하지 못할 수 있음<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>3. Combined response from Subordinate</strong>
-    <ul>
-      <li>Home에 data가 존재하지 않아 Memory로 Data를 요청할 때 사용, Subordintae가 Data와 Response를 합쳐 Data channel로 전송</li>
-      <li>Order(!=0) 제약 사항이 있을 경우 선택적으로 Subordinate가 ReadReceipt response 반환, 다만 Compack을 요청하지 않을 경우 ReadReceipt 반환은 필수적이다.</li>
-      <li>Home에서 Subordinate로 ReadNoSnp Downstream Request 전송<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>4. Response from Home, Data from Subordinate</strong>
-    <ul>
-      <li>독립적으로 Response는 Home이 전송하고 Data만 Subordinate에서 반환할 때 사용</li>
-      <li>Home에서 Subordinate로 ReadNoSnpSep Downstream Request 전송 (Data만 반환)</li>
-      <li>Optionally하게 Home이 Read Receipt를 요청할 경우 Subordinate는 Read Receipt를 전송할 수 있다. 하지만 Order와 CompAck을 명시되지 않는한 Home은 반드시 Read Receipt를 요청해야 합니다. <br />
-  <br /></li>
-    </ul>
-  </li>
-</ul>
-
-<p>일반적으로 Response와 Data가 독립적으로 전송할 때 Response를 빨리 전송한다. 이때 Requester가 CompAck의 전송 시점은 Home으로부터 Response를 받은 이후부터 가능하다.  <br /><br /> 
-즉 Home은 Requester로부터 Compack을 받은 이후 transaction을 완료할 수 있기에 combined response보다 빨리 transaction을 처리할 수 있음</p>
-
-<ul>
-  <li><strong>5. Forwarding snoop</strong>
-    <ul>
-      <li>Home에서 Snoopee (Requester)에 data forwarding을 요청하는 case</li>
-      <li>이때 Home에 최신 data가 존재하지 않고 특정 Requester에 data가 존재할 때 Snoop 동작을 요청하는 방식</li>
-      <li>5a: Home에 Snoop Response만 전송하고 Requester에 Data를 fowarding하는 방식</li>
-      <li>5b: Home에 Data와 함께 Response를 전송하고 Requester에 Data를 fowarding하는 방식 (주로 Dirty copy -&gt; Clean할 때 사용)</li>
-      <li>5c: Snoopee가 fail의 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식</li>
-      <li>5c: Snoopee가 fail의 Data와 함께 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식<br />
-  <br /></li>
-    </ul>
-  </li>
-</ul>
-
-<p>CompAck을 요청하는 Request일 경우 CompAck Response를 다음과 같은 순서 중 하나를 지켜줘야 한다.</p>
-<ul>
-  <li>적어도 하나의 CompData를 수신할 경우</li>
-  <li>Ordering 제약 사항이 없을 경우 2번이나 4번 Scheme에서 RespSepData가 올 경우</li>
-  <li>Ordering 제약 사항이 있을 경우 RespSepData와 하나의 DataSepResp가 올 경우</li>
-</ul>
+---
+layout: post
+read_time: true
+show_date: true
+title:  Machine Learning Library in Python from scratch
+date:   2021-02-28 12:32:20 -0600
+description: Single neuron perceptron that classifies elements learning quite quickly.
+img: posts/20210228/MLLibrary.jpg 
+tags: [machine learning, coding, neural networks, python]
+author: Armando Maynez
+github: amaynez/GenericNeuralNetwork/
+---
+It must sound crazy that in this day and age, when we have such a myriad of amazing machine learning libraries and toolkits all open sourced, all quite well documented and easy to use, I decided to create my own ML library from scratch.
+<center><img src="./assets/img/posts/20210228/ML_cloud.jpg" width="480px"></center>
+Let me try to explain; I am in the process of immersing myself into the world of Machine Learning, and to do so, I want to deeply understand the basic concepts and its foundations, and I think that there is no better way to do so than by creating myself all the code for a basic neural network library from scratch. This way I can gain in depth understanding of the math that underpins the ML algorithms.
 
-<center><img src="./assets/img/posts/chi/no_allocating_dct_dmt.png" /></center>
-
-<p>Home node를 Bypass하여 Read Data를 공급하는 주체가 DRAM or Cache인지에 따라 DMT와 DCT로 구분된다.<br />
-상위 표는 Non-allocating Read인 ReadNoSnp, ReadOnce일 경우 DMT, DCT의 허용되는 조건이다.</p>
-
-<p>DMT일 경우 Subordinate에서 Home으로 ReadRecipt를 반환해야 한다.<br />
-그리고 Order 제약 조건이 있을 경우 ExpCompAck을 설정해야 한다.</p>
-
-<h2 id="reference">Reference</h2>
-<p><strong>AMBA CHI Architecture Specification H version</strong></p>
-
-<!--
-A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
-
-Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
-
-In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.
-
-<center><img src='./assets/img/posts/20210125/Perceptron.png'></center>
-
-Imagine you have a 'neuron' and to 'activate' it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.
+Another benefit of doing this is that since I am also learning Python, the experiment brings along good exercise for me.
 
-In more mathematical terms, a perceptron is an array of values (let's call them weights), and the rules to apply such values to an input signal.
+To call it a Machine Learning Library is perhaps a bit of a stretch, since I just intended to create a **multi-neuron, multi-layered [perceptron](./single-neuron-perceptron.html)**.
 
-For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it's weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.
+<center><img src="./assets/img/posts/20210228/nnet_flow.gif"></center>
 
-<p style="text-align:center">\(<br>
-\begin{align}
-\begin{split}
-\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
-\end{split}
-\end{align}
-\)</p>
+The library started very narrowly, with just the following functionality:
+- **create** a neural network based on the following parameters:
+    - number of inputs
+    - size and number of hidden layers
+    - number of outputs
+    - learning rate
+- **forward propagate** or predict the output values when given some inputs
+- **learn** through back propagation using gradient descent
 
-<p style="text-align:center">\(<br>
-\begin{align}<br>
-\begin{split}<br>
-\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
-\end{split}<br>
-\end{align}<br>
-\)</p>
+I restricted the model to be sequential, and the layers to be only dense / fully connected, this means that every neuron is connected to every neuron of the following layer. Also, as a restriction, the only activation function I implemented was sigmoid:
 
-Typically when this value is obtained, we need to apply an "activation" function to smooth the output, but let's say that our activation function is linear, meaning that we keep the value as it is, then that's it, that is the output of the perceptron, -0.5.
+<center><img src="./assets/img/posts/20210228/nn_diagram.png"></center>
 
-In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.
+With my neural network coded, I tested it with a very basic problem, the famous XOR problem.
 
-Once we understand this, the magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.
+XOR is a logical operation that cannot be solved by a single perceptron because of its linearity restriction:
 
-<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
+<center><img src="./assets/img/posts/20210228/xor_problem.png"></center>
 
-For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.
+As you can see, when plotted in an X,Y plane, the logical operators AND and OR have a line that can clearly separate the points that are false from the ones that are true, hence a perceptron can easily learn to classify them; however, for XOR there is no single straight line that can do so, therefore a multilayer perceptron is needed for the task.
 
-After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.
+For the test I created a neural network with my library:
+```python
+import Neural_Network as nn
 
-The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. [This video series by 3 blue 1 brown explains it wonderfuly.](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
+inputs = 3
+hidden_layers = [2, 1]
+outputs = 1
+learning_rate = 0.03
 
-My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.
+NN = nn.NeuralNetwork(inputs, hidden_layers, outputs, learning_rate)
+```
 
-The neuron has 3 inputs and weights to calculate its output:
-    
-    input 1 is the X coordinate of the point,
-    Input 2 is the y coordinate of the point,
-    Input 3 is the bias and it is always 1
+The three inputs I decided to use (after a lot of trial and error) are the X and Y coordinate of a point (between X = 0, X = 1, Y = 0 and Y = 1) and as the third input the multiplication of both X and Y. Apparently it gives the network more information, and it ends up converging much more quickly with this third input.
 
-    Input 3 or the bias is required for lines that do not cross the origin (0,0)
+Then there is a single hidden layer with 2 neurons and one output value, that will represent False if the value is closer to 0 or True if the value is closer to 1.
 
-The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.
+Then I created the learning data, which is quite trivial for this problem, since we know very easily how to compute XOR.
 
-The output of the perceptron is calculated with the following activation function:
-    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0
+```python
+training_data = []
+for n in range(learning_rounds):
+    x = rnd.random()
+    y = rnd.random()
+    training_data.append([x, y, x * y, 0 if (x < 0.5 and y < 0.5) or (x >= 0.5 and y >= 0.5) else 1])
+```
 
-The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:
+And off we go into training:
+```python
+for data in training_data:
+    NN.train(data[:3].reshape(inputs), data[3:].reshape(outputs))
+```
 
-|Expected  |  Calculated | Error|
-|:----:|:----:|:----:|
-|1|-1|1|
-|1|1|0|
-|-1|-1|0|
-|-1|1|-1|
+The ML library can only train on batches of 1 (another self-imposed coding restriction), therefore only one "observation" at a time, this is why the train function accepts two parameters, one is the inputs packed in an array, and the other one is the outputs, packed as well in an array.
 
-With every point that is learned if the error is not 0 the weights are adjusted according to:
+To see the neural net in action I decided to plot the predicted results in both a 3d X,Y,Z surface plot (z being  the network's predicted value), and a scatter plot with the color of the points representing the predicted value.
 
-    New_weight = Old_weight + error * input * learning_rate
-    for example: New_weight_x = Old_weight_x + error * x * learning rate
+This was plotted in MatPlotLib, so we needed to do some housekeeping first:
 
-A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be. 
+```python
+fig = plt.figure()
+fig.canvas.set_window_title('Learning XOR Algorithm')
+fig.set_size_inches(11, 6)
 
-In this particular case, I coded the learning_rate to decrease with every iteration as follows:
+axs1 = fig.add_subplot(1, 2, 1, projection='3d')
+axs2 = fig.add_subplot(1, 2, 2)
+```
 
-    learning_rate = 0.01 / (iteration + 1)
+Then we need to prepare the data to be plotted by generating X and Y values distributed between 0 and 1, and having the network calculate the Z value:
 
-this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.
+```python
+x = np.linspace(0, 1, num_surface_points)
+y = np.linspace(0, 1, num_surface_points)
+x, y = np.meshgrid(x, y)
 
-<center><img src='./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg'></center>
+z = np.array(NN.forward_propagation([x, y, x * y])).reshape(num_surface_points, num_surface_points)
+```
 
-In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.
-
-Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
-
-Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
--->]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA Bus" /><category term="Cache coherence" /><summary type="html"><![CDATA[CHI protocol Overview (Transaction)]]></summary></entry><entry><title type="html">OOP Testbench (Primer)</title><link href="http://localhost:4000/OOP-Testbench(Polymorphism).html" rel="alternate" type="text/html" title="OOP Testbench (Primer)" /><published>2026-03-14T03:32:20+09:00</published><updated>2026-03-14T03:32:20+09:00</updated><id>http://localhost:4000/OOP-Testbench(Polymorphism)</id><content type="html" xml:base="http://localhost:4000/OOP-Testbench(Polymorphism).html"><![CDATA[<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
-먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p>
-
-<p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p>
-<ul>
-  <li>Code Reuse
-    <ul>
-      <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li>
-    </ul>
-  </li>
-  <li>Code Maintainability
-    <ul>
-      <li>code를 한번의 update로 전체 반영 가능</li>
-    </ul>
-  </li>
-  <li>Memory Management
-    <ul>
-      <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="class">Class</h2>
-<p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 
-먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p>
-
-<p><strong>Class vs Struct</strong><br />
-일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 
-하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p>
-<ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는 기능(function)을 어떻게 설정할 것인가 ? </li>
-<li> 구조체는 선언 시 메모리 할당되는데 어떻게 유지 관리를 할것 인가?</li>
-<li> 두 도형의 연관성을 어떻게 구조체에서 정의할 수 있을까? </li> </ul>
-
-<p>위 한계점은 class라는 type을 통해 돌파할 수 있다. 
-해당 내용은 차츰 설명할 예정이고 class 내부에 사용되는 terminology부터 정의하겠습니다.</p>
-
-<p>member - class 내부에서 정의된 변수, 함수<br />
-property - class에 속한 변수<br />
-method - class 내부에서 정의되는 function or task</p>
-
-<p><strong>Memory Allocation</strong><br />
-Class는 구조체와 달리 선언 시 Memory 할당되지 않고 user가 명시적으로 할당해야 합니다.
-new라는 method를 call함으로써 객체에 대한 memory를 할당합니다 (instantiating).</p>
-
-<p>new method의 인자를 통해 내부 property 초기값을 설정할 수 있습니다.<br />
-또한 인스턴스화 할 수 있는 객체의 수는 컴퓨터 memory에 제한되며 handle을 다른 변수로 copy 가능 (shallow copy)</p>
-
-<p>객체를 참조하는 동안 Memory의 할당이 지속되지만 참조가 해제될 경우 garbage 대상이 되고 일정 시간 이후에 Memory deallocation 된다.</p>
-
-<div class="language-verilog line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">class</span> <span class="n">rectanlge</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">length</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
-
-    <span class="k">function</span> <span class="k">new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">w</span><span class="p">);</span>
-        <span class="n">length</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
-        <span class="n">width</span>  <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
-    <span class="k">endfunction</span> 
-
-    <span class="k">function</span> <span class="kt">int</span> <span class="n">area</span> <span class="p">();</span> 
-        <span class="k">return</span> <span class="n">length</span> <span class="o">*</span> <span class="n">width</span><span class="p">;</span>
-    <span class="k">endfunction</span>
-<span class="k">endclass</span>
-</code></pre></div></div>
-
-<p><strong>Extension</strong><br />
-Extension은 Class간의 연관성을 설명하는 핵심적인 개념입니다.
-예를 들어 이전 예시인 정사각형과 직사각형을 확장해서 설명해봅시다.</p>
-
-<p>정사각형은 모든 변이 같은 직사각형입니다. 그렇다면 어떻게 이를 정의하고 직사각형의 특성을 재사용할 수 있을까?<br />
-<br />
-Extension은 기본적으로 Parent와 Class간의 수직 관계를 만들고 이를 통해 Hierarchy를 형성할 수 있습니다.<br />
-기본적으로 Extended된 class는 상위 class의 method와 member를 모두 access할 수 있습니다.</p>
-
-<p>그리고 super라는 지시자를 통해 상위 method를 재정의할 수 있습니다.</p>
-<ul>
-  <li>즉 super keyword은 parent class의 method와 member를 참조할 것을 compiler에게 명시적으로 알려줍니다.</li>
-</ul>
-
-<div class="language-verilog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">class</span> <span class="n">square</span> <span class="k">extends</span> <span class="n">rectangle</span><span class="p">;</span>
-    <span class="k">function</span> <span class="k">new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span><span class="p">);</span>
-        <span class="k">super</span><span class="p">.</span><span class="k">new</span> <span class="p">(.</span><span class="n">l</span><span class="p">(</span><span class="n">side</span><span class="p">),</span> <span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="n">side</span><span class="p">));</span>
-    <span class="k">endfunction</span>
-<span class="k">endclass</span>
-</code></pre></div></div>
-
-<div class="language-verilog highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">initial</span> <span class="k">begin</span>
-        <span class="n">rectangle</span> <span class="n">retangle_h</span><span class="p">;</span>
-        <span class="n">square</span> <span class="n">square_h</span><span class="p">;</span>
-
-        <span class="n">rectangle_h</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(.</span><span class="n">l</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
-        <span class="p">$</span><span class="nb">display</span> <span class="p">(</span><span class="s">"rectangle area is %d"</span><span class="p">,</span> <span class="n">rectangle_h</span><span class="p">.</span><span class="n">area</span><span class="p">());</span>
-
-        <span class="n">square_h</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(.</span><span class="n">side</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-        <span class="p">$</span><span class="nb">display</span> <span class="p">(</span><span class="s">"square area is %d"</span><span class="p">,</span> <span class="n">square_h</span><span class="p">.</span><span class="n">area</span><span class="p">());</span>
-    <span class="k">end</span>
-</code></pre></div></div>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="OOP" /><category term="UVM" /><summary type="html"><![CDATA[Modern Testbench]]></summary></entry><entry><title type="html">OOP Testbench (Primer)</title><link href="http://localhost:4000/OOP-Testbench.html" rel="alternate" type="text/html" title="OOP Testbench (Primer)" /><published>2026-03-14T03:32:20+09:00</published><updated>2026-03-14T03:32:20+09:00</updated><id>http://localhost:4000/OOP-Testbench</id><content type="html" xml:base="http://localhost:4000/OOP-Testbench.html"><![CDATA[<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
-먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p>
-
-<p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p>
-<ul>
-  <li>Code Reuse
-    <ul>
-      <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li>
-    </ul>
-  </li>
-  <li>Code Maintainability
-    <ul>
-      <li>code를 한번의 update로 전체 반영 가능</li>
-    </ul>
-  </li>
-  <li>Memory Management
-    <ul>
-      <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="class">Class</h2>
-<p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 
-먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p>
-
-<p><strong>Class vs Struct</strong><br />
-일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 
-하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p>
-<ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는 기능(function)을 어떻게 설정할 것인가 ? </li>
-<li> 구조체는 선언 시 메모리 할당되는데 어떻게 유지 관리를 할것 인가?</li>
-<li> 두 도형의 연관성을 어떻게 구조체에서 정의할 수 있을까? </li> </ul>
-
-<p>위 한계점은 class라는 type을 통해 돌파할 수 있다. 
-해당 내용은 차츰 설명할 예정이고 class 내부에 사용되는 terminology부터 정의하겠습니다.</p>
-
-<p>member - class 내부에서 정의된 변수, 함수<br />
-property - class에 속한 변수<br />
-method - class 내부에서 정의되는 function or task</p>
-
-<p><strong>Memory Allocation</strong><br />
-Class는 구조체와 달리 선언 시 Memory 할당되지 않고 user가 명시적으로 할당해야 합니다.
-new라는 method를 call함으로써 객체에 대한 memory를 할당합니다 (instantiating).</p>
-
-<p>new method의 인자를 통해 내부 property 초기값을 설정할 수 있습니다.<br />
-또한 인스턴스화 할 수 있는 객체의 수는 컴퓨터 memory에 제한되며 handle을 다른 변수로 copy 가능 (shallow copy)</p>
-
-<p>객체를 참조하는 동안 Memory의 할당이 지속되지만 참조가 해제될 경우 garbage 대상이 되고 일정 시간 이후에 Memory deallocation 된다.</p>
-
-<div class="language-verilog line-numbers highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">class</span> <span class="n">rectanlge</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">length</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
-
-    <span class="k">function</span> <span class="k">new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">w</span><span class="p">);</span>
-        <span class="n">length</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
-        <span class="n">width</span>  <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
-    <span class="k">endfunction</span> 
-
-    <span class="k">function</span> <span class="kt">int</span> <span class="n">area</span> <span class="p">();</span> 
-        <span class="k">return</span> <span class="n">length</span> <span class="o">*</span> <span class="n">width</span><span class="p">;</span>
-    <span class="k">endfunction</span>
-<span class="k">endclass</span>
-</code></pre></div></div>
-
-<p><strong>Extension</strong><br />
-Extension은 Class간의 연관성을 설명하는 핵심적인 개념입니다.
-예를 들어 이전 예시인 정사각형과 직사각형을 확장해서 설명해봅시다.</p>
-
-<p>정사각형은 모든 변이 같은 직사각형입니다. 그렇다면 어떻게 이를 정의하고 직사각형의 특성을 재사용할 수 있을까?<br />
-<br />
-Extension은 기본적으로 Parent와 Class간의 수직 관계를 만들고 이를 통해 Hierarchy를 형성할 수 있습니다.<br />
-기본적으로 Extended된 class는 상위 class의 method와 member를 모두 access할 수 있습니다.</p>
-
-<p>그리고 super라는 지시자를 통해 상위 method를 재정의할 수 있습니다.</p>
-<ul>
-  <li>즉 super keyword은 parent class의 method와 member를 참조할 것을 compiler에게 명시적으로 알려줍니다.</li>
-</ul>
-
-<div class="language-verilog highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">class</span> <span class="n">square</span> <span class="k">extends</span> <span class="n">rectangle</span><span class="p">;</span>
-    <span class="k">function</span> <span class="k">new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span><span class="p">);</span>
-        <span class="k">super</span><span class="p">.</span><span class="k">new</span> <span class="p">(.</span><span class="n">l</span><span class="p">(</span><span class="n">side</span><span class="p">),</span> <span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="n">side</span><span class="p">));</span>
-    <span class="k">endfunction</span>
-<span class="k">endclass</span>
-</code></pre></div></div>
-
-<div class="language-verilog highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">initial</span> <span class="k">begin</span>
-        <span class="n">rectangle</span> <span class="n">retangle_h</span><span class="p">;</span>
-        <span class="n">square</span> <span class="n">square_h</span><span class="p">;</span>
-
-        <span class="n">rectangle_h</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(.</span><span class="n">l</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">,</span> <span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
-        <span class="p">$</span><span class="nb">display</span> <span class="p">(</span><span class="s">"rectangle area is %d"</span><span class="p">,</span> <span class="n">rectangle_h</span><span class="p">.</span><span class="n">area</span><span class="p">());</span>
-
-        <span class="n">square_h</span> <span class="o">=</span> <span class="k">new</span> <span class="p">(.</span><span class="n">side</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-        <span class="p">$</span><span class="nb">display</span> <span class="p">(</span><span class="s">"square area is %d"</span><span class="p">,</span> <span class="n">square_h</span><span class="p">.</span><span class="n">area</span><span class="p">());</span>
-    <span class="k">end</span>
-</code></pre></div></div>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="OOP" /><category term="UVM" /><summary type="html"><![CDATA[Modern Testbench]]></summary></entry><entry><title type="html">CHI Protocol (Transaction)</title><link href="http://localhost:4000/CHI-Protocol-Overview-2.html" rel="alternate" type="text/html" title="CHI Protocol (Transaction)" /><published>2026-02-19T08:32:20+09:00</published><updated>2026-02-19T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-2</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-2.html"><![CDATA[<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p>
-
-<h2 id="cache-state-model">Cache State Model</h2>
-<p>CHI에서 Cache line은 6가지 state를 가질 수 있습니다. 
-Valid/InValid, Clean/Dirty, Parial/Empty, Unique/Shared에 따라 state가 결정됩니다.</p>
-<center><img src="./assets/img/posts/chi/cache_model.png" /></center>
-
-<ul>
-  <li><strong>Invalid</strong>
-    <ul>
-      <li>cache line이 cache에 존재하지 않은 state<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>Unique Dirty</strong>
-    <ul>
-      <li>cache line이 해당 cache에만 존재하는 경우</li>
-      <li>cache line의 data가 Main Memory에 반영하지 않은 상태</li>
-      <li>Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능</li>
-      <li>Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.</li>
-      <li>Snoop에 의해 Directly하게 Cache line을 Requester에 전송 가능<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>Unique Dirty Partial</strong>
-    <ul>
-      <li>Unique Dirty에서 cache line의 특정 byte만 valid할 경우</li>
-      <li>Unique Dirty의 특징을 포함하고 있지만 Requester로 Directy forwarding 불가능 (Cache 관련 최소 단위는 64Byte)</li>
-      <li>Cache line evict시 해당 data와 valid한 기존 data에 대한 merge 동작 요구<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>Shared Dirty</strong>
-    <ul>
-      <li>다른 cache들도 해당 cache line의 copy본을 공유하고 있는 상태</li>
-      <li>Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.</li>
-      <li>다른 Cache들과 cache line을 공유하고 있기에 Unique한 ownership을 얻거나 다른 cache line을 invalidate 하지 않는 이상 함부로 modify 불가<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>Unique Clean</strong>
-    <ul>
-      <li>cache line이 해당 cache에만 존재하는 경우</li>
-      <li>cache line과 Main memory와 Coherency가 보장된 상태</li>
-      <li>Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>Unique Clean Empty</strong>
-    <ul>
-      <li>Unique Clean state에서 valid한 data를 가지지 않는 상태 (Ownership만 가진 상태)<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>Shared Clean</strong>
-    <ul>
-      <li>다른 cache들도 해당 cache line의 copy본을 공유하고 있는 상태</li>
-      <li>해당 cache line은 Memory에 대해 update 됐을 수도 있는 상태</li>
-      <li>다만 evict시 Memory에 write back해야 할 책임은 없음</li>
-      <li>다른 Cache들과 cache line을 공유하고 있기에 Unique한 ownership을 얻거나 다른 cache line을 invalidate 하지 않는 이상 함부로 modify 불가</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="read-transaction">Read Transaction</h2>
-<ul>
-  <li><strong>Allocating Read</strong>
-    <ul>
-      <li>ReadClean</li>
-      <li>ReadNotSharedDirty</li>
-      <li>ReadShared</li>
-      <li>ReadUnique</li>
-      <li>ReadPreferUnique</li>
-      <li>MakeReadUnique</li>
-    </ul>
-  </li>
-</ul>
-
-<center><img src="./assets/img/posts/chi/allocating_read.png" /></center>
-
-<p>Allocating Read는 Cacheline을 해당 Cache에 저장하기 위한 동작이다.
-Allocating Read는 마지막 flow에 Requester가 Compack을 전송해야 하며 이때 <strong>Home은 Compack을 수신할 때 까지 해당 Cacheline에 Snoop을 요청하면 안된다</strong>.</p>
-
-<p>상위 그림은 Allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음</p>
-<ul>
-  <li><strong>1. Combined Response from Home</strong>
-    <ul>
-      <li>해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여 Requester에 전송 (즉 같은 data channel로 동시에 response, data 전송)<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>2. Separate data and response from Home</strong>
-    <ul>
-      <li>Home에서 독립적으로 response와 data를 전송할 때 사용되는 방식<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>3. Combined response from Subordinate</strong>
-    <ul>
-      <li>Home에 data가 존재하지 않아 Memory로 Data를 요청할 때 사용, Subordintae가 Data와 Response를 합쳐 Data channel로 전송</li>
-      <li>Order(!=0) 제약 사항이 있을 경우 선택적으로 Subordinate가 ReadReceipt response 반환</li>
-      <li>Home에서 Subordinate로 ReadNoSnp Downstream Request 전송<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>4. Response from Home, Data from Subordinate</strong>
-    <ul>
-      <li>독립적으로 Response는 Home이 전송하고 Data만 Subordinate에서 반환할 때 사용</li>
-      <li>Home에서 Subordinate로 ReadNoSnpSep Downstream Request 전송 (Data만 반환)</li>
-      <li>Subordinate는 Read Receipt를 전송해야 한다. Data 전송 이후로 Receipt Response 전송할 수는 있지만 필수 사항은 아니다. 
-  <br /></li>
-    </ul>
-  </li>
-</ul>
-
-<p>일반적으로 Response와 Data가 독립적으로 전송할 때 Response를 빨리 전송한다. 이때 Requester가 CompAck의 전송 시점은 Home으로부터 Response를 받은 이후부터 가능하다.  <br /> 
-즉 Home은 Requester로부터 Compack을 받은 이후 transaction을 완료할 수 있기에 combined response보다 빨리 transaction을 처리할 수 있음</p>
-
-<ul>
-  <li><strong>5. Forwarding snoop</strong>
-    <ul>
-      <li>Home에서 Snoopee (Requester)에 data forwarding을 요청하는 case</li>
-      <li>이때 Home에 최신 data가 존재하지 않고 특정 Requester에 data가 존재할 때 Snoop 동작을 요청하는 방식</li>
-      <li>5a: Home에 Snoop Response만 전송하고 Requester에 Data를 fowarding하는 방식</li>
-      <li>5b: Home에 Data와 함께 Response를 전송하고 Requester에 Data를 fowarding하는 방식 (주로 Dirty copy -&gt; Clean할 때 사용)</li>
-      <li>5c: Snoopee가 fail의 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식</li>
-      <li>5c: Snoopee가 fail의 Data와 함께 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식<br />
-  <br /></li>
-    </ul>
-  </li>
-  <li><strong>6. MakeReadUnique only</strong>
-    <ul>
-      <li>Home이 다른 Requester의 해당 Cacheline을 invalidate한 후 Comp response를 전송</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="reference">Reference</h2>
-<p><strong>AMBA CHI Architecture Specification H version</strong></p>
-
-<!--
-A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
-
-Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
-
-In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.
-
-<center><img src='./assets/img/posts/20210125/Perceptron.png'></center>
-
-Imagine you have a 'neuron' and to 'activate' it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.
-
-In more mathematical terms, a perceptron is an array of values (let's call them weights), and the rules to apply such values to an input signal.
-
-For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it's weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.
-
-<p style="text-align:center">\(<br>
-\begin{align}
-\begin{split}
-\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
-\end{split}
-\end{align}
-\)</p>
-
-<p style="text-align:center">\(<br>
-\begin{align}<br>
-\begin{split}<br>
-\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
-\end{split}<br>
-\end{align}<br>
-\)</p>
-
-Typically when this value is obtained, we need to apply an "activation" function to smooth the output, but let's say that our activation function is linear, meaning that we keep the value as it is, then that's it, that is the output of the perceptron, -0.5.
-
-In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.
-
-Once we understand this, the magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.
-
-<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
-
-For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.
-
-After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.
-
-The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. [This video series by 3 blue 1 brown explains it wonderfuly.](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
-
-My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.
-
-The neuron has 3 inputs and weights to calculate its output:
-    
-    input 1 is the X coordinate of the point,
-    Input 2 is the y coordinate of the point,
-    Input 3 is the bias and it is always 1
-
-    Input 3 or the bias is required for lines that do not cross the origin (0,0)
-
-The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.
-
-The output of the perceptron is calculated with the following activation function:
-    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0
-
-The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:
-
-|Expected  |  Calculated | Error|
-|:----:|:----:|:----:|
-|1|-1|1|
-|1|1|0|
-|-1|-1|0|
-|-1|1|-1|
-
-With every point that is learned if the error is not 0 the weights are adjusted according to:
-
-    New_weight = Old_weight + error * input * learning_rate
-    for example: New_weight_x = Old_weight_x + error * x * learning rate
-
-A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be. 
-
-In this particular case, I coded the learning_rate to decrease with every iteration as follows:
-
-    learning_rate = 0.01 / (iteration + 1)
-
-this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.
-
-<center><img src='./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg'></center>
-
-In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.
-
-Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
-
-Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
--->]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA Bus" /><category term="Cache coherence" /><summary type="html"><![CDATA[CHI protocol Overview (Transaction)]]></summary></entry><entry><title type="html">DRAM Introduction</title><link href="http://localhost:4000/DRAM-Introduction-1.html" rel="alternate" type="text/html" title="DRAM Introduction" /><published>2025-09-19T20:00:20+09:00</published><updated>2025-09-19T20:00:20+09:00</updated><id>http://localhost:4000/DRAM-Introduction-1</id><content type="html" xml:base="http://localhost:4000/DRAM-Introduction-1.html"><![CDATA[<p>최근 AI 시대에 고대역폭 메모리를 요구함에 따라 DRAM의 중요도는 증가하고 있습니다. 이번 페이지에서는 DRAM의 기본적인 동작과 구조에 대해 살펴보도록 하겠습니다.</p>
-
-<h2 id="dram-operation">DRAM Operation</h2>
-<p>DRAM은 Capacitor로 이루어진 아날로그 소자입니다.<br />
-그래서 Current Leakage로 인한 Data integrity를 보장하기 위해 Refresh 동작을 주기적으로 수행해야 합니다.</p>
-
-<p>DRAM의 Cell은 1T-1C (1Transistor, 1Capacitor)로 이루어져 있으며 Transistor에 전압을 인가 후 Capacitor에 전하를 저장하는 방식으로 Data를 저장합니다. DRAM은 바둑판처럼 격자 구조로 여러 cell을 구성합니다.</p>
-
-<center><img src="./assets/img/posts/DRAM/dram_cell.jpg" /></center>
-
-<p>이때 Row(행), Column(열)은 DRAM을 access하는 단위입니다. 즉 Row는 여러 cell의 Transistor와 연결되어 있어 전압을 인가하여 open 시켜주는 역할을 합니다. 우리는 이를 Word line으로 부릅니다.<br />
-그리고 Transistor 동작 후 Cell의 전하는 자연스럽게 bit-line에 흐르게 됩니다. bitline에 흐르는 전하로 인해 전압차가 발생되고 Sense Amplifier에서 이를 증폭시켜 Data를 High/Low인지 구분합니다.</p>
-
-<center><img src="./assets/img/posts/DRAM/dram_operation.jpg" /></center>
-
-<p>그렇다면 System 관점에서 어떻게 위 동작을 지시할지 생각해봐야 합니다. 우리는 Row address를 포함한 ACT라는 command를 통해 Row에 포함된 다수의 data를 Sense Amplifier에 load합니다.<br />
-Row open 후 Column address를 포함한 CAS라는 command를 통해 Read/Write 동작을 수행합니다. 상위 그림은 DRAM Data가 I/O단에 입출력되는 과정을 보여주지만 현대 DRAM 동작이랑 상이할 수 있습니다.</p>
-
-<h2 id="dram-architecture">DRAM Architecture</h2>
-
-<center><img src="./assets/img/posts/DRAM/dram_architecture.jpg" /></center>
-
-<p>DRAM Architecture을 설명하기 위해 익숙한 구조인 Column, Row부터 Rank까지 Bottom-up 방식으로 설명하겠습니다.</p>
-
-<p><strong>Column</strong> - DRAM을 Access할 때 가장 작은 단위에 속합니다. Size는 connected되어 있는 DRAM die의 DQ width에 따라 달라집니다.</p>
-
-<p>예를 들어 16-bit DRAM Die가 4개로 lock-step방식으로 연결되어 있으면 CAS command당 최소 64bit 단위로 Data가 움직입니다. 또한 Prefetch 개념이 도입되어 DRAM type에 따라 최소 burst-length 결정됩니다. 최종 CAS command의 Data Size는 Burst-lenth, Logical DQ width를 모두 고려해야합니다.</p>
-
-<p><strong>Row</strong> - Activate Command에 병렬적으로 동작하는 단위입니다. 시스템 관점에서 Precharge command 이전에 Data를 보관할 수 있다는 의미에서 DRAM Page라는 용어를 사용합니다. 우리는 여러 Bank에서 서로 다른 Page를 open 시켜 Utilization을 높일 수 있습니다.</p>
-
-<p><strong>Bank</strong> - 1-bit당 DRAM cell의 격자 구조는 Memory array라고 부릅니다. Lock-step 방식으로 여러 개의 Memory array가 움직이는 단위를
-Bank라고 부릅니다. DRAM Die의 DQ width는 단일 Bank 내부 Memory array의 갯수에 따라 결정됩니다. Bank끼리 서로 독립적으로 동작시킬 수 있습니다.</p>
-
-<p>예를 들어 서로 다른 Bank의 ACT command를 issue하여 timing 제약 없이 여러 Page를 이용하여 효율적으로 동작시킬 수 있습니다. 또한 사용하지 않는 Page는 Precharge를 통해 전력 소모를 줄이고
-Data Integrity를 위해 Refresh command를 수행할 수 있습니다.</p>
-
-<p><strong>Rank</strong> - Command에 의해 lock-step 방식으로 동작하는 DRAM Device의 set라고 생각하면 됩니다. Rank 내부 Dram Device는 Command line을 공유하고 DQ line은 group 되어 system DQ width를 결정합니다.</p>
-
-<p>예를 들어 system 64bit data bus를 구축한다고 가정하면 user의 요구사항에 따라 x16 Dram die 4개 or x8 Dram die 8개로 구성할 수 있습니다. 그리고 각각의 Rank의 동작은 CS핀으로 제어합니다.</p>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="DRAM" /><category term="JEDEC" /><summary type="html"><![CDATA[Description on DRAM]]></summary></entry><entry><title type="html">DFT(Design for Test)-01</title><link href="http://localhost:4000/DFT(Design-for-Test).html" rel="alternate" type="text/html" title="DFT(Design for Test)-01" /><published>2025-06-14T09:25:20+09:00</published><updated>2025-06-14T09:25:20+09:00</updated><id>http://localhost:4000/DFT(Design%20for%20Test)</id><content type="html" xml:base="http://localhost:4000/DFT(Design-for-Test).html"><![CDATA[<p>Tape out 과정 이후 Physical 회로를 test한다고 가정해봅시다. 
-우리는 사전 과정 없인 Black box 방식으로 test할 수 밖에 없습니다.</p>
-
-<p>즉, Chip I/O단에서 Pattern을 입력하고 실제 Output이랑 Golden value랑 compare함으로써 test를 진행합니다.</p>
-
-<p>하지만 test 과정에서 failure가 발생할 경우 어떻게 대응해야 할까요?<br />
-위 과정에서는 어떤 point에서 잘못된 값이 propagation되는지 분석하기엔 한계가 있습니다.</p>
-
-<p>White-box Observability를 향상시켜 내부 module 단위에서 Debugging을 진행할 수 있어야 합니다. 
-이때 High-Level에서 test를 위한 물리적인 회로를 넣는 방식이 DFT라고 합니다.</p>]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="DFT" /><category term="ASIC" /><summary type="html"><![CDATA[Description on DFT (SCAN, BIST)]]></summary></entry><entry><title type="html">CHI Protocol Overview</title><link href="http://localhost:4000/CHI-Protocol-Overview-1.html" rel="alternate" type="text/html" title="CHI Protocol Overview" /><published>2025-05-03T08:32:20+09:00</published><updated>2025-05-03T08:32:20+09:00</updated><id>http://localhost:4000/CHI-Protocol-Overview-1</id><content type="html" xml:base="http://localhost:4000/CHI-Protocol-Overview-1.html"><![CDATA[<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p>
-
-<p>CHI protocol feature은 다음과 같습니다.</p>
-
-<ul>
-  <li>64-Byte granularity of cache line</li>
-  <li>Snoop filter and directory-based systems</li>
-  <li>MESI, MOESI cache model을 support</li>
-</ul>
-
-<p>CHI transaction은 다음과 같은 특성을 갖습니다.</p>
-
-<ul>
-  <li>interconnect내에 synchronization, atomic operation을 support</li>
-  <li>Exclusive access를 효율적으로 사용 가능</li>
-  <li>Packet 기반 communication</li>
-  <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li>
-</ul>
-
-<h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2>
-
-<ul>
-  <li><strong>Protocol (communication granularity: transaction)</strong>
-    <ul>
-      <li>protocol node에서 request, responses를 처리하고 생성</li>
-      <li>protocol node에서 valid한 cache 상태 변환을 정의</li>
-      <li>request type에 대한 transaction flow를 정의</li>
-    </ul>
-  </li>
-  <li><strong>Network (communication granularity: Packet)</strong>
-    <ul>
-      <li>protocol message를 packetize함</li>
-      <li>interconnect를 통해 destination으로 routing 하는 데 요구되는 target node ID와 packet를 확인하고 packet에 추가</li>
-    </ul>
-  </li>
-  <li><strong>Link (communication granularity: Flit)</strong>
-    <ul>
-      <li>network device간의 flow를 control함</li>
-      <li>network 전체에서 deadlock-free한 swiching을 제공하기 위해 Link channel을 관리</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="terminology">Terminology</h2>
-<ul>
-  <li><strong>Message</strong>
-    <ul>
-      <li>Message는 두 component간의 교환 granularity를 정의하는 Protocol layer의 용어
-        <ul>
-          <li>Request</li>
-          <li>Data response</li>
-          <li>Snoop request</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Packet</strong>
-    <ul>
-      <li>interconnect를 통해 endpoint간의 communication되는 transfer 단위, message는 하나 이상의 packet으로 구성<br />
-  각각의 packet은 destination ID, source ID와 같은 routing 정보가 포함되어 있어 독립적인 routing이 가능</li>
-    </ul>
-  </li>
-  <li><strong>Flit</strong>
-    <ul>
-      <li>Flit은 가장 작은 flow control 단위. packet은 하나 이상의 flit으로 구성.
-  Packet의 모든 flit은 interconnect를 통해 동일 경로를 이용합니다.</li>
-    </ul>
-  </li>
-  <li><strong>RN (Request node)</strong>
-    <ul>
-      <li>protocol transaction을 생성하는 node, 일반적으로 CPU 같은 master core들이 해당</li>
-    </ul>
-  </li>
-  <li><strong>SN (Slave node)</strong>
-    <ul>
-      <li>Home node로부터 Request를 수신하는 node, 요구되는 action을 수행하고 response를 반환. 주로 memory나 peripheral이 해당</li>
-    </ul>
-  </li>
-  <li><strong>HN (Home node)</strong>
-    <ul>
-      <li>Request node로부터 protocol transaction을 수신하는 node. 요구되는 coherency 동작을 수행하고 response 반환. 주소마다 하나의 HN 존재.</li>
-    </ul>
-  </li>
-</ul>
-
-<!--
-## Transaction Classification
-- **Read Classification**
-<center><img src='./assets/img/posts/chi/read_classification.png'></center>
-
-- **Write Classification**
-<center><img src='./assets/img/posts/chi/write_classification.png'></center>
-
-- **Other Classification**
-<center><img src='./assets/img/posts/chi/other_classification.png'></center>
-
-## What is MESI, MOESI model?
-
-
-<!--
-A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
-
-Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
-
-In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.
-
-<center><img src='./assets/img/posts/20210125/Perceptron.png'></center>
-
-Imagine you have a 'neuron' and to 'activate' it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.
-
-In more mathematical terms, a perceptron is an array of values (let's call them weights), and the rules to apply such values to an input signal.
-
-For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it's weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.
-
-<p style="text-align:center">\(<br>
-\begin{align}
-\begin{split}
-\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
-\end{split}
-\end{align}
-\)</p>
-
-<p style="text-align:center">\(<br>
-\begin{align}<br>
-\begin{split}<br>
-\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
-\end{split}<br>
-\end{align}<br>
-\)</p>
-
-Typically when this value is obtained, we need to apply an "activation" function to smooth the output, but let's say that our activation function is linear, meaning that we keep the value as it is, then that's it, that is the output of the perceptron, -0.5.
-
-In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.
-
-Once we understand this, the magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.
-
-<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
-
-For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.
-
-After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.
-
-The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. [This video series by 3 blue 1 brown explains it wonderfuly.](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
-
-My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.
-
-The neuron has 3 inputs and weights to calculate its output:
-    
-    input 1 is the X coordinate of the point,
-    Input 2 is the y coordinate of the point,
-    Input 3 is the bias and it is always 1
-
-    Input 3 or the bias is required for lines that do not cross the origin (0,0)
-
-The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.
-
-The output of the perceptron is calculated with the following activation function:
-    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0
-
-The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:
-
-|Expected  |  Calculated | Error|
-|:----:|:----:|:----:|
-|1|-1|1|
-|1|1|0|
-|-1|-1|0|
-|-1|1|-1|
-
-With every point that is learned if the error is not 0 the weights are adjusted according to:
-
-    New_weight = Old_weight + error * input * learning_rate
-    for example: New_weight_x = Old_weight_x + error * x * learning rate
-
-A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be. 
-
-In this particular case, I coded the learning_rate to decrease with every iteration as follows:
-
-    learning_rate = 0.01 / (iteration + 1)
-
-this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.
-
-<center><img src='./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg'></center>
-
-In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.
-
-Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
-
-Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
--->]]></content><author><name>Wonho Chang</name></author><category term="RTL" /><category term="AMBA Bus" /><category term="Cache coherence" /><summary type="html"><![CDATA[CHI protocol specialized for cache coherence]]></summary></entry><entry><title type="html">Deep Q Learning for Tic Tac Toe</title><link href="http://localhost:4000/deep-q-learning-tic-tac-toe.html" rel="alternate" type="text/html" title="Deep Q Learning for Tic Tac Toe" /><published>2021-03-19T06:14:20+09:00</published><updated>2021-03-19T06:14:20+09:00</updated><id>http://localhost:4000/deep-q-learning-tic-tac-toe</id><content type="html" xml:base="http://localhost:4000/deep-q-learning-tic-tac-toe.html"><![CDATA[<center><img style="float: left;margin-right: 1em;" src="./assets/img/posts/20210318/Game_Screen.png" width="310" height="300" /></center>
-
-<h2 id="background">Background</h2>
-<p>After many years of a corporate career (17) diverging from computer science, I have now decided to learn Machine Learning and in the process return to coding (something I have always loved!).</p>
-
-<p>To fully grasp the essence of ML I decided to start by <a href="./ML-Library-from-scratch.html">coding a ML library myself</a>, so I can fully understand the inner workings, linear algebra and calculus involved in Stochastic Gradient Descent. And on top learn Python (I used to code in C++ 20 years ago).</p>
-
-<p>I built a general purpose basic ML library that creates a Neural Network (only DENSE layers), saves and loads the weights into a file, does forward propagation and training (optimization of weights and biases) using SGD. I tested the ML library with the XOR problem to make sure it worked fine. You can read the blog post for it <a href="./ML-Library-from-scratch.html">here</a>.</p>
-
-<p>For the next challenge I am interested in reinforcement learning greatly inspired by Deep Mind’s astonishing feats of having their Alpha Go, Alpha Zero and Alpha Star programs learn (and be amazing at it) Go, Chess, Atari games and lately Starcraft; I set myself to the task of programming a neural network that will learn by itself how to play the ancient game of tic tac toe (or noughts and crosses).</p>
-
-<p>How hard could it be?</p>
-
-<p>Of course the first thing to do was to program the game itself, so I chose Python because I am learning it, so it gives me a good practice opportunity, and PyGame for the interface.
-Coding the game was quite straightforward, albeit for the hiccups of being my first PyGame and almost my first Python program ever.
-I created the game quite openly, in such a way that it can be played by two humans, by a human vs. an algorithmic AI, and a human vs. the neural network. And of course the neural network against a choice of 3 AI engines: random, <a href="https://en.wikipedia.org/wiki/Minimax">minimax</a> or hardcoded (an exercise I wanted to do since a long time).</p>
-
-<p>While training, the visuals of the game can be disabled to make training much faster.
-Now, for the fun part, training the network, I followed Deep Mind’s own DQN recommendations:</p>
-
-<ul><li>The network will be an approximation for the Q value function or Bellman equation, meaning that the network will be trained to predict the "value" of each move available in a given game state.</li><li>A replay experience memory was implemented. This meant that the neural network will not be trained after each move. Each move will be recorded in a special "memory" alongside with the state of the board and the reward it received for taking such an action (move).</li><li>After the memory is sizable enough, batches of random experiences sampled from the replay memory are used for every training round</li><li>A secondary neural network (identical to the main one) is used to calculate part of the Q value function (Bellman equation), in particular the future Q values. And then it is updated with the main network's weights every <em>n</em> games. This is done so that we are not chasing a moving target.</li></ul>
-
-<h2 id="designing-the-neural-network">Designing the neural network</h2>
-
-<center><img src="./assets/img/posts/20210318/Neural_Network_Topology.png" width="540" /></center>
-<p><br /></p>
-
-<p>The Neural Network chosen takes 9 inputs (the current state of the game) and outputs 9 Q values for each of the 9 squares in the board of the game (possible actions). Obviously some squares are illegal moves, hence while training there was a negative reward given to illegal moves hoping that the model would learn not to play illegal moves in a given position.</p>
-
-<p>I started out with two hidden layers of 36 neurons each, all fully connected and activated via ReLu. The output layer was initially activated using sigmoid to ensure that we get a nice value between 0 and 1 that represents the QValue of a given state action pair.</p>
-
-<h2 id="the-many-models">The many models…</h2>
-<h3 id="model-1---the-first-try">Model 1 - the first try</h3>
-
-<p>At first the model was trained by playing vs. a “perfect” AI, meaning a <a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Game.py#L43">hard coded algorithm</a> that never looses and that will win if it is given the chance. After several thousand training rounds, I noticed that the Neural Network was not learning much; so I switched to training vs. a completely random player, so that it will also learn how to win. After training vs. the random player, the Neural Network seems to have made progress and is steadily diminishing the loss function over time.</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_across_all_episodes.png" width="540" /></center>
-<p><br /></p>
-
-<p>However, the model was still generating many illegal moves, so I decided to modify the reinforcement learning algorithm to punish more the illegal moves. The change consisted in populating with zeros all the corresponding illegal moves for a given position at the target values to train the network. This seemed to work very well for diminishing the illegal moves:</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves.png" width="540" /></center>
-<p><br /></p>
-
-<p>Nevertheless, the model was still performing quite poorly winning only around 50% of games vs. a completely random player (I expected it to win above 90% of the time). This was after only training 100,000 games, so I decided to keep training and see the results:</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves2.png" width="540" />
-<small>Wins: 65.46% Losses: 30.32% Ties: 4.23%</small></center>
-
-<p>Note that when training restarts, the loss and illegal moves are still high in the beginning of the training round, and this is caused by the epsilon greedy strategy that prefers exploration (a completely random move) over exploitation, this preference diminishes over time.</p>
-
-<p>After another round of 100,000 games, I can see that the loss function actually started to diminish, and the win rate ended up at 65%, so with little hope I decided to carry on and do another round of 100,000 games (about 2 hours in an i7 MacBook Pro):</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves3.png" width="540" />
-<small>Wins: 46.40% Losses: 41.33% Ties: 12.27%</small></center>
-
-<p>As you can see in the chart, the calculated loss not even plateaued, but it seemed to increase a bit over time, which tells me the model is not learning anymore. This was confirmed by the win rate decreasing with respect of the previous round to a meek 46.4% that looks no better than a random player.</p>
-
-<h3 id="model-2---linear-activation-for-the-output">Model 2 - Linear activation for the output</h3>
-
-<p>After not getting the results I wanted, I decided to change the output activation function to linear, since the output is supposed to be a Q value, and not a probability of an action.</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves4.png" width="540" /><br />
-<small>Wins: 47.60% Losses: 39% Ties: 13.4%</small></center>
-<p><br /></p>
-
-<p>Initially I tested with only 1000 games to see if the new activation function was working, the loss function appears to be decreasing, however it reached a plateau around a value of 1, hence still not learning as expected. I came across a <a href="https://github.com/bckenstler/CLR">technique by Brad Kenstler, Carl Thome and Jeremy Jordan</a> called Cyclical Learning Rate, which appears to solve some cases of stagnating loss functions in this type of networks. So I gave it a go using their Triangle 1 model.</p>
-
-<p>With the cycling learning rate in place, still no luck after a quick 1,000 games training round; so I decided to implement on top a decaying learning rate as per the following formula:</p>
-
-<center><img src="./assets/img/posts/20210318/lr_formula.jpeg" width="280" /></center>
-
-<p>The resulting learning rate combining the cycles and decay per epoch is:</p>
-<center><img src="./assets/img/posts/20210318/LR_cycle_decay.png" width="480" />
-<small>Learning Rate = 0.1, Decay = 0.0001, Cycle = 2048 epochs,<br />
-        max Learning Rate factor = 10x</small></center>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">true_epoch</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">-</span> <span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">learning_rate</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">c</span><span class="p">.</span><span class="n">DECAY_RATE</span><span class="o">*</span><span class="n">true_epoch</span><span class="p">))</span>
-<span class="k">if</span> <span class="n">c</span><span class="p">.</span><span class="n">CLR_ON</span><span class="p">:</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">cyclic_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span><span class="n">true_epoch</span><span class="p">)</span>
-</code></pre></div></div>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">cyclic_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
-    <span class="n">max_lr</span> <span class="o">=</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">c</span><span class="p">.</span><span class="n">MAX_LR_FACTOR</span>
-    <span class="n">cycle</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">floor</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">epoch</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span><span class="p">)))</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">((</span><span class="n">epoch</span><span class="o">/</span><span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">cycle</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">learning_rate</span><span class="o">+</span><span class="p">(</span><span class="n">max_lr</span><span class="o">-</span><span class="n">learning_rate</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
-</code></pre></div></div>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span><span class="p">.</span><span class="n">DECAY_RATE</span> <span class="o">=</span> <span class="n">learning</span> <span class="n">rate</span> <span class="n">decay</span> <span class="n">rate</span>
-<span class="n">c</span><span class="p">.</span><span class="n">MAX_LR_FACTOR</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="n">that</span> <span class="n">determines</span> <span class="n">the</span> <span class="nb">max</span> <span class="n">learning</span> <span class="n">rate</span>
-<span class="n">c</span><span class="p">.</span><span class="n">LR_STEP_SIZE</span> <span class="o">=</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">epochs</span> <span class="n">each</span> <span class="n">cycle</span> <span class="n">lasts</span>
-</code></pre></div></div>
-<p><br />With these many changes, I decided to restart with a fresh set of random weights and biases and try training more (much more) games.</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves6.png" width="540" />
-<small>1,000,000 episodes, 7.5 million epochs with batches of 64 moves each<br />
-Wins: 52.66% Losses: 36.02% Ties: 11.32%</small></center>
-
-<p>After <strong>24 hours!</strong>, my computer was able to run 1,000,000 episodes (games played), which represented 7.5 million training epochs of batches of 64 plays (480 million plays learned), the learning rate did decreased (a bit), but is clearly still in a plateau; interestingly, the lower boundary of the loss function plot seems to continue to decrease as the upper bound and the moving average remains constant. This led me to believe that I might have hit a local minimum.
-<a name="Model3"></a></p>
-<h3 id="model-3---new-network-topology">Model 3 - new network topology</h3>
-
-<p>After all the failures I figured I had to rethink the topology of the network and play around with combinations of different networks and learning rates.</p>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves7.png" width="540" />
-<small>100,000 episodes, 635,000 epochs with batches of 64 moves each<br />
-<b>Wins: 76.83%</b> Losses: 17.35% Ties: 5.82%</small></center>
-
-<p>I increased to 200 neurons each hidden layer. In spite of this great improvement the loss function was still in a plateau at around 0.1 (Mean Squared Error). Which, although it is greatly reduced from what we had, still was giving out only 77% win rate vs. a random player, the network was playing tic tac toe as a toddler!</p>
-
-<center><img src="./assets/img/posts/20210318/Game_Screen2.png" width="240" height="240" />
-<small>*I can still beat the network most of the time! (I am playing with the red X)*</small></center>
-
-<center><img src="./assets/img/posts/20210318/Loss_function_and_Illegal_moves10.png" width="540" />
-<small>100,000 more episodes, 620,000 epochs with batches of 64 moves each<br />
-<b>Wins: 82.25%</b> Losses: 13.28% Ties: 4.46%</small></center>
-
-<p><strong>Finally we crossed the 80% mark!</strong> This is quite an achievement, it seems that the change in network topology is working, although it also looks like the loss function is stagnating at around 0.15.</p>
-
-<p>After more training rounds and some experimenting with the learning rate and other parameters, I couldn’t improve past the 82.25% win rate.</p>
-
-<p>These have been the results so far:</p>
-
-<center><img src="./assets/img/posts/20210318/Models1to3.png" width="540" /></center>
-<p><br /></p>
-
-<p>It is quite interesting to learn how the many parameters (hyper-parameters as most authors call them) of a neural network model affect its training performance, I have played with:</p>
-<ul>
-  <li>the learning rate</li>
-  <li>the network topology and activation functions</li>
-  <li>the cycling and decaying learning rate parameters</li>
-  <li>the batch size</li>
-  <li>the target update cycle (when the target network is updated with the weights from the policy network)</li>
-  <li>the rewards policy</li>
-  <li>the epsilon greedy strategy</li>
-  <li>whether to train vs. a random player or an “intelligent” AI.</li>
-</ul>
-
-<p>And so far the most effective change has been the network topology, but being so close but not quite there yet to my goal of 90% win rate vs. a random player, I will still try to optimize further.</p>
-
-<tweet>Network topology seems to have the biggest impact on a neural network's learning ability.</tweet>
-
-<p><a name="Model4"></a></p>
-<h3 id="model-4---implementing-momentum">Model 4 - implementing momentum</h3>
-
-<p>I <a href="https://www.reddit.com/r/MachineLearning/comments/lzvrwp/p_help_with_a_reinforcement_learning_project/">reached out to the reddit community</a> and a kind soul pointed out that maybe what I need is to apply momentum to the optimization algorithm. So I did some research and ended up deciding to implement various optimization methods to experiment with:</p>
-
-<ul>
-  <li>Stochastic Gradient Descent with Momentum</li>
-  <li>RMSProp: Root Mean Square Plain Momentum</li>
-  <li>NAG: Nezterov’s Accelerated Momentum</li>
-  <li>Adam: Adaptive Moment Estimation</li>
-  <li>and keep my old vanilla Gradient Descent (vGD) ☺</li>
-</ul>
-
-<p><a name="optimization"></a><a href="https://the-mvm.github.io/neural-network-optimization-methods/">Click here for a detailed explanation and code of all the implemented optimization algorithms.</a></p>
-
-<p>So far, I have not been able to get better results with Model 4, I have tried all the momentum optimization algorithms with little to no success.
-<a name="Model5"></a></p>
-<h3 id="model-5---implementing-one-hot-encoding-and-changing-topology-again">Model 5 - implementing one-hot encoding and changing topology (again)</h3>
-<p>I came across an <a href="https://github.com/AxiomaticUncertainty/Deep-Q-Learning-for-Tic-Tac-Toe/blob/master/tic_tac_toe.py">interesting project in Github</a> that deals exactly with Deep Q Learning, and I noticed that he used “one-hot” encoding for the input as opposed to directly entering the values of the player into the 9 input slots. So I decided to give it a try and at the same time change my topology to match his:</p>
-
-<center><img src="./assets/img/posts/20210318/Neural_Network_Topology3.png" width="540" /></center>
-
-<p>So, ‘one hot’ encoding is basically changing the input of a single square in the tic tac toe board to three numbers, so that each state is represented with different inputs, thus the network can clearly differentiate the three of them. As the original author puts it, the way I was encoding, having 0 for empty, 1 for X and 2 for O, the network couldn’t easily tell that, for instance, O and X both meant occupied states, because one is two times as far from 0 as the other. With the new encoding, the empty state will be 3 inputs: (1,0,0), the X will be (0,1,0) and the O (0,0,1) as in the diagram.</p>
-
-<p>Still, no luck even with Model 5, so I am starting to think that there could be a bug in my code.</p>
-
-<p>To test this hypothesis, I decided to implement the same model using Tensorflow / Keras.</p>
-
-<p><a name="Model6"></a></p>
-<h3 id="model-6---tensorflow--keras">Model 6 - Tensorflow / Keras</h3>
-<center><img src="https://www.kubeflow.org/docs/images/logos/TensorFlow.png" width="100" height="100" /></center>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span> <span class="o">=</span> <span class="nc">Sequential</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">hidden_layers</span><span class="p">:</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">Dense</span><span class="p">(</span>
-                           <span class="n">units</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
-                           <span class="n">activation</span><span class="o">=</span><span class="sh">'</span><span class="s">relu</span><span class="sh">'</span><span class="p">,</span>
-                           <span class="n">input_dim</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
-                           <span class="n">kernel_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">random_uniform</span><span class="sh">'</span><span class="p">,</span>
-                           <span class="n">bias_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">zeros</span><span class="sh">'</span><span class="p">))</span>
-<span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">Dense</span><span class="p">(</span>
-                        <span class="n">outputs</span><span class="p">,</span>
-                        <span class="n">kernel_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">random_uniform</span><span class="sh">'</span><span class="p">,</span>
-                        <span class="n">bias_initializer</span><span class="o">=</span><span class="sh">'</span><span class="s">zeros</span><span class="sh">'</span><span class="p">))</span>
-<span class="n">opt</span> <span class="o">=</span> <span class="nc">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">LEARNING_RATE</span><span class="p">,</span>
-           <span class="n">beta_1</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">GAMMA_OPT</span><span class="p">,</span>
-           <span class="n">beta_2</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">BETA</span><span class="p">,</span>
-           <span class="n">epsilon</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">EPSILON</span><span class="p">,</span>
-           <span class="n">amsgrad</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="sh">'</span><span class="s">adam</span><span class="sh">'</span><span class="p">,</span>
-                           <span class="n">loss</span><span class="o">=</span><span class="sh">'</span><span class="s">mean_squared_error</span><span class="sh">'</span><span class="p">,</span>
-                           <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accuracy</span><span class="sh">'</span><span class="p">])</span>
-</code></pre></div></div>
-<p>As you can see I am reusing all of my old code, and just replacing my Neural Net library with Tensorflow/Keras, keeping even my hyper-parameter constants.</p>
-
-<p>The training function changed to:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">reduce_lr_on_plateau</span> <span class="o">=</span> <span class="nc">ReduceLROnPlateau</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="sh">'</span><span class="s">loss</span><span class="sh">'</span><span class="p">,</span>
-                                         <span class="n">factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                                         <span class="n">patience</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
-<span class="n">history</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">PolicyNetwork</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">asarray</span><span class="p">(</span><span class="n">states_to_train</span><span class="p">),</span>
-                                 <span class="n">np</span><span class="p">.</span><span class="nf">asarray</span><span class="p">(</span><span class="n">targets_to_train</span><span class="p">),</span>
-                                 <span class="n">epochs</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">EPOCHS</span><span class="p">,</span>
-                                 <span class="n">batch_size</span><span class="o">=</span><span class="n">c</span><span class="p">.</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
-                                 <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                                 <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">reduce_lr_on_plateau</span><span class="p">],</span>
-                                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>With Tensorflow implemented, the first thing I noticed, was that I had an error in the calculation of the loss, although this only affected reporting and didn’t change a thing on the training of the network, so the results kept being the same, <strong>the loss function was still stagnating! My code was not the issue.</strong>
-<a name="Model7"></a></p>
-<h3 id="model-7---changing-the-training-schedule">Model 7 - changing the training schedule</h3>
-<p>Next I tried to change the way the network was training as per <a href="https://www.reddit.com/user/elBarto015">u/elBarto015</a> <a href="https://www.reddit.com/r/reinforcementlearning/comments/lzzjar/i_created_an_ai_for_super_hexagon_based_on/gqc8ka6?utm_source=share&amp;utm_medium=web2x&amp;context=3">advised me on reddit</a>.</p>
-
-<p>The way I was training initially was:</p>
-<ul>
-  <li>Games begin being simulated and the outcome recorded in the replay memory</li>
-  <li>Once a sufficient ammount of experiences are recorded (at least equal to the batch size) the Network will train with a random sample of experiences from the replay memory. The ammount of experiences to sample is the batch size.</li>
-  <li>The games continue to be played between the random player and the network.</li>
-  <li>Every move from either player generates a new training round, again with a random sample from the replay memory.</li>
-  <li>This continues until the number of games set up conclude.</li>
-</ul>
-
-<center><img src="./assets/img/posts/20210318/ReplayMemoryBefore.png" width="540" /></center>
-
-<p>The first change was to train only after every game concludes with the same ammount of data (a batch). This was still not giving any good results.</p>
-
-<p>The second change was more drastic, it introduced the concept of epochs for every training round, it basically sampled the replay memory for epochs * batch size experiences, for instance if epochs selected were 10, and batch size was 81, then 810 experiences were sampled out of the replay memory. With this sample the network was then trained for 10 epochs randomly using the batch size.</p>
-
-<p>This meant that I was training now effectively 10 (or the number of epochs selected) times more per game, but in batches of the same size and randomly shuffling the experiences each epoch.</p>
-
-<center><img src="./assets/img/posts/20210318/ReplayMemoryAfter.png" width="540" /></center>
-<p><br /></p>
-
-<p>After still playing around with some hyperparameters I managed to get similar performance as I got before, reaching 83.15% win rate vs. the random player, so I decided to keep training in rounds of 2,000 games each to evaluate performance. With almost every round I could see improvement:</p>
-
-<center><img src="./assets/img/posts/20210318/Model7HyperParameters.png" width="540" /><br />
-<img src="./assets/img/posts/20210318/Model7.png" width="480" />
-</center>
-<p><br /></p>
-
-<p>As of today, my best result so far is 87.5%, I will leave it rest for a while and keep investigating to find a reason for not being able to reach at least 90%. I read about <a href="https://medium.com/applied-data-science/how-to-train-ai-agents-to-play-multiplayer-games-using-self-play-deep-reinforcement-learning-247d0b440717">self play</a>, and it looks like a viable option to test and a fun coding challenge. However, before embarking in yet another big change I want to ensure I have been thorough with the model and have tested every option correctly.</p>
-
-<p>I feel the end is near… should I continue to update this post as new events unfold or shall I make it a multi post thread?</p>]]></content><author><name>Armando Maynez</name></author><category term="machine learning" /><category term="artificial intelligence" /><category term="reinforcement learning" /><category term="coding" /><category term="python" /><summary type="html"><![CDATA[Inspired by Deep Mind's astonishing feats of having their Alpha Go, Alpha Zero and Alpha Star programs learn (and be amazing at it) Go, Chess, Atari games and lately Starcraft; I set myself to the task of programming a neural network that will learn by itself how to play the ancient game of tic tac toe. How hard could it be?]]></summary></entry><entry><title type="html">Machine Learning Library in Python from scratch</title><link href="http://localhost:4000/ML-Library-from-scratch.html" rel="alternate" type="text/html" title="Machine Learning Library in Python from scratch" /><published>2021-03-01T03:32:20+09:00</published><updated>2021-03-01T03:32:20+09:00</updated><id>http://localhost:4000/ML-Library-from-scratch</id><content type="html" xml:base="http://localhost:4000/ML-Library-from-scratch.html"><![CDATA[<p>It must sound crazy that in this day and age, when we have such a myriad of amazing machine learning libraries and toolkits all open sourced, all quite well documented and easy to use, I decided to create my own ML library from scratch.</p>
-<center><img src="./assets/img/posts/20210228/ML_cloud.jpg" width="480px" /></center>
-<p>Let me try to explain; I am in the process of immersing myself into the world of Machine Learning, and to do so, I want to deeply understand the basic concepts and its foundations, and I think that there is no better way to do so than by creating myself all the code for a basic neural network library from scratch. This way I can gain in depth understanding of the math that underpins the ML algorithms.</p>
-
-<p>Another benefit of doing this is that since I am also learning Python, the experiment brings along good exercise for me.</p>
-
-<p>To call it a Machine Learning Library is perhaps a bit of a stretch, since I just intended to create a <strong>multi-neuron, multi-layered <a href="./single-neuron-perceptron.html">perceptron</a></strong>.</p>
-
-<center><img src="./assets/img/posts/20210228/nnet_flow.gif" /></center>
-
-<p>The library started very narrowly, with just the following functionality:</p>
-<ul>
-  <li><strong>create</strong> a neural network based on the following parameters:
-    <ul>
-      <li>number of inputs</li>
-      <li>size and number of hidden layers</li>
-      <li>number of outputs</li>
-      <li>learning rate</li>
-    </ul>
-  </li>
-  <li><strong>forward propagate</strong> or predict the output values when given some inputs</li>
-  <li><strong>learn</strong> through back propagation using gradient descent</li>
-</ul>
-
-<p>I restricted the model to be sequential, and the layers to be only dense / fully connected, this means that every neuron is connected to every neuron of the following layer. Also, as a restriction, the only activation function I implemented was sigmoid:</p>
-
-<center><img src="./assets/img/posts/20210228/nn_diagram.png" /></center>
-
-<p>With my neural network coded, I tested it with a very basic problem, the famous XOR problem.</p>
-
-<p>XOR is a logical operation that cannot be solved by a single perceptron because of its linearity restriction:</p>
-
-<center><img src="./assets/img/posts/20210228/xor_problem.png" /></center>
-
-<p>As you can see, when plotted in an X,Y plane, the logical operators AND and OR have a line that can clearly separate the points that are false from the ones that are true, hence a perceptron can easily learn to classify them; however, for XOR there is no single straight line that can do so, therefore a multilayer perceptron is needed for the task.</p>
-
-<p>For the test I created a neural network with my library:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">Neural_Network</span> <span class="k">as</span> <span class="n">nn</span>
-
-<span class="n">inputs</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">hidden_layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">outputs</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.03</span>
-
-<span class="n">NN</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">NeuralNetwork</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>The three inputs I decided to use (after a lot of trial and error) are the X and Y coordinate of a point (between X = 0, X = 1, Y = 0 and Y = 1) and as the third input the multiplication of both X and Y. Apparently it gives the network more information, and it ends up converging much more quickly with this third input.</p>
-
-<p>Then there is a single hidden layer with 2 neurons and one output value, that will represent False if the value is closer to 0 or True if the value is closer to 1.</p>
-
-<p>Then I created the learning data, which is quite trivial for this problem, since we know very easily how to compute XOR.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">training_data</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">learning_rounds</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">rnd</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">rnd</span><span class="p">.</span><span class="nf">random</span><span class="p">()</span>
-    <span class="n">training_data</span><span class="p">.</span><span class="nf">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span> <span class="nf">if </span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p>And off we go into training:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">training_data</span><span class="p">:</span>
-    <span class="n">NN</span><span class="p">.</span><span class="nf">train</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="mi">3</span><span class="p">].</span><span class="nf">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">:].</span><span class="nf">reshape</span><span class="p">(</span><span class="n">outputs</span><span class="p">))</span>
-</code></pre></div></div>
-
-<p>The ML library can only train on batches of 1 (another self-imposed coding restriction), therefore only one “observation” at a time, this is why the train function accepts two parameters, one is the inputs packed in an array, and the other one is the outputs, packed as well in an array.</p>
-
-<p>To see the neural net in action I decided to plot the predicted results in both a 3d X,Y,Z surface plot (z being  the network’s predicted value), and a scatter plot with the color of the points representing the predicted value.</p>
-
-<p>This was plotted in MatPlotLib, so we needed to do some housekeeping first:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">canvas</span><span class="p">.</span><span class="nf">set_window_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Learning XOR Algorithm</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">.</span><span class="nf">set_size_inches</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-
-<span class="n">axs1</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="sh">'</span><span class="s">3d</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">axs2</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Then we need to prepare the data to be plotted by generating X and Y values distributed between 0 and 1, and having the network calculate the Z value:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_surface_points</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_surface_points</span><span class="p">)</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">NN</span><span class="p">.</span><span class="nf">forward_propagation</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">])).</span><span class="nf">reshape</span><span class="p">(</span><span class="n">num_surface_points</span><span class="p">,</span> <span class="n">num_surface_points</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>As you can see, the z values array is reshaped as a 2d array of shape (x,y), since this is the way Matplotlib interprets it as a surface:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">axs1</span><span class="p">.</span><span class="nf">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span>
-                  <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                  <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                  <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
-                  <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                  <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                  <span class="n">antialiased</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>The end result looks something like this:</p>
-<center><img src="./assets/img/posts/20210228/Surface_XOR.jpg" /></center>
-
-<p>Then we reshape the z array as a one dimensional array to use it to color the scatter plot:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">num_surface_points</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">scatter</span> <span class="o">=</span> <span class="n">axs2</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-                       <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">o</span><span class="sh">'</span><span class="p">,</span>
-                       <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
-                       <span class="n">c</span><span class="o">=</span><span class="n">z</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
-                       <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">viridis</span><span class="sh">'</span><span class="p">,</span>
-                       <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                       <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></div></div>
-<center><img src="./assets/img/posts/20210228/Final_XOR_Plot.jpg" /></center>
-
-<p>To actually see the progress while learning, I created a Matplotlib animation, and it is quite interesting to see as it learns.</p>
-
-<center><video width="598" height="298" controls="" autoplay="" loop="">
+As you can see, the z values array is reshaped as a 2d array of shape (x,y), since this is the way Matplotlib interprets it as a surface:
+
+```python
+axs1.plot_surface(x, y, z,
+                  rstride=1,
+                  cstride=1,
+                  cmap='viridis',
+                  vmin=0,
+                  vmax=1,
+                  antialiased=True)
+```
+
+The end result looks something like this:
+<center><img src="./assets/img/posts/20210228/Surface_XOR.jpg"></center>
+
+
+Then we reshape the z array as a one dimensional array to use it to color the scatter plot:
+
+```python
+z = z.reshape(num_surface_points ** 2)
+scatter = axs2.scatter(x, y,
+                       marker='o',
+                       s=40,
+                       c=z.astype(float),
+                       cmap='viridis',
+                       vmin=0,
+                       vmax=1)
+```
+<center><img src="./assets/img/posts/20210228/Final_XOR_Plot.jpg"></center>
+
+To actually see the progress while learning, I created a Matplotlib animation, and it is quite interesting to see as it learns.
+
+<center><video width="598" height="298" controls autoplay loop>
   <source type="video/mp4" src="data:video/mp4;base64,AAAAIGZ0eXBNNFYgAAACAE00ViBpc29taXNvMmF2YzEAAAAIZnJlZQAF5nJtZGF0AAACrgYF//+q
 3EXpvebZSLeWLNgg2SPu73gyNjQgLSBjb3JlIDE2MSByMzA0OCBiODZhZTNjIC0gSC4yNjQvTVBF
 Ry00IEFWQyBjb2RlYyAtIENvcHlsZWZ0IDIwMDMtMjAyMSAtIGh0dHA6Ly93d3cudmlkZW9sYW4u
@@ -8025,17 +6961,15 @@ B8gAAAh0AAADrQAABTsAAAikAAAM1AAABeQAAAmAAAADmgAACpgAAAvVAAAE2wAABG8AAAeKAAAE
 7wAABwYAAAXGAAAF7QAABdEAAAVUAAAIIgAABk0AAAAUc3RjbwAAAAAAAAABAAAAMAAAAGJ1ZHRh
 AAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAl
 qXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTguNDUuMTAw
-" />
-  <img src="./assets/img/posts/20210228/xor_animation.gif" />
+">
+  <img src="./assets/img/posts/20210228/xor_animation.gif">
 </video></center>
 
-<p>So my baby ML library is completed for now, but still I would like to enhance it in several ways:</p>
+So my baby ML library is completed for now, but still I would like to enhance it in several ways:
 
-<ul>
-  <li>include multiple activation functions (ReLu, linear, Tanh, etc.)</li>
-  <li>allow for multiple optimizers (Adam, RMSProp, SGD Momentum, etc.)</li>
-  <li>have batch and epoch training schedules functionality</li>
-  <li>save and load trained model to file</li>
-</ul>
+- include multiple activation functions (ReLu, linear, Tanh, etc.)
+- allow for multiple optimizers (Adam, RMSProp, SGD Momentum, etc.)
+- have batch and epoch training schedules functionality
+- save and load trained model to file
 
-<p>I will get to it soon…</p>]]></content><author><name>Armando Maynez</name></author><category term="machine learning" /><category term="coding" /><category term="neural networks" /><category term="python" /><summary type="html"><![CDATA[Single neuron perceptron that classifies elements learning quite quickly.]]></summary></entry></feed>
+I will get to it soon...

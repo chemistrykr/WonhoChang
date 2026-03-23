@@ -127,6 +127,27 @@
 <link rel="apple-touch-icon" sizes="72x72" href="./assets/img/favicon/favicon.ico">
 <link rel="apple-touch-icon" sizes="114x114" href="./assets/img/favicon/favicon.ico">
 	
+
+  <!-- Prism CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css" rel="stylesheet" />
+
+  <!-- Prism JS -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+
+  <!-- Verilog (SystemVerilog 대체) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-verilog.min.js"></script>
+
+  <!-- Line Numbers plugin -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+  <!-- Copy button plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/toolbar/prism-toolbar.css" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-highlight/prism-line-highlight.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-highlight/prism-line-highlight.css" rel="stylesheet" />
 </head>
 
   <body>
@@ -240,6 +261,45 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./CHI-Protocol-Transaction.html">CHI Protocol (Transaction(2))</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다.Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p><h2 id="read-transaction">Read Transaction</h2><ul> <li><strong>Non-Allocating Read</strong> <ul> <li>ReadNoSnp</li> <li>ReadOnce</li> <li>ReadOnceCleanInvalid</li> <li>ReadOnceMakeInvalid</li> </ul> </li></ul><center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center><p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br />다만 Allocating Read와 달리 CompAck이 필수가 아니다. <br />CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br />Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p><p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p><ul> <li><strong>1. Combined Response from Home</strong> <ul> <li>해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여...<a class="read-more" href="./CHI-Protocol-Transaction.html"> read more</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./OOP-Testbench.html">OOP Testbench (Primer)</a>
 			
 
@@ -279,7 +339,7 @@
 		<div class="post">
 			
 
-			<a class="post-list-title" href="./CHI-Protocol-Overview-2.html">CHI Protocol (Transaction)</a>
+			<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
 			
 
   <span class = "post-card-meta">
@@ -291,46 +351,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-02-19T08:32:20+09:00">February 19, 2026</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        2 minute read
-      
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p><h2 id="cache-state-model">Cache State Model</h2><p>CHI에서 Cache line은 6가지 state를 가질 수 있습니다. Valid/InValid, Clean/Dirty, Parial/Empty, Unique/Shared에 따라 state가 결정됩니다.</p><center><img src="./assets/img/posts/chi/cache_model.png" /></center><ul> <li><strong>Invalid</strong> <ul> <li>cache line이 cache에 존재하지 않은 state<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty</strong> <ul> <li>cache line이 해당 cache에만 존재하는 경우</li> <li>cache line의 data가 Main Memory에 반영하지 않은 상태</li> <li>Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능</li> <li>Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.</li> <li>Snoop에 의해 Directly하게 Cache line을 Requester에 전송 가능<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty Partial</strong> <ul> <li>Unique Dirty에서 cache line의...<a class="read-more" href="./CHI-Protocol-Overview-2.html"> read more</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./DRAM-Introduction-1.html">DRAM Introduction</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2025-09-19T20:00:20+09:00">September 19, 2025</time>
+        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
       </span>
     
     
@@ -350,7 +371,7 @@
   </span>
 
 			<div class="post-excerpt">
-				<p>최근 AI 시대에 고대역폭 메모리를 요구함에 따라 DRAM의 중요도는 증가하고 있습니다. 이번 페이지에서는 DRAM의 기본적인 동작과 구조에 대해 살펴보도록 하겠습니다.</p><h2 id="dram-operation">DRAM Operation</h2><p>DRAM은 Capacitor로 이루어진 아날로그 소자입니다.<br />그래서 Current Leakage로 인한 Data integrity를 보장하기 위해 Refresh 동작을 주기적으로 수행해야 합니다.</p><p>DRAM의 Cell은 1T-1C (1Transistor, 1Capacitor)로 이루어져 있으며 Transistor에 전압을 인가 후 Capacitor에 전하를 저장하는 방식으로 Data를 저장합니다. DRAM은 바둑판처럼 격자 구조로 여러 cell을 구성합니다.</p><center><img src="./assets/img/posts/DRAM/dram_cell.jpg" /></center><p>이때 Row(행), Column(열)은 DRAM을 access하는 단위입니다. 즉 Row는 여러 cell의 Transistor와 연결되어 있어 전압을 인가하여 open 시켜주는 역할을 합니다. 우리는 이를 Word line으로 부릅니다.<br />그리고 Transistor 동작 후 Cell의 전하는 자연스럽게 bit-line에 흐르게 됩니다. bitline에 흐르는 전하로...<a class="read-more" href="./DRAM-Introduction-1.html"> read more</a>
+				<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p><ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
 			</div>
 		</div>
 	
