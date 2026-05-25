@@ -7,9 +7,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>DRAM Introduction - RTL & Verification Notes</title>
-	<link rel="canonical" href="http://localhost:4000/DRAM-Introduction-1.html">
-	<meta name="description" content="Description on DRAM">
+	<title>CHI Protocol (Transaction(2)) - RTL & Verification Notes</title>
+	<link rel="canonical" href="http://localhost:4000/Power-Aware-Design.html">
+	<meta name="description" content="CHI protocol Overview (Transaction)">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <script type="application/ld+json">
@@ -19,13 +19,13 @@
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://localhost:4000"},
-  "headline": "DRAM Introduction",
-  "abstract": "Description on DRAM",
-    "keywords": "RTL, DRAM, JEDEC",
-    "wordcount": "391",
-    "image": ["http://localhost:4000/assets/imgposts/DRAM/DRAM.jpg"],
-  "datePublished": "2025-09-19 20:00:20 +0900",
-  "dateModified": "2025-09-19 20:00:20 +0900",
+  "headline": "CHI Protocol (Transaction(2))",
+  "abstract": "CHI protocol Overview (Transaction)",
+    "keywords": "RTL, AMBA Bus, Cache coherence",
+    "wordcount": "426",
+    "image": ["http://localhost:4000/assets/imgposts/chi/chi.jpg"],
+  "datePublished": "2026-03-16 08:32:20 +0900",
+  "dateModified": "2026-03-16 08:32:20 +0900",
   "author": {
     "@type": "Person",
     "name": "Wonho Chang"},
@@ -40,30 +40,30 @@
 }
 </script>
 <!-- Open Graph data -->
-<meta property="og:url" content="http://localhost:4000/DRAM-Introduction-1.html"/>
+<meta property="og:url" content="http://localhost:4000/Power-Aware-Design.html"/>
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="DRAM Introduction"/>
-<meta property="og:description" content="Description on DRAM"/>
-<meta property="og:image" content="http://localhost:4000/assets/imgposts/DRAM/DRAM.jpg"/>
-<meta property="og:image:alt" content="DRAM Introduction"/>
+<meta property="og:title" content="CHI Protocol (Transaction(2))"/>
+<meta property="og:description" content="CHI protocol Overview (Transaction)"/>
+<meta property="og:image" content="http://localhost:4000/assets/imgposts/chi/chi.jpg"/>
+<meta property="og:image:alt" content="CHI Protocol (Transaction(2))"/>
 <meta property="og:site_name" content="RTL & Verification Notes" />
-<meta property="article:published_time" content="2025-09-19 20:00:20 +0900" />
-<meta property="article:modified_time" content="2025-09-19 20:00:20 +0900" />
-<meta property="article:tag" content="RTL, DRAM, JEDEC" />
+<meta property="article:published_time" content="2026-03-16 08:32:20 +0900" />
+<meta property="article:modified_time" content="2026-03-16 08:32:20 +0900" />
+<meta property="article:tag" content="RTL, AMBA Bus, Cache coherence" />
 <meta property="fb:admins" content="ar.maybach" />
 <!-- Schema.org markup for Google -->
-<meta itemprop="name" content="DRAM Introduction">
-<meta itemprop="description" content="Description on DRAM">
-<meta itemprop="image" content="http://localhost:4000/assets/imgposts/DRAM/DRAM.jpg">
+<meta itemprop="name" content="CHI Protocol (Transaction(2))">
+<meta itemprop="description" content="CHI protocol Overview (Transaction)">
+<meta itemprop="image" content="http://localhost:4000/assets/imgposts/chi/chi.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
-<meta name="twitter:title" content="DRAM Introduction">
-<meta name="twitter:description" content="Description on DRAM">
+<meta name="twitter:title" content="CHI Protocol (Transaction(2))">
+<meta name="twitter:description" content="CHI protocol Overview (Transaction)">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="391"/>
-<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/DRAM/DRAM.jpg">
+<meta data-rh="true" name="twitter:data1" content="426"/>
+<meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/chi/chi.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
 	<!-- iOS Safari -->
@@ -160,7 +160,7 @@
 
 <section class="hidden">
   <div class="post">
-      <a  class="post-list-title" href="./DRAM-Introduction-1.html">DRAM Introduction</a>
+      <a  class="post-list-title" href="./Power-Aware-Design.html">CHI Protocol (Transaction(2))</a>
       
 
   <span class = "post-card-meta">
@@ -172,7 +172,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2025-09-19T20:00:20+09:00">September 19, 2025</time>
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -192,7 +192,7 @@
   </span>
 
         <div class="post-excerpt">
-            <p>최근 AI 시대에 고대역폭 메모리를 요구함에 따라 DRAM의 중요도는 증가하고 있습니다. 이번 페이지에서는 DRAM의 기본적인 동작과 구조에 대해 살펴보도록 하겠습니다.</p><h2 id="dram-operation">DRAM Operation</h2><p>DRAM은 Capacitor로 이루어진 아날로그 소자입니다.<br />그래서 Current Leakage로 인한 Data integrity를 보장하기 위해 Refresh 동작을 주기적으로 수행해야 합니다.</p><p>DRAM의 Cell은 1T-1C (1Transistor, 1Capacitor)로 이루어져 있으며 Transistor에 전압을 인가 후 Capacitor에 전하를 저장하는 방식으로 Data를 저장합니다. DRAM은 바둑판처럼 격자 구조로 여러 cell을 구성합니다.</p><center><img src="./assets/img/posts/DRAM/dram_cell.jpg" /></center><p>이때 Row(행), Column(열)은 DRAM을 access하는 단위입니다. 즉 Row는 여러 cell의 Transistor와 연결되어 있어 전압을 인가하여 open 시켜주는 역할을 합니다. 우리는 이를 Word line으로 부릅니다.<br />그리고 Transistor 동작 후 Cell의 전하는 자연스럽게 bit-line에 흐르게 됩니다. bitline에 흐르는 전하로...<a class="read-more" href="./DRAM-Introduction-1.html"> read more</a>
+            <p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다.Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p><h2 id="read-transaction">Read Transaction</h2><ul> <li><strong>Non-Allocating Read</strong> <ul> <li>ReadNoSnp</li> <li>ReadOnce</li> <li>ReadOnceCleanInvalid</li> <li>ReadOnceMakeInvalid</li> </ul> </li></ul><center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center><p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br />다만 Allocating Read와 달리 CompAck이 필수가 아니다. <br />CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br />Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p><p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p><ul> <li><strong>1. Combined Response from Home</strong> <ul> <li>해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여...<a class="read-more" href="./Power-Aware-Design.html"> read more</a>
         </div>
   </div>
 </section>
@@ -290,17 +290,17 @@
 </header> <!-- End Header -->
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="DRAM Introduction">
-<meta itemprop="description" content="Description on DRAM">
-<meta itemprop="datePublished" content="2025-09-19T20:00:20+09:00">
+    <meta itemprop="headline" content="CHI Protocol (Transaction(2))">
+<meta itemprop="description" content="CHI protocol Overview (Transaction)">
+<meta itemprop="datePublished" content="2026-03-16T08:32:20+09:00">
 
     <div class="page-image">
-      <div class="cover-image" style="background: url('./assets/img/posts/DRAM/DRAM.jpg') center no-repeat; background-size: cover;"></div>
+      <div class="cover-image" style="background: url('./assets/img/posts/chi/chi.jpg') center no-repeat; background-size: cover;"></div>
     </div>
     <div class="wrapper">
       <div class="page-content">
         <div class="header-page">
-          <h1 class="page-title">DRAM Introduction</h1>
+          <h1 class="page-title">CHI Protocol (Transaction(2))</h1>
           
 
   <span class = "post-page-meta">
@@ -312,7 +312,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2025-09-19T20:00:20+09:00">September 19, 2025</time>
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -345,9 +345,9 @@
             
                 <li><a href="./tag.html?tag=RTL" class="tag side">RTL</a></li>
             
-                <li><a href="./tag.html?tag=DRAM" class="tag side">DRAM</a></li>
+                <li><a href="./tag.html?tag=AMBA+Bus" class="tag side">AMBA Bus</a></li>
             
-                <li><a href="./tag.html?tag=JEDEC" class="tag side">JEDEC</a></li>
+                <li><a href="./tag.html?tag=Cache+coherence" class="tag side">Cache coherence</a></li>
             
     
         </ul>
@@ -356,11 +356,11 @@
     <div class="share-hover side">
         <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons side" id="sidebar-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=DRAM Introduction&url=http://localhost:4000/DRAM-Introduction-1.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/DRAM-Introduction-1.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/DRAM-Introduction-1.html&title=DRAM Introduction" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/DRAM-Introduction-1.html&title=DRAM Introduction&summary=Description on DRAM&source=http://localhost:4000/DRAM-Introduction-1.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=DRAM Introduction&body=Description on DRAM%0A%0ARead more here: http://localhost:4000/DRAM-Introduction-1.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=CHI Protocol (Transaction(2))&url=http://localhost:4000/Power-Aware-Design.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/Power-Aware-Design.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/Power-Aware-Design.html&title=CHI Protocol (Transaction(2))" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/Power-Aware-Design.html&title=CHI Protocol (Transaction(2))&summary=CHI protocol Overview (Transaction)&source=http://localhost:4000/Power-Aware-Design.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=CHI Protocol (Transaction(2))&body=CHI protocol Overview (Transaction)%0A%0ARead more here: http://localhost:4000/Power-Aware-Design.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -370,45 +370,188 @@
 
         
         
-        <p>최근 AI 시대에 고대역폭 메모리를 요구함에 따라 DRAM의 중요도는 증가하고 있습니다. 이번 페이지에서는 DRAM의 기본적인 동작과 구조에 대해 살펴보도록 하겠습니다.</p>
+        <p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다.
+Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p>
 
-<h2 id="dram-operation">DRAM Operation</h2>
-<p>DRAM은 Capacitor로 이루어진 아날로그 소자입니다.<br />
-그래서 Current Leakage로 인한 Data integrity를 보장하기 위해 Refresh 동작을 주기적으로 수행해야 합니다.</p>
+<h2 id="read-transaction">Read Transaction</h2>
+<ul>
+  <li><strong>Non-Allocating Read</strong>
+    <ul>
+      <li>ReadNoSnp</li>
+      <li>ReadOnce</li>
+      <li>ReadOnceCleanInvalid</li>
+      <li>ReadOnceMakeInvalid</li>
+    </ul>
+  </li>
+</ul>
 
-<p>DRAM의 Cell은 1T-1C (1Transistor, 1Capacitor)로 이루어져 있으며 Transistor에 전압을 인가 후 Capacitor에 전하를 저장하는 방식으로 Data를 저장합니다. DRAM은 바둑판처럼 격자 구조로 여러 cell을 구성합니다.</p>
+<center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center>
 
-<center><img src="./assets/img/posts/DRAM/dram_cell.jpg" /></center>
+<p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br />
+다만 Allocating Read와 달리 CompAck이 필수가 아니다.  <br />
+CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br />
+Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p>
 
-<p>이때 Row(행), Column(열)은 DRAM을 access하는 단위입니다. 즉 Row는 여러 cell의 Transistor와 연결되어 있어 전압을 인가하여 open 시켜주는 역할을 합니다. 우리는 이를 Word line으로 부릅니다.<br />
-그리고 Transistor 동작 후 Cell의 전하는 자연스럽게 bit-line에 흐르게 됩니다. bitline에 흐르는 전하로 인해 전압차가 발생되고 Sense Amplifier에서 이를 증폭시켜 Data를 High/Low인지 구분합니다.</p>
+<p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p>
 
-<center><img src="./assets/img/posts/DRAM/dram_operation.jpg" /></center>
+<ul>
+  <li><strong>1. Combined Response from Home</strong>
+    <ul>
+      <li>해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여 Requester에 전송</li>
+      <li>Order 제약조건 있을 경우 Optinal하게 Home은 ReadReceipt 반환할 수 있다.<br />
+  <br /></li>
+    </ul>
+  </li>
+  <li><strong>2. Separate data and response from Home</strong>
+    <ul>
+      <li>Home에서 독립적으로 response와 data를 전송할 때 사용되는 방식</li>
+      <li>Order 제약조건이 존재하고 CompAck을 요구하지 않을 경우 해당 scheme을 사용하지 못할 수 있음<br />
+  <br /></li>
+    </ul>
+  </li>
+  <li><strong>3. Combined response from Subordinate</strong>
+    <ul>
+      <li>Home에 data가 존재하지 않아 Memory로 Data를 요청할 때 사용, Subordintae가 Data와 Response를 합쳐 Data channel로 전송</li>
+      <li>Order(!=0) 제약 사항이 있을 경우 선택적으로 Subordinate가 ReadReceipt response 반환, 다만 Compack을 요청하지 않을 경우 ReadReceipt 반환은 필수적이다.</li>
+      <li>Home에서 Subordinate로 ReadNoSnp Downstream Request 전송<br />
+  <br /></li>
+    </ul>
+  </li>
+  <li><strong>4. Response from Home, Data from Subordinate</strong>
+    <ul>
+      <li>독립적으로 Response는 Home이 전송하고 Data만 Subordinate에서 반환할 때 사용</li>
+      <li>Home에서 Subordinate로 ReadNoSnpSep Downstream Request 전송 (Data만 반환)</li>
+      <li>Optionally하게 Home이 Read Receipt를 요청할 경우 Subordinate는 Read Receipt를 전송할 수 있다. 하지만 Order와 CompAck을 명시되지 않는한 Home은 반드시 Read Receipt를 요청해야 합니다. <br />
+  <br /></li>
+    </ul>
+  </li>
+</ul>
 
-<p>그렇다면 System 관점에서 어떻게 위 동작을 지시할지 생각해봐야 합니다. 우리는 Row address를 포함한 ACT라는 command를 통해 Row에 포함된 다수의 data를 Sense Amplifier에 load합니다.<br />
-Row open 후 Column address를 포함한 CAS라는 command를 통해 Read/Write 동작을 수행합니다. 상위 그림은 DRAM Data가 I/O단에 입출력되는 과정을 보여주지만 현대 DRAM 동작이랑 상이할 수 있습니다.</p>
+<p>일반적으로 Response와 Data가 독립적으로 전송할 때 Response를 빨리 전송한다. 이때 Requester가 CompAck의 전송 시점은 Home으로부터 Response를 받은 이후부터 가능하다.  <br /><br /> 
+즉 Home은 Requester로부터 Compack을 받은 이후 transaction을 완료할 수 있기에 combined response보다 빨리 transaction을 처리할 수 있음</p>
 
-<h2 id="dram-architecture">DRAM Architecture</h2>
+<ul>
+  <li><strong>5. Forwarding snoop</strong>
+    <ul>
+      <li>Home에서 Snoopee (Requester)에 data forwarding을 요청하는 case</li>
+      <li>이때 Home에 최신 data가 존재하지 않고 특정 Requester에 data가 존재할 때 Snoop 동작을 요청하는 방식</li>
+      <li>5a: Home에 Snoop Response만 전송하고 Requester에 Data를 fowarding하는 방식</li>
+      <li>5b: Home에 Data와 함께 Response를 전송하고 Requester에 Data를 fowarding하는 방식 (주로 Dirty copy -&gt; Clean할 때 사용)</li>
+      <li>5c: Snoopee가 fail의 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식</li>
+      <li>5c: Snoopee가 fail의 Data와 함께 Snpresp 전송할 경우 Home에서 다른 대안을 찾는 방식<br />
+  <br /></li>
+    </ul>
+  </li>
+</ul>
 
-<center><img src="./assets/img/posts/DRAM/dram_architecture.jpg" /></center>
+<p>CompAck을 요청하는 Request일 경우 CompAck Response를 다음과 같은 순서 중 하나를 지켜줘야 한다.</p>
+<ul>
+  <li>적어도 하나의 CompData를 수신할 경우</li>
+  <li>Ordering 제약 사항이 없을 경우 2번이나 4번 Scheme에서 RespSepData가 올 경우</li>
+  <li>Ordering 제약 사항이 있을 경우 RespSepData와 하나의 DataSepResp가 올 경우</li>
+</ul>
 
-<p>DRAM Architecture을 설명하기 위해 익숙한 구조인 Column, Row부터 Rank까지 Bottom-up 방식으로 설명하겠습니다.</p>
+<center><img src="./assets/img/posts/chi/no_allocating_dct_dmt.png" /></center>
 
-<p><strong>Column</strong> - DRAM을 Access할 때 가장 작은 단위에 속합니다. Size는 connected되어 있는 DRAM die의 DQ width에 따라 달라집니다.</p>
+<p>Home node를 Bypass하여 Read Data를 공급하는 주체가 DRAM or Cache인지에 따라 DMT와 DCT로 구분된다.<br />
+상위 표는 Non-allocating Read인 ReadNoSnp, ReadOnce일 경우 DMT, DCT의 허용되는 조건이다.</p>
 
-<p>예를 들어 16-bit DRAM Die가 4개로 lock-step방식으로 연결되어 있으면 CAS command당 최소 64bit 단위로 Data가 움직입니다. 또한 Prefetch 개념이 도입되어 DRAM type에 따라 최소 burst-length 결정됩니다. 최종 CAS command의 Data Size는 Burst-lenth, Logical DQ width를 모두 고려해야합니다.</p>
+<p>DMT일 경우 Subordinate에서 Home으로 ReadRecipt를 반환해야 한다.<br />
+그리고 Order 제약 조건이 있을 경우 ExpCompAck을 설정해야 한다.</p>
 
-<p><strong>Row</strong> - Activate Command에 병렬적으로 동작하는 단위입니다. 시스템 관점에서 Precharge command 이전에 Data를 보관할 수 있다는 의미에서 DRAM Page라는 용어를 사용합니다. 우리는 여러 Bank에서 서로 다른 Page를 open 시켜 Utilization을 높일 수 있습니다.</p>
+<h2 id="reference">Reference</h2>
+<p><strong>AMBA CHI Architecture Specification H version</strong></p>
 
-<p><strong>Bank</strong> - 1-bit당 DRAM cell의 격자 구조는 Memory array라고 부릅니다. Lock-step 방식으로 여러 개의 Memory array가 움직이는 단위를
-Bank라고 부릅니다. DRAM Die의 DQ width는 단일 Bank 내부 Memory array의 갯수에 따라 결정됩니다. Bank끼리 서로 독립적으로 동작시킬 수 있습니다.</p>
+<!--
+A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.
 
-<p>예를 들어 서로 다른 Bank의 ACT command를 issue하여 timing 제약 없이 여러 Page를 이용하여 효율적으로 동작시킬 수 있습니다. 또한 사용하지 않는 Page는 Precharge를 통해 전력 소모를 줄이고
-Data Integrity를 위해 Refresh command를 수행할 수 있습니다.</p>
+Back in the late 1950's, a young [Frank Rosenblatt](https://en.wikipedia.org/wiki/Frank_Rosenblatt) devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.
 
-<p><strong>Rank</strong> - Command에 의해 lock-step 방식으로 동작하는 DRAM Device의 set라고 생각하면 됩니다. Rank 내부 Dram Device는 Command line을 공유하고 DQ line은 group 되어 system DQ width를 결정합니다.</p>
+In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.
 
-<p>예를 들어 system 64bit data bus를 구축한다고 가정하면 user의 요구사항에 따라 x16 Dram die 4개 or x8 Dram die 8개로 구성할 수 있습니다. 그리고 각각의 Rank의 동작은 CS핀으로 제어합니다.</p>
+<center><img src='./assets/img/posts/20210125/Perceptron.png'></center>
+
+Imagine you have a 'neuron' and to 'activate' it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.
+
+In more mathematical terms, a perceptron is an array of values (let's call them weights), and the rules to apply such values to an input signal.
+
+For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it's weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.
+
+<p style="text-align:center">\(<br>
+\begin{align}
+\begin{split}
+\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
+\end{split}
+\end{align}
+\)</p>
+
+<p style="text-align:center">\(<br>
+\begin{align}<br>
+\begin{split}<br>
+\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
+\end{split}<br>
+\end{align}<br>
+\)</p>
+
+Typically when this value is obtained, we need to apply an "activation" function to smooth the output, but let's say that our activation function is linear, meaning that we keep the value as it is, then that's it, that is the output of the perceptron, -0.5.
+
+In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.
+
+Once we understand this, the magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.
+
+<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
+
+For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.
+
+After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.
+
+The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. [This video series by 3 blue 1 brown explains it wonderfuly.](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
+
+My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.
+
+The neuron has 3 inputs and weights to calculate its output:
+    
+    input 1 is the X coordinate of the point,
+    Input 2 is the y coordinate of the point,
+    Input 3 is the bias and it is always 1
+
+    Input 3 or the bias is required for lines that do not cross the origin (0,0)
+
+The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.
+
+The output of the perceptron is calculated with the following activation function:
+    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0
+
+The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:
+
+|Expected  |  Calculated | Error|
+|:----:|:----:|:----:|
+|1|-1|1|
+|1|1|0|
+|-1|-1|0|
+|-1|1|-1|
+
+With every point that is learned if the error is not 0 the weights are adjusted according to:
+
+    New_weight = Old_weight + error * input * learning_rate
+    for example: New_weight_x = Old_weight_x + error * x * learning rate
+
+A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be. 
+
+In this particular case, I coded the learning_rate to decrease with every iteration as follows:
+
+    learning_rate = 0.01 / (iteration + 1)
+
+this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.
+
+<center><img src='./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg'></center>
+
+In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.
+
+Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow. 
+
+Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of "neurons", like convolution, recurrent, etc. increasing significantly the types of problems they solve.
+-->
 
         <aside class="sidebar inline" id="post-end">
     
@@ -421,9 +564,9 @@ Data Integrity를 위해 Refresh command를 수행할 수 있습니다.</p>
             
                 <li><a href="./tag.html?tag=RTL" class="tag inline">RTL</a></li>
             
-                <li><a href="./tag.html?tag=DRAM" class="tag inline">DRAM</a></li>
+                <li><a href="./tag.html?tag=AMBA+Bus" class="tag inline">AMBA Bus</a></li>
             
-                <li><a href="./tag.html?tag=JEDEC" class="tag inline">JEDEC</a></li>
+                <li><a href="./tag.html?tag=Cache+coherence" class="tag inline">Cache coherence</a></li>
             
     
         </ul>
@@ -432,11 +575,11 @@ Data Integrity를 위해 Refresh command를 수행할 수 있습니다.</p>
     <div class="share-hover inline">
         <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons inline" id="post-end-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=DRAM Introduction&url=http://localhost:4000/DRAM-Introduction-1.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/DRAM-Introduction-1.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/DRAM-Introduction-1.html&title=DRAM Introduction" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/DRAM-Introduction-1.html&title=DRAM Introduction&summary=Description on DRAM&source=http://localhost:4000/DRAM-Introduction-1.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=DRAM Introduction&body=Description on DRAM%0A%0ARead more here: http://localhost:4000/DRAM-Introduction-1.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=CHI Protocol (Transaction(2))&url=http://localhost:4000/Power-Aware-Design.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/Power-Aware-Design.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/Power-Aware-Design.html&title=CHI Protocol (Transaction(2))" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/Power-Aware-Design.html&title=CHI Protocol (Transaction(2))&summary=CHI protocol Overview (Transaction)&source=http://localhost:4000/Power-Aware-Design.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=CHI Protocol (Transaction(2))&body=CHI protocol Overview (Transaction)%0A%0ARead more here: http://localhost:4000/Power-Aware-Design.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -834,14 +977,14 @@ Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로�
     }
 
     function copyToClipboard() {
-      navigator.clipboard.writeText('http://localhost:4000/DRAM-Introduction-1.html').then(function() {
+      navigator.clipboard.writeText('http://localhost:4000/Power-Aware-Design.html').then(function() {
       alerts = document.getElementsByClassName('alert')
       for (i=0; i < alerts.length; i++){
         alerts[i].innerHTML='\u00ABlink copied\u00BB';
         setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
       };
       }, function() {
-        prompt("Unable to copy, please use this link:", "http://localhost:4000/DRAM-Introduction-1.html");
+        prompt("Unable to copy, please use this link:", "http://localhost:4000/Power-Aware-Design.html");
       });
     }
 

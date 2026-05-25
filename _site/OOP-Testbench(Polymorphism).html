@@ -7,7 +7,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>OOP Testbench (Primer) - RTL & Verification Notes</title>
+	<title>OOP Testbench (PolyMorphism) - RTL & Verification Notes</title>
 	<link rel="canonical" href="http://localhost:4000/OOP-Testbench(Polymorphism).html">
 	<meta name="description" content="Modern Testbench">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,13 +19,13 @@
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://localhost:4000"},
-  "headline": "OOP Testbench (Primer)",
+  "headline": "OOP Testbench (PolyMorphism)",
   "abstract": "Modern Testbench",
     "keywords": "RTL, OOP, UVM",
-    "wordcount": "368",
+    "wordcount": "389",
     "image": ["http://localhost:4000/assets/imgposts/UVM/testbench.jpg"],
-  "datePublished": "2026-03-14 03:32:20 +0900",
-  "dateModified": "2026-03-14 03:32:20 +0900",
+  "datePublished": "2026-03-16 03:32:20 +0900",
+  "dateModified": "2026-03-16 03:32:20 +0900",
   "author": {
     "@type": "Person",
     "name": "Wonho Chang"},
@@ -42,27 +42,27 @@
 <!-- Open Graph data -->
 <meta property="og:url" content="http://localhost:4000/OOP-Testbench(Polymorphism).html"/>
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="OOP Testbench (Primer)"/>
+<meta property="og:title" content="OOP Testbench (PolyMorphism)"/>
 <meta property="og:description" content="Modern Testbench"/>
 <meta property="og:image" content="http://localhost:4000/assets/imgposts/UVM/testbench.jpg"/>
-<meta property="og:image:alt" content="OOP Testbench (Primer)"/>
+<meta property="og:image:alt" content="OOP Testbench (PolyMorphism)"/>
 <meta property="og:site_name" content="RTL & Verification Notes" />
-<meta property="article:published_time" content="2026-03-14 03:32:20 +0900" />
-<meta property="article:modified_time" content="2026-03-14 03:32:20 +0900" />
+<meta property="article:published_time" content="2026-03-16 03:32:20 +0900" />
+<meta property="article:modified_time" content="2026-03-16 03:32:20 +0900" />
 <meta property="article:tag" content="RTL, OOP, UVM" />
 <meta property="fb:admins" content="ar.maybach" />
 <!-- Schema.org markup for Google -->
-<meta itemprop="name" content="OOP Testbench (Primer)">
+<meta itemprop="name" content="OOP Testbench (PolyMorphism)">
 <meta itemprop="description" content="Modern Testbench">
 <meta itemprop="image" content="http://localhost:4000/assets/imgposts/UVM/testbench.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
-<meta name="twitter:title" content="OOP Testbench (Primer)">
+<meta name="twitter:title" content="OOP Testbench (PolyMorphism)">
 <meta name="twitter:description" content="Modern Testbench">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="368"/>
+<meta data-rh="true" name="twitter:data1" content="389"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/UVM/testbench.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
@@ -160,7 +160,7 @@
 
 <section class="hidden">
   <div class="post">
-      <a  class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
+      <a  class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (PolyMorphism)</a>
       
 
   <span class = "post-card-meta">
@@ -172,7 +172,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
+        <time datetime="2026-03-16T03:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -192,7 +192,7 @@
   </span>
 
         <div class="post-excerpt">
-            <p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p><ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
+            <p>Polymorphism는 객체 지향의 핵심적인 테마입니다.말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.</p><p>정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.<br />그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? → yes, 이 질문이 polymorphism의 main idea이다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
         </div>
   </div>
 </section>
@@ -290,9 +290,9 @@
 </header> <!-- End Header -->
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="OOP Testbench (Primer)">
+    <meta itemprop="headline" content="OOP Testbench (PolyMorphism)">
 <meta itemprop="description" content="Modern Testbench">
-<meta itemprop="datePublished" content="2026-03-14T03:32:20+09:00">
+<meta itemprop="datePublished" content="2026-03-16T03:32:20+09:00">
 
     <div class="page-image">
       <div class="cover-image" style="background: url('./assets/img/posts/UVM/testbench.jpg') center no-repeat; background-size: cover;"></div>
@@ -300,7 +300,7 @@
     <div class="wrapper">
       <div class="page-content">
         <div class="header-page">
-          <h1 class="page-title">OOP Testbench (Primer)</h1>
+          <h1 class="page-title">OOP Testbench (PolyMorphism)</h1>
           
 
   <span class = "post-page-meta">
@@ -312,7 +312,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
+        <time datetime="2026-03-16T03:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -356,11 +356,11 @@
     <div class="share-hover side">
         <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons side" id="sidebar-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (Primer)&url=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (PolyMorphism)&url=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
             <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=OOP Testbench (Primer)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (PolyMorphism)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (PolyMorphism)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=OOP Testbench (PolyMorphism)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -370,8 +370,12 @@
 
         
         
-        <p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
-먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p>
+        <p>Polymorphism는 객체 지향의 핵심적인 테마입니다.
+말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.</p>
+
+<p>정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.<br />
+그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? 
+→ yes, 이 질문이 polymorphism의 main idea이다.</p>
 
 <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p>
 <ul>
@@ -489,11 +493,11 @@ Extension은 기본적으로 Parent와 Class간의 수직 관계를 만들고 �
     <div class="share-hover inline">
         <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
         <div class="share-icons inline" id="post-end-icons">
-            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (Primer)&url=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=OOP Testbench (PolyMorphism)&url=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
             <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (Primer)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-            <a class="email" href="mailto:?subject=OOP Testbench (Primer)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (PolyMorphism)" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/OOP-Testbench(Polymorphism).html&title=OOP Testbench (PolyMorphism)&summary=Modern Testbench&source=http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=OOP Testbench (PolyMorphism)&body=Modern Testbench%0A%0ARead more here: http://localhost:4000/OOP-Testbench(Polymorphism).html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
             <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
         </div>
     </div>
@@ -547,6 +551,37 @@ Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로�
           
           
 
+          <a href="./Power-Aware-Design.html" class="recent-item-img" style="background: url('./assets/img/posts/chi/chi.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>CHI Protocol (Transaction(2))</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    <p class="page_meta-readtime">
+      
+        1 minute read
+      
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
           <a href="./CHI-Protocol-Transaction.html" class="recent-item-img" style="background: url('./assets/img/posts/chi/chi.jpg') center no-repeat; background-size: cover;">
             <div class="recent-item-title">
               <span>CHI Protocol (Transaction(2))</span>
@@ -578,71 +613,40 @@ Systemverilog 및 UVM 검증에 관련된 지식을 정리하기 위해 블로�
           
           
 
+          <a href="./OOP-Testbench(Polymorphism).html" class="recent-item-img" style="background: url('./assets/img/posts/UVM/testbench.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>OOP Testbench (PolyMorphism)</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    <p class="page_meta-readtime">
+      
+        1 minute read
+      
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
           <a href="./OOP-Testbench.html" class="recent-item-img" style="background: url('./assets/img/posts/UVM/testbench.jpg') center no-repeat; background-size: cover;">
             <div class="recent-item-title">
               <span>OOP Testbench (Primer)</span>
-              
-
-  <span class = "recent-item-meta">
-  
-  
-  
-  
-    
-    
-    <p class="page_meta-readtime">
-      
-        1 minute read
-      
-    </p>
-  
-  
-  </span>
-
-            </div>
-          </a>
-        </div>
-      
-    
-      
-        <div class="recent-item">
-          
-          
-
-          <a href="./OOP-Testbench(Polymorphism).html" class="recent-item-img" style="background: url('./assets/img/posts/UVM/testbench.jpg') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>OOP Testbench (Primer)</span>
-              
-
-  <span class = "recent-item-meta">
-  
-  
-  
-  
-    
-    
-    <p class="page_meta-readtime">
-      
-        1 minute read
-      
-    </p>
-  
-  
-  </span>
-
-            </div>
-          </a>
-        </div>
-      
-    
-      
-        <div class="recent-item">
-          
-          
-
-          <a href="./CHI-Protocol-Overview-2.html" class="recent-item-img" style="background: url('./assets/img/posts/chi/chi.jpg') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>CHI Protocol (Transaction)</span>
               
 
   <span class = "recent-item-meta">

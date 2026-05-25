@@ -1,11 +1,13 @@
 {
   "posts" : [
     
+    "./Power-Aware-Design.html",
+    
     "./CHI-Protocol-Transaction.html",
     
-    "./OOP-Testbench.html",
-    
     "./OOP-Testbench(Polymorphism).html",
+    
+    "./OOP-Testbench.html",
     
     "./CHI-Protocol-Overview-2.html",
     

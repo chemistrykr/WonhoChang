@@ -2,8 +2,8 @@
 layout: post
 read_time: true
 show_date: true
-title:  OOP Testbench (Primer)
-date:   2026-03-13 12:32:20 -0600
+title:  OOP Testbench (PolyMorphism)
+date:   2026-03-15 12:32:20 -0600
 description: Modern Testbench
 img: posts/UVM/testbench.jpg 
 tags: [RTL, OOP, UVM]
@@ -12,8 +12,12 @@ github:
 mathjax: yes
 ---
 
-이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.
-먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다. 
+Polymorphism는 객체 지향의 핵심적인 테마입니다.
+말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.
+
+정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.  
+그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? 
+→ yes, 이 질문이 polymorphism의 main idea이다.    
 
 OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.
 - Code Reuse

@@ -261,6 +261,45 @@
 			
 
 				<div class="post">
+					<a class="post-list-title" href="./Power-Aware-Design.html">CHI Protocol (Transaction(2))</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다. Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p> <h2 id="read-transaction">Read Transaction</h2> <ul> <li><strong>Non-Allocating Read</strong> <ul> <li>ReadNoSnp</li> <li>ReadOnce</li> <li>ReadOnceCleanInvalid</li> <li>ReadOnceMakeInvalid</li> </ul> </li> </ul> <center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center> <p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br /> 다만 Allocating Read와 달리 CompAck이 필수가 아니다. <br /> CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br /> Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p> <p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p> <ul> <li><strong>1. Combined Response from Home</strong> <ul> <li>해당...<a class="read-more" href="./Power-Aware-Design.html"> read more</a>
+					</div>
+				</div>
+			
+			
+
+				<div class="post">
 					<a class="post-list-title" href="./CHI-Protocol-Transaction.html">CHI Protocol (Transaction(2))</a>
 					
 
@@ -333,45 +372,6 @@
 
 					<div class="post-excerpt">
 						<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p> <h2 id="cache-state-model">Cache State Model</h2> <p>CHI에서 Cache line은 6가지 state를 가질 수 있습니다. Valid/InValid, Clean/Dirty, Parial/Empty, Unique/Shared에 따라 state가 결정됩니다.</p> <center><img src="./assets/img/posts/chi/cache_model.png" /></center> <ul> <li><strong>Invalid</strong> <ul> <li>cache line이 cache에 존재하지 않은 state<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty</strong> <ul> <li>cache line이 해당 cache에만 존재하는 경우</li> <li>cache line의 data가 Main Memory에 반영하지 않은 상태</li> <li>Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능</li> <li>Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.</li> <li>Snoop에 의해 Directly하게 Cache line을 Requester에 전송 가능<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty Partial</strong> <ul>...<a class="read-more" href="./CHI-Protocol-Overview-2.html"> read more</a>
-					</div>
-				</div>
-			
-			
-
-				<div class="post">
-					<a class="post-list-title" href="./CHI-Protocol-Overview-1.html">CHI Protocol Overview</a>
-					
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2025-05-03T08:32:20+09:00">May 3, 2025</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        less than 1 minute read
-      
-    </span>
-  
-  
-  </span>
-
-					<div class="post-excerpt">
-						<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p> <p>CHI protocol feature은 다음과 같습니다.</p> <ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li> </ul> <p>CHI transaction은 다음과 같은 특성을 갖습니다.</p> <ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로 사용 가능</li> <li>Packet 기반 communication</li> <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li> </ul> <h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2> <ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul>...<a class="read-more" href="./CHI-Protocol-Overview-1.html"> read more</a>
 					</div>
 				</div>
 			
@@ -448,6 +448,45 @@
 			
 
 				<div class="post">
+					<a class="post-list-title" href="./Power-Aware-Design.html">CHI Protocol (Transaction(2))</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다. Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p> <h2 id="read-transaction">Read Transaction</h2> <ul> <li><strong>Non-Allocating Read</strong> <ul> <li>ReadNoSnp</li> <li>ReadOnce</li> <li>ReadOnceCleanInvalid</li> <li>ReadOnceMakeInvalid</li> </ul> </li> </ul> <center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center> <p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br /> 다만 Allocating Read와 달리 CompAck이 필수가 아니다. <br /> CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br /> Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p> <p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p> <ul> <li><strong>1. Combined Response from Home</strong> <ul> <li>해당...<a class="read-more" href="./Power-Aware-Design.html"> read more</a>
+					</div>
+				</div>
+			
+			
+
+				<div class="post">
 					<a class="post-list-title" href="./CHI-Protocol-Transaction.html">CHI Protocol (Transaction(2))</a>
 					
 
@@ -520,45 +559,6 @@
 
 					<div class="post-excerpt">
 						<p>이번 장은 CHI Protocol에서 Cache Model과 transaction에 대해 살펴볼 예정입니다.</p> <h2 id="cache-state-model">Cache State Model</h2> <p>CHI에서 Cache line은 6가지 state를 가질 수 있습니다. Valid/InValid, Clean/Dirty, Parial/Empty, Unique/Shared에 따라 state가 결정됩니다.</p> <center><img src="./assets/img/posts/chi/cache_model.png" /></center> <ul> <li><strong>Invalid</strong> <ul> <li>cache line이 cache에 존재하지 않은 state<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty</strong> <ul> <li>cache line이 해당 cache에만 존재하는 경우</li> <li>cache line의 data가 Main Memory에 반영하지 않은 상태</li> <li>Unique이기 때문에 다른 cache에 알릴 필요없이 Modify 가능</li> <li>Dirty이기 때문에 제거시 다음 level의 cache or memory에 write back을 수행해야 한다.</li> <li>Snoop에 의해 Directly하게 Cache line을 Requester에 전송 가능<br /> <br /></li> </ul> </li> <li><strong>Unique Dirty Partial</strong> <ul>...<a class="read-more" href="./CHI-Protocol-Overview-2.html"> read more</a>
-					</div>
-				</div>
-			
-			
-
-				<div class="post">
-					<a class="post-list-title" href="./CHI-Protocol-Overview-1.html">CHI Protocol Overview</a>
-					
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2025-05-03T08:32:20+09:00">May 3, 2025</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        less than 1 minute read
-      
-    </span>
-  
-  
-  </span>
-
-					<div class="post-excerpt">
-						<p>Cache coherence를 hardware적으로 지원하는 CHI interface를 살펴봅시다.</p> <p>CHI protocol feature은 다음과 같습니다.</p> <ul> <li>64-Byte granularity of cache line</li> <li>Snoop filter and directory-based systems</li> <li>MESI, MOESI cache model을 support</li> </ul> <p>CHI transaction은 다음과 같은 특성을 갖습니다.</p> <ul> <li>interconnect내에 synchronization, atomic operation을 support</li> <li>Exclusive access를 효율적으로 사용 가능</li> <li>Packet 기반 communication</li> <li>모든 transaction은 snoop, cache, memory access를 조정하는 interconnect-based인 Home node로 부터 처리</li> </ul> <h2 id="layers-of-the-chi-architecture">Layers of the CHI Architecture</h2> <ul> <li><strong>Protocol (communication granularity: transaction)</strong> <ul> <li>protocol node에서 request, responses를 처리하고 생성</li> <li>protocol node에서 valid한 cache 상태 변환을 정의</li> <li>request type에 대한 transaction flow를 정의</li> </ul> </li> <li><strong>Network (communication granularity: Packet)</strong> <ul>...<a class="read-more" href="./CHI-Protocol-Overview-1.html"> read more</a>
 					</div>
 				</div>
 			
@@ -733,6 +733,45 @@
 			
 
 				<div class="post">
+					<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (PolyMorphism)</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-16T03:32:20+09:00">March 16, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p>Polymorphism는 객체 지향의 핵심적인 테마입니다. 말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.</p> <p>정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.<br /> 그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? → yes, 이 질문이 polymorphism의 main idea이다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
+					</div>
+				</div>
+			
+			
+
+				<div class="post">
 					<a class="post-list-title" href="./OOP-Testbench.html">OOP Testbench (Primer)</a>
 					
 
@@ -769,10 +808,20 @@
 					</div>
 				</div>
 			
+			</div>
+		</div>
+	</div>
+
+	
+	<div id="RTL" class="hidden tag-master">
+		<h1>RTL</h1>
+		<div class="archive">
+			<div class="post-list">
+		    
 			
 
 				<div class="post">
-					<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
+					<a class="post-list-title" href="./Power-Aware-Design.html">CHI Protocol (Transaction(2))</a>
 					
 
   <span class = "post-card-meta">
@@ -784,7 +833,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -804,20 +853,10 @@
   </span>
 
 					<div class="post-excerpt">
-						<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다. 먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p> <p><strong>Class vs Struct</strong><br /> 일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
+						<p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다. Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p> <h2 id="read-transaction">Read Transaction</h2> <ul> <li><strong>Non-Allocating Read</strong> <ul> <li>ReadNoSnp</li> <li>ReadOnce</li> <li>ReadOnceCleanInvalid</li> <li>ReadOnceMakeInvalid</li> </ul> </li> </ul> <center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center> <p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br /> 다만 Allocating Read와 달리 CompAck이 필수가 아니다. <br /> CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br /> Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p> <p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p> <ul> <li><strong>1. Combined Response from Home</strong> <ul> <li>해당...<a class="read-more" href="./Power-Aware-Design.html"> read more</a>
 					</div>
 				</div>
 			
-			</div>
-		</div>
-	</div>
-
-	
-	<div id="RTL" class="hidden tag-master">
-		<h1>RTL</h1>
-		<div class="archive">
-			<div class="post-list">
-		    
 			
 
 				<div class="post">
@@ -860,7 +899,7 @@
 			
 
 				<div class="post">
-					<a class="post-list-title" href="./OOP-Testbench.html">OOP Testbench (Primer)</a>
+					<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (PolyMorphism)</a>
 					
 
   <span class = "post-card-meta">
@@ -872,7 +911,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
+        <time datetime="2026-03-16T03:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -892,46 +931,7 @@
   </span>
 
 					<div class="post-excerpt">
-						<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다. 먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p> <p><strong>Class vs Struct</strong><br /> 일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을...<a class="read-more" href="./OOP-Testbench.html"> read more</a>
-					</div>
-				</div>
-			
-			
-
-				<div class="post">
-					<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
-					
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        1 minute read
-      
-    </span>
-  
-  
-  </span>
-
-					<div class="post-excerpt">
-						<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다. 먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p> <p><strong>Class vs Struct</strong><br /> 일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
+						<p>Polymorphism는 객체 지향의 핵심적인 테마입니다. 말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.</p> <p>정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.<br /> 그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? → yes, 이 질문이 polymorphism의 main idea이다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
 					</div>
 				</div>
 			
@@ -948,6 +948,45 @@
 			
 
 				<div class="post">
+					<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (PolyMorphism)</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-16T03:32:20+09:00">March 16, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p>Polymorphism는 객체 지향의 핵심적인 테마입니다. 말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.</p> <p>정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.<br /> 그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? → yes, 이 질문이 polymorphism의 main idea이다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
+					</div>
+				</div>
+			
+			
+
+				<div class="post">
 					<a class="post-list-title" href="./OOP-Testbench.html">OOP Testbench (Primer)</a>
 					
 
@@ -981,45 +1020,6 @@
 
 					<div class="post-excerpt">
 						<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다. 먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p> <p><strong>Class vs Struct</strong><br /> 일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을...<a class="read-more" href="./OOP-Testbench.html"> read more</a>
-					</div>
-				</div>
-			
-			
-
-				<div class="post">
-					<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
-					
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        1 minute read
-      
-    </span>
-  
-  
-  </span>
-
-					<div class="post-excerpt">
-						<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다. 먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p> <p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p> <ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li> </ul> <h2 id="class">Class</h2> <p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p> <p><strong>Class vs Struct</strong><br /> 일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
 					</div>
 				</div>
 			
@@ -1508,13 +1508,13 @@
         <ul class="tags">
             
                 
-                <li><a href="./tag.html?tag=AMBA+Bus" class="tag">AMBA Bus <span>(3)</span></a></li>
+                <li><a href="./tag.html?tag=AMBA+Bus" class="tag">AMBA Bus <span>(4)</span></a></li>
             
                 
                 <li><a href="./tag.html?tag=ASIC" class="tag">ASIC <span>(1)</span></a></li>
             
                 
-                <li><a href="./tag.html?tag=Cache+coherence" class="tag">Cache coherence <span>(3)</span></a></li>
+                <li><a href="./tag.html?tag=Cache+coherence" class="tag">Cache coherence <span>(4)</span></a></li>
             
                 
                 <li><a href="./tag.html?tag=DFT" class="tag">DFT <span>(1)</span></a></li>
@@ -1529,7 +1529,7 @@
                 <li><a href="./tag.html?tag=OOP" class="tag">OOP <span>(2)</span></a></li>
             
                 
-                <li><a href="./tag.html?tag=RTL" class="tag">RTL <span>(7)</span></a></li>
+                <li><a href="./tag.html?tag=RTL" class="tag">RTL <span>(8)</span></a></li>
             
                 
                 <li><a href="./tag.html?tag=UVM" class="tag">UVM <span>(2)</span></a></li>

@@ -261,6 +261,45 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./Power-Aware-Design.html">CHI Protocol (Transaction(2))</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-16T08:32:20+09:00">March 16, 2026</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        1 minute read
+      
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<p>이번 장은 지난번 주제인 Read Transaction을 좀 더 살펴보도록 하겠습니다.Cacheline에 저장하지 않고 처리되는 Non-Allocating Read는 어떤 방식으로 동작할까요?</p><h2 id="read-transaction">Read Transaction</h2><ul> <li><strong>Non-Allocating Read</strong> <ul> <li>ReadNoSnp</li> <li>ReadOnce</li> <li>ReadOnceCleanInvalid</li> <li>ReadOnceMakeInvalid</li> </ul> </li></ul><center><img src="./assets/img/posts/chi/non-allocating_read.png" /></center><p>상위 그림은 Non-allocating Read 동작시 5가지 방식의 flow로 진행될 수 있음<br />다만 Allocating Read와 달리 CompAck이 필수가 아니다. <br />CompAck 동작을 요구할 경우 Transaction의 ExpCompAck을 설정해야 한다.<br />Order, ExpCompAck의 설정에 따라 Transaction flow에 영향을 미칠 수 있다.</p><p>예를 들어 Order 제약 조건이 있지만 CompAck을 요구하지 않을 경우 alternative 방식이 적용되지 않을 수 있습니다.</p><ul> <li><strong>1. Combined Response from Home</strong> <ul> <li>해당 방식은 주로 Home node에 data가 존재할 때 사용, data와 response를 combine하여...<a class="read-more" href="./Power-Aware-Design.html"> read more</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./CHI-Protocol-Transaction.html">CHI Protocol (Transaction(2))</a>
 			
 
@@ -300,7 +339,7 @@
 		<div class="post">
 			
 
-			<a class="post-list-title" href="./OOP-Testbench.html">OOP Testbench (Primer)</a>
+			<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (PolyMorphism)</a>
 			
 
   <span class = "post-card-meta">
@@ -312,7 +351,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
+        <time datetime="2026-03-16T03:32:20+09:00">March 16, 2026</time>
       </span>
     
     
@@ -332,46 +371,7 @@
   </span>
 
 			<div class="post-excerpt">
-				<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p><ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는...<a class="read-more" href="./OOP-Testbench.html"> read more</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./OOP-Testbench(Polymorphism).html">OOP Testbench (Primer)</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2026-03-14T03:32:20+09:00">March 14, 2026</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        1 minute read
-      
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<p>이번 장은 UVM의 기본 구조인 OOP Testbench에 대해 설명하겠습니다.먼저 OOP가 무엇이며 기존 Testbench의 한계점이 무엇인지 알아야 합니다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을 하나로 capturing할 때 구조체를 사용합니다. 하지만 한계점은 명확합니다. 예를 들어 정사각형과 직사각형을 설명한다고 가정합시다.</p><ul><li> 구조체로 정의할 경우 도형의 넓이를 구하는...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
+				<p>Polymorphism는 객체 지향의 핵심적인 테마입니다.말 그대로 여러 형태를 받을 수 있는 성질로 해석됩니다.</p><p>정사각형은 직사각형이 될 수 있고 평행사변형도 될 수 있다.<br />그렇다면 우리는 평행사변형 handle에 정사각형 객체를 저장할 수 있는가? → yes, 이 질문이 polymorphism의 main idea이다.</p><p>OOP로 인해 얻을 수 있는 강점은 다음과 같습니다.</p><ul> <li>Code Reuse <ul> <li>Class로 Variable 뿐만 아니라 function도 Reuse 가능</li> </ul> </li> <li>Code Maintainability <ul> <li>code를 한번의 update로 전체 반영 가능</li> </ul> </li> <li>Memory Management <ul> <li>C언어와 달리 Memory Deallocation/Allocation 방식이 간단함</li> </ul> </li></ul><h2 id="class">Class</h2><p>OOP에서 Class는 가장 핵심적인 문법 중 하나입니다. 먼저 친숙한 C언어의 Struct를 비교하면서 Class의 특징을 파악해봅시다.</p><p><strong>Class vs Struct</strong><br />일반적으로 C언어에서 여러 변수 type을...<a class="read-more" href="./OOP-Testbench(Polymorphism).html"> read more</a>
 			</div>
 		</div>
 	
